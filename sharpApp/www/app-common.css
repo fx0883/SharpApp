@@ -1,0 +1,96 @@
+﻿@charset "utf-8";
+/*--------------- reset -------------------*/
+body { font-family: "microsoft yahei",Arial,Verdana;	padding:0; margin:0; font-size:12px; color:#000; background: #f5f0eb;	min-width:320px; }
+body,div,fieldset,form,h1,h2,h3,h4,h5,h6,html,p,span {	-webkit-text-size-adjust: none}
+h1,h2,h3,h4,h5,h6 { font-weight:normal; }
+applet,dd,div,dl,dt,h1,h2,h3,h4,h5,h6,html,iframe,img,object,p,span {
+	padding: 0;
+	margin: 0;
+	border: none
+}
+* {-webkit-appearance:none; -moz-appearance: none; }
+img {padding: 0; margin: 0;vertical-align: top;	border: none}
+li,ul {list-style: none outside none;	padding: 0;	margin: 0}
+input[type=text],select {margin:0; padding:0; background:none; border:none; font-size:14px; text-indent:3px; font-family: Arial,"microsoft yahei",Verdana;}
+input[type=checkbox] { margin:0}
+
+/*----------- common ---------------*/
+.clear {	clear: both; height: 0;	width: 100%}
+.clearfix:after { visibility: hidden; display: block;font-size: 0;content: " ";	clear: both;height: 0}
+.fl {float: left}
+.fr {float: right}
+a {text-decoration:none; color: gray}
+.rel { position:relative;}
+.abs { position:absolute;}
+.tl { text-align:left; }
+.tc { text-align:center; }
+.tr { text-align:right; }
+.vt { vertical-align:top; }
+.vm { vertical-align:middle; }
+.block { display:block;}
+.none { display:none;}
+.f10 { font-size:10px;}
+.f12 { font-size:12px;}
+.f14 { font-size:14px;}
+.f16 { font-size:16px;}
+.f18 { font-size:18px;}
+.ml10 { margin-left:10px; }
+.mr10 { margin-right:10px; }
+.mt10 { margin-top:10px; }
+.text { text-align:right; width:100%; -webkit-box-flex:1.0; -ms-box-flex:1.0; box-flex:1.0; height:24px; line-height:24px; color:#838186;}
+.text::-webkit-input-placeholder { }
+h2 { color:#fff; font-size:18px;}
+p { color:#838186; line-height:1.6em;}
+.wrapper {position: relative; min-width: 320px; max-width: 640px; margin: 0px auto; font-size:14px; background:url("images/bg_home.png") no-repeat; background-attachment:fixed; background-size:100% 100%; overflow:hidden;}
+.content { margin:10px 10px 0; overflow-y:auto;}
+.iicon { display:inline-block; vertical-align:middle; }
+
+/* btn */
+.btn { border:none; background:#3db39e; border-radius:4px; height:36px; line-height:36px; text-align:center; color:#fff; vertical-align:middle; display:block; width:100%; margin:40px 0; }
+.y_btn { background:#e67e21; margin:25px 0 0;}
+.g_btn { background:#3db39e; margin:15px 0 0;}
+.showBtn { position:absolute; width:22px; height:22px; background:url('images/bar_add.png') no-repeat; background-size:22px auto; left:5px; top:10px;}
+.practiceBtn { position:absolute; right:15px; top:25px; width:21px; height:21px; background:url('images/btn_practice_normal.png') no-repeat; background-size:21px auto;}
+
+
+/* YTB */
+/*-------------------- left content -------------*/
+.left_aside { position:relative; min-width: 320px; max-width: 640px; margin: 0px auto; font-size:14px; background:url("images/slidingmenu_bg_multi_course.png") no-repeat; background-attachment:fixed; background-size:100% 100%; }
+.left_category li { position:relative; width:80%; height:50px; box-sizing:border-box; line-height:50px; background:url("images/slidingmenu_list_course.png") 15px center no-repeat; background-size:40px auto; padding-left:70px; color:#fff; font-size:16px; margin-bottom:5px;}
+.left_category li  i { position:absolute; display:none; width:12px; height:8px; background:url("images/checked_blue.png") no-repeat; background-size:12px auto; right:10px; top:23px; }
+.left_category li.selected { background-image:url("images/slidingmenu_list_course_selected.png"); color:#0194f6;}
+.left_category li.selected i { display:block;}
+/* left_others */
+.left_others { left:0; bottom:0; padding:10px 0; border-top:1px solid #01ca97; width:80%; color:#01ca97; font-size:14px;}
+.left_others ul li  { line-height:40px;}
+.left_others ul li i { margin: 0 10px; width:18px; height:18px; background:url("images/slidingmenu_rank.png") no-repeat; background-size:18px auto;}
+.left_others ul li.search_topic i { background-image:url("images/slidingmenu_search.png");}
+.left_others ul li.setting i { background-image:url("images/slidingmenu_setting.png");}
+.left_others ul li.user_center i { background-image:url("images/slidingmenu_user.png");}
+
+/*--------------- right content -----------------*/
+.right_content { z-index:99; position:absolute; left:80%; top:0; min-width: 320px; max-width: 640px; width:100%; margin: 0px auto; font-size:14px; background:url("images/bg_home.png") no-repeat; background-attachment:fixed; background-size:100% 100%;}
+
+/* header */
+.header { width:100%; height:50px; line-height:50px; background:#1a2630; color:#fff;}
+.header h2 { height:50px; line-height:50px; text-align:center; font-weight:normal; }
+.header a.iicon { position:absolute; top:6px; width:39px; height:39px; background-size:39px auto;}
+.menuBtn { background:url('images/bar_menu.png') no-repeat; left:10px; }
+.menuBtn:active { background:url('images/bar_menu_pressed.png') no-repeat;}
+.moreBtn {background:url('images/bar_more.png') no-repeat; right:10px;  }
+.moreBtn:active {background:url('images/bar_more_pressed.png') no-repeat;}
+
+/* blue board */
+.blue_broad { height:200px; background:rgba(48,128,240,.5);}
+.category_list { background:#aebcc6;}
+.category_list li { position:relative; color:#fff; padding:10px; border-bottom:1px solid #fefefe; }
+.category_list li h3 { padding-bottom:10px; font-size:16px; padding-left:20px;}
+.prac_num { padding-left:20px;}
+.prac_num .bananer { display:inline-block; vertical-align:middle; width:12px; height:13px; background:url('images/capacity_progress_item_empty.png') no-repeat; background-size:12px auto; margin-right:2px;}
+.line_show { display:inline-block; vertical-align:middle; width:60px; height:5px; background:#eee; margin-left:10px; }
+.second_level { padding-left:0; display:none;}
+.second_level li { padding-left:20px; border-bottom:none;}
+.second_level li h3 { font-size:14px; padding:5px 0;}
+.second_level li .showBtn { top:16px; left:0; width:18px; height:18px; background-size:18px auto;}
+.second_level li .practiceBtn { right:5px; top:28px;}
+.second_level li .prac_num { padding-left:0;}
