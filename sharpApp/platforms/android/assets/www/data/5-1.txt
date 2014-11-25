@@ -1,0 +1,69 @@
+本教程展示以 C# 编写的 Hello World 程序的几个版本。
+教程
+下面的示例展示编写 C#“Hello World”（世界你好）程序的几种不同方法。
+示例 1
+ // Hello1.cs
+public class Hello1
+{
+　　public static void Main()
+　　{
+　System.Console.WriteLine("Hello, World!");
+　　}
+}
+输出：
+Hello, World!
+代码讨论
+每个 Main 方法都必须包含在一个类内（此处为 Hello1）。
+System.Console 类包含一个 WriteLine 方法，可用于向控制台显示字符串。
+示例 2
+为避免程序中到处都是完全限定的类，可以使用 using 指令，如下所示：
+// Hello2.cs
+using System;
+public class Hello2
+{
+　　public static void Main()
+　　{
+Console.WriteLine("Hello, World!");
+　　}
+}
+输出
+Hello, World!
+示例 3
+如果需要访问传递到应用程序中的命令行参数，则只需更改 Main 方法的签名以包括这些参数，如下所示。本示例对命令行参数进行计数并显示这些参数。
+// Hello3.cs
+// arguments: A B C D
+using System;
+public class Hello3
+{
+　　public static void Main(string[] args)
+　　{　　
+　Console.WriteLine("Hello, World!");
+　Console.WriteLine("You entered the following {0} command line arguments:",
+　args.Length );
+　for (int i=0; i < args.Length; i++)
+　{
+　Console.WriteLine("{0}", args[i]);
+　}
+　　}
+}
+输出
+Hello, World!
+You entered the following 4 command line arguments:
+A
+B
+C
+D
+示例 4
+若要返回返回代码，请更改 Main 方法的签名，如下所示：
+// Hello4.cs
+using System;
+public class Hello4
+{
+　　public static int Main(string[] args)
+　　{　
+　Console.WriteLine("Hello, World!");
+　return 0;
+　　}
+}
+输出
+Hello, World!

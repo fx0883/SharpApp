@@ -1,0 +1,165 @@
+官方的API和辅助函数库 都提供了一些帮助程序员如何写好C函数的机制。在这一章我们将讨论数组操纵、string处理、在C中存储Lua值等一些特殊的机制。
+27.1 数组操作
+Lua中数组实际上就是以特殊方式使用的table的别名。我们可以使用任何操纵table的函数来对数组操作，即lua_settable和lua_gettable。然而，与Lua常规简洁思想（economy and simplicity）相反的是，API为数组操作提供了一些特殊的函数。这样做的原因出于性能的考虑：因为我们经常在一个算法（比如排序）的循环的内层访问数组，所以这种内层操作的性能的提高会对整体的性能的改善有很大的影响。
+API提供了下面两个数组操作函数：
+void lua_rawgeti (lua_State *L, int index, int key);
+void lua_rawseti (lua_State *L, int index, int key);
+关于的lua_rawgeti和lua_rawseti的描述有些使人糊涂，因为它涉及到两个索引：index指向table在栈中的位置；key指向元素在table中的位置。当t使用负索引的时候（otherwise，you must compensate for the new item in the stack），调用lua_rawgeti(L,t,key)等价于：
+lua_pushnumber(L, key);
+lua_rawget(L, t);
+调用lua_rawseti(L, t, key)（也要求t使用负索引）等价于：
+lua_pushnumber(L, key);
+lua_insert(L, -2);   /* put 'key' below previous value */
+lua_rawset(L, t);
+注意这两个寒暑都是用raw操作，他们的速度较快，总之，用作数组的table很少使用metamethods。
+下面看如何使用这些函数的具体的例子，我们将前面的l_dir函数的循环体：
+lua_pushnumber(L, i++);             /* key */
+lua_pushstring(L, entry->d_name);  /* value */
+lua_settable(L, -3);
+改写为：
+lua_pushstring(L, entry->d_name);  /* value */
+lua_rawseti(L, -2, i++);           /* set table at key 'i' */
+下面是一个更完整的例子，下面的代码实现了map函数：以数组的每一个元素为参数调用一个指定的函数，并将数组的该元素替换为调用函数返回的结果。
+int l_map (lua_State *L) {
+    int i, n;
+ 
+    /* 1st argument must be a table (t) */
+    luaL_checktype(L, 1, LUA_TTABLE);
+ 
+    /* 2nd argument must be a function (f) */
+    luaL_checktype(L, 2, LUA_TFUNCTION);
+ 
+    n = luaL_getn(L, 1);  /* get size of table */
+ 
+    for (i=1; i<=n; i++) {
+       lua_pushvalue(L, 2);     /* push f */
+       lua_rawgeti(L, 1, i);    /* push t[i] */
+       lua_call(L, 1, 1);       /* call f(t[i]) */
+       lua_rawseti(L, 1, i);    /* t[i] = result */
+    }
+ 
+    return 0;  /* no results */
+}
+这里面引入了三个新的函数。luaL_checktype（在lauxlib.h中定义）用来检查给定的参数有指定的类型；否则抛出错误。luaL_getn函数栈中指定位置的数组的大小（table.getn是调用luaL_getn来完成工作的）。lua_call的运行是无保护的，他与lua_pcall相似，但是在错误发生的时候她抛出错误而不是返回错误代码。当你在应用程序中写主流程的代码时，不应该使用lua_call，因为你应该捕捉任何可能发生的错误。当你写一个函数的代码时，使用lua_call是比较好的想法，如果有错误发生，把错误留给关心她的人去处理。
+27.2 字符串处理
+当C函数接受一个来自lua的字符串作为参数时，有两个规则必须遵守：当字符串正在被访问的时候不要将其出栈；永远不要修改字符串。
+当C函数需要创建一个字符串返回给lua的时候，情况变得更加复杂。这样需要由C代码来负责缓冲区的分配和释放，负责处理缓冲溢出等情况。然而，Lua API提供了一些函数来帮助我们处理这些问题。
+标准API提供了对两种基本字符串操作的支持：子串截取和字符串连接。记住，lua_pushlstring可以接受一个额外的参数，字符串的长度来实现字符串的截取，所以，如果你想将字符串s从i到j位置（包含i和j）的子串传递给lua，只需要：
+lua_pushlstring(L, s+i, j-i+1);
+下面这个例子，假如你想写一个函数来根据指定的分隔符分割一个字符串，并返回一个保存所有子串的table，比如调用：
+split("hi,,there", ",")
+应该返回表{"hi", "", "there"}。我们可以简单的实现如下，下面这个函数不需要额外的缓冲区，可以处理字符串的长度也没有限制。
+static int l_split (lua_State *L) {
+    const char *s = luaL_checkstring(L, 1);
+    const char *sep = luaL_checkstring(L, 2);
+    const char *e;
+    int i = 1;
+ 
+    lua_newtable(L);  /* result */
+ 
+    /* repeat for each separator */
+    while ((e = strchr(s, *sep)) != NULL) {
+       lua_pushlstring(L, s, e-s);  /* push substring */
+       lua_rawseti(L, -2, i++);
+       s = e + 1;  /* skip separator */
+    }
+ 
+    /* push last substring */
+    lua_pushstring(L, s);
+    lua_rawseti(L, -2, i);
+ 
+    return 1;  /* return the table */
+}
+在Lua API中提供了专门的用来连接字符串的函数lua_concat。等价于Lua中的..操作符：自动将数字转换成字符串，如果有必要的时候还会自动调用metamethods。另外，她可以同时连接多个字符串。调用lua_concat(L,n)将连接(同时会出栈)栈顶的n个值，并将最终结果放到栈顶。
+另一个有用的函数是lua_pushfstring：
+const char *lua_pushfstring (lua_State *L,
+                                const char *fmt, ...);
+这个函数某种程度上类似于C语言中的sprintf，根据格式串fmt的要求创建一个新的字符串。与sprintf不同的是，你不需要提供一个字符串缓冲数组，Lua为你动态的创建新的字符串，按他实际需要的大小。也不需要担心缓冲区溢出等问题。这个函数会将结果字符串放到栈内，并返回一个指向这个结果串的指针。当前，这个函数只支持下列几个指示符： %%（表示字符 '%'）、%s（用来格式化字符串）、%d（格式化整数）、%f（格式化Lua数字，即 doubles）和 %c（接受一个数字并将其作为字符），不支持宽度和精度等选项。
+当我们打算连接少量的字符串的时候，lua_concat和lua_pushfstring是很有用的，然而，如果我们需要连接大量的字符串（或者字符），这种一个一个的连接方式效率是很低的，正如我们在11.6节看到的那样。我们可以使用辅助库提供的buffer相关函数来解决这个问题。Auxlib在两个层次上实现了这些buffer。第一个层次类似于I/O操作的buffers：集中所有的字符串（或者但个字符）放到一个本地buffer中，当本地buffer满的时候将其传递给Lua（使用lua_pushlstring）。第二个层次使用lua_concat和我们在11.6节中看到的那个栈算法的变体，来连接多个buffer的结果。
+为了更详细地描述Auxlib中的buffer的使用，我们来看一个简单的应用。下面这段代码显示了string.upper的实现（来自文件lstrlib.c）：
+static int str_upper (lua_State *L) {
+    size_t l;
+    size_t i;
+    luaL_Buffer b;
+    const char *s = luaL_checklstr(L, 1, &l);
+    luaL_buffinit(L, &b);
+    for (i=0; i<l; i++)
+       luaL_putchar(&b, toupper((unsigned char)(s[i])));
+    luaL_pushresult(&b);
+    return 1;
+}
+使用Auxlib中buffer的第一步是使用类型luaL_Buffer声明一个变量，然后调用luaL_buffinit初始化这个变量。初始化之后，buffer保留了一份状态L的拷贝，因此当我们调用其他操作buffer的函数的时候不需要传递L。宏luaL_putchar将一个单个字符放入buffer。Auxlib也提供了luaL_addlstring以一个显示的长度将一个字符串放入buffer，而luaL_addstring将一个以0结尾的字符串放入buffer。最后，luaL_pushresult刷新buffer并将最终字符串放到栈顶。这些函数的原型如下：
+void luaL_buffinit (lua_State *L, luaL_Buffer *B);
+void luaL_putchar (luaL_Buffer *B, char c);
+void luaL_addlstring (luaL_Buffer *B, const char *s, size_t l);
+void luaL_addstring (luaL_Buffer *B, const char *s);
+void luaL_pushresult (luaL_Buffer *B);
+使用这些函数，我们不需要担心buffer的分配，溢出等详细信息。正如我们所看到的，连接算法是有效的。函数str_upper可以毫无问题的处理大字符串（大于1MB）。
+当你使用auxlib中的buffer时，不必担心一点细节问题。你只要将东西放入buffer，程序会自动在Lua栈中保存中间结果。所以，你不要认为栈顶会保持你开始使用buffer的那个状态。另外，虽然你可以在使用buffer的时候，将栈用作其他用途，但每次你访问buffer的时候，这些其他用途的操作进行的push/pop操作必须保持平衡[8]。有一种情况，即你打算将从Lua返回的字符串放入buffer时，这种情况下，这些限制有些过于严格。这种情况下，在将字符串放入buffer之前，不能将字符串出栈，因为一旦你从栈中将来自于Lua的字符串移出，你就永远不能使用这个字符串。同时，在将一个字符串出栈之前，你也不能够将其放入buffer，因为那样会将栈置于错误的层次（because then the stack would be in the wrong level）。换句话说你不能做类似下面的事情：
+luaL_addstring(&b, lua_tostring(L, 1));   /* BAD CODE */
+（译者：上面正好构成了一对矛盾），由于这种情况是很常见的，auxlib提供了特殊的函数来将位于栈顶的值放入buffer：
+void luaL_addvalue (luaL_Buffer *B);
+当然，如果位于栈顶的值不是字符串或者数字的话，调用这个函数将会出错。
+ 27.3 在C函数中保存状态
+通常来说，C函数需要保留一些非局部的数据，也就是指那些超过他们作用范围的数据。C语言中我们使用全局变量或者static变量来满足这种需要。然而当你为Lua设计一个程序库的时候，全局变量和static变量不是一个好的方法。首先，不能将所有的（一般意义的，原文generic）Lua值保存到一个C变量中。第二，使用这种变量的库不能在多个Lua状态的情况下使用。
+一个替代的解决方案是将这些值保存到一个Lua全局变两种，这种方法解决了前面的两个问题。Lua全局变量可以存放任何类型的Lua值，并且每一个独立的状态都有他自己独立的全局变量集。然而，并不是在所有情况下，这种方法都是令人满意地解决方案，因为Lua代码可能会修改这些全局变量，危及C数据的完整性。为了避免这个问题，Lua提供了一个独立的被称为registry的表，C代码可以自由使用，但Lua代码不能访问他。
+27.3.1 The Registry
+registry 一直位于一个由LUA_REGISTRYINDEX定义的值所对应的假索引(pseudo-index)的位置。一个假索引除了他对应的值不在栈中之外，其他都类似于栈中的索引。Lua API中大部分接受索引作为参数的函数，也都可以接受假索引作为参数—除了那些操作栈本身的函数，比如lua_remove，lua_insert。例如，为了获取以键值 "Key" 保存在registry中的值，使用下面的代码：
+lua_pushstring(L, "Key");
+lua_gettable(L, LUA_REGISTRYINDEX);
+registry就是普通的Lua表，因此，你可以使用任何非nil的Lua值来访问她的元素。然而，由于所有的C库共享相同的registry ，你必须注意使用什么样的值作为key，否则会导致命名冲突。一个防止命名冲突的方法是使用static变量的地址作为key：C链接器保证在所有的库中这个key是唯一的。函数lua_pushlightuserdata将一个代表C指针的值放到栈内，下面的代码展示了使用上面这个方法，如何从registry中获取变量和向registry 存储变量：
+/* variable with an unique address */
+static const char Key = 'k';
+ 
+/* store a number */
+lua_pushlightuserdata(L, (void *)&Key);  /* push address */
+lua_pushnumber(L, myNumber);  /* push value */
+/* registry[&Key] = myNumber */
+lua_settable(L, LUA_REGISTRYINDEX);
+ 
+/* retrieve a number */
+lua_pushlightuserdata(L, (void *)&Key);   /* push address */
+lua_gettable(L, LUA_REGISTRYINDEX);  /* retrieve value */
+myNumber = lua_tonumber(L, -1);  /* convert to number */
+我们会在28.5节中更详细的讨论light userdata。
+当然，你也可以使用字符串作为registry的key，只要你保证这些字符串唯一。当你打算允许其他的独立库房问你的数据的时候，字符串型的key是非常有用的，因为他们需要知道key的名字。对这种情况，没有什么方法可以绝对防止名称冲突，但有一些好的习惯可以采用，比如使用库的名称作为字符串的前缀等类似的方法。类似lua或者lualib的前缀不是一个好的选择。另一个可选的方法是使用universal unique identifier（uuid），很多系统都有专门的程序来产生这种标示符（比如linux下的uuidgen）。一个uuid是一个由本机IP地址、时间戳、和一个随机内容组合起来的128位的数字（以16进制的方式书写，用来形成一个字符串），因此它与其他的uuid不同是可以保证的。
+27.3.2 References
+你应该记住，永远不要使用数字作为registry 的key，因为这种类型的key是保留给reference系统使用。Reference系统是由辅助库中的一对函数组成，这对函数用来不需要担心名称冲突的将值保存到registry 中去。（实际上，这些函数可以用于任何一个表，但他们典型的被用于registry）
+调用
+int r = luaL_ref(L, LUA_REGISTRYINDEX);
+从栈中弹出一个值，以一个新的数字作为key将其保存到registry中，并返回这个key。我们将这个key称之为reference。
+顾名思义，我们使用references主要用于：将一个指向Lua值的reference存储到一个C结构体中。正如前面我们所见到的，我们永远不要将一个指向Lua字符串的指针保存到获取这个字符串的外部的C函数中。另外，Lua甚至不提供指向其他对象的指针，比如table或者函数。因此，我们不能通过指针指向Lua对象。当我们需要这种指针的时候，我们创建一个reference并将其保存在C中。
+要想将一个reference的对应的值入栈，只需要：
+lua_rawgeti(L, LUA_REGISTRYINDEX, r);
+最后，我们调用下面的函数释放值和reference：
+luaL_unref(L, LUA_REGISTRYINDEX, r);
+调用这个之后，luaL_ref可以再次返回r作为一个新的reference。
+reference 系统将nil作为特殊情况对待，不管什么时候，你以nil调用luaL_ref的话，不会创建一新的reference ，而是返回一个常量reference LUA_REFNIL。下面的调用没有效果：
+luaL_unref(L, LUA_REGISTRYINDEX, LUA_REFNIL);
+然而
+lua_rawgeti(L, LUA_REGISTRYINDEX, LUA_REFNIL);
+像预期的一样，将一个nil入栈。
+reference系统也定义了常量LUA_NOREF，她是一个表示任何非有效的reference的整数值，用来标记无效的reference。任何企图获取LUA_NOREF返回nil，任何释放他的操作都没有效果。
+27.3.3 Upvalues
+registry 实现了全局的值，upvalue机制实现了与C static变量等价的东东，这种变量只能在特定的函数内可见。每当你在Lua中创建一个新的C函数，你可以将这个函数与任意多个upvalues联系起来，每一个upvalue 可以持有一个单独的Lua值。下面当函数被调用的时候，可以通过假索引自由的访问任何一个upvalues。
+我们称这种一个C函数和她的upvalues的组合为闭包（closure）。记住：在Lua代码中，一个闭包是一个从外部函数访问局部变量的函数。一个C闭包与一个Lua闭包相近。关于闭包的一个有趣的事实是，你可以使用相同的函数代码创建不同的闭包，带有不同的upvalues。
+看一个简单的例子，我们在C中创建一个newCounter函数。（我们已经在6.1节部分在Lua中定义过同样的函数）。这个函数是个函数工厂：每次调用他都返回一个新的counter函数。尽管所有的counters共享相同的C代码，但是每个都保留独立的counter变量，工厂函数如下：
+/* forward declaration */
+static int counter (lua_State *L);
+ 
+int newCounter (lua_State *L) {
+    lua_pushnumber(L, 0);
+    lua_pushcclosure(L, &counter, 1);
+    return 1;
+}
+这里的关键函数是lua_pushcclosure，她的第二个参数是一个基本函数（例子中卫counter），第三个参数是upvalues的个数（例子中为1）。在创建新的闭包之前，我们必须将upvalues的初始值入栈，在我们的例子中，我们将数字0作为唯一的upvalue的初始值入栈。如预期的一样，lua_pushcclosure将新的闭包放到栈内，因此闭包已经作为newCounter的结果被返回。
+现在，我们看看counter的定义：
+static int counter (lua_State *L) {
+    double val = lua_tonumber(L, lua_upvalueindex(1));
+    lua_pushnumber(L, ++val);   /* new value */
+    lua_pushvalue(L, -1);       /* duplicate it */
+    lua_replace(L, lua_upvalueindex(1));  /* update upvalue */
+    return 1;  /* return new value */
+}
+这里的关键函数是lua_upvalueindex（实际是一个宏），用来产生一个upvalue 的假索引。这个假索引除了不在栈中之外，和其他的索引一样。表达式lua_upvalueindex(1)函数第一个upvalue的索引。因此，在函数counter中的lua_tonumber获取第一个(仅有的)upvalue的当前值，转换为数字型。然后，函数counter将新的值++val入栈，并将这个值的一个拷贝使用新的值替换upvalue。最后，返回其他的拷贝。
+与Lua闭包不同的是，C闭包不能共享upvalues：每一个闭包都有自己独立的变量集。然而，我们可以设置不同函数的upvalues指向同一个表，这样这个表就变成了一个所有函数共享数据的地方。

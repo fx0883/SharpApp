@@ -1,0 +1,101 @@
+COM Interop 允许 COM 开发人员像访问其他 COM 对象一样轻松访问托管代码。本教程说明如何将 C# 服务器与 C++ COM 客户端一起使用。它还解释了下列活动：
+    如何创建 C# 服务器
+    如何创建 COM 客户端 
+该教程还简要说明了在托管和非托管组件之间自动应用的封送处理。
+COM Interop 第一部分：C# 客户端教程显示使用 C# 与 COM 对象交互操作的基础知识，这是该教程的前提。有关两个教程的概述，请参见 COM Interop 教程。
+教程
+该教程说明下列创建 C# 服务器的活动：
+    如何使用接口和类上的 Guid 属性将其作为 COM 对象公开以及如何为 Guid 属性生成全局唯一标识符 (GUID)。
+    如何使用 RegAsm 注册供 COM 客户端使用的 .NET Framework 程序以及从 .NET Framework 程序创建类型库（.tlb 文件）。 
+该教程还说明下列创建 COM 客户端的活动：
+    如何导出托管服务器以及如何使用它们创建 COM 对象。
+    如何将由 RegAsm 生成的 .tlb 文件导入到 COM 客户端，以及如何使用 CoCreateInstance 创建 .NET Framework coclass 的实例。
+        注意   若要为导出到 COM 客户端的接口和 coclass 创建 GUID，请使用 Guidgen.exe 工具，此工具是作为 Visual Studio 的一部分交付的。Guidgen 使您可以选择 GUID 的表示格式，这样您就不必重新键入它。有关 Guidgen 的更多信息，请参见知识库文章 Q168318“XADM: Guidgen.exe Available Only for Intel Platforms”。知识库文章可以在 MSDN Library 中以及 Web 站点 http://support.microsoft.com 上找到。
+示例
+本示例由两个文件组成：
+    C# 文件 CSharpServer.cs，它创建 CSharpServer.dll 文件。.dll 用于创建 CSharpServer.tlb 文件。
+    C++ 文件 COMClient.cpp，它创建可执行客户端 COMClient.exe。 
+文件 1：CSharpServer.cs
+// CSharpServer.cs
+// compile with: /target:library
+// post-build command: regasm CSharpServer.dll /tlb:CSharpServer.tlb
+using System;
+using System.Runtime.InteropServices;
+namespace CSharpServer
+{
+   // Since the .NET Framework interface and coclass have to behave as 
+   // COM objects, we have to give them guids.
+   [Guid("DBE0E8C4-1C61-41f3-B6A4-4E2F353D3D05")]
+   public interface IManagedInterface
+   {
+      int PrintHi(string name);
+   }
+   [Guid("C6659361-1625-4746-931C-36014B146679")]
+   public class InterfaceImplementation : IManagedInterface
+   {
+      public int PrintHi(string name)
+      {
+         Console.WriteLine("Hello, {0}!", name);
+         return 33;
+      }
+   }
+}
+文件 2：COMClient.cpp
+// COMClient.cpp
+// Build with "cl COMClient.cpp"
+// arguments: friend
+#include <windows.h>
+#include <stdio.h>
+#pragma warning (disable: 4278)
+// To use managed-code servers like the C# server, 
+// we have to import the common language runtime:
+#import <mscorlib.tlb> raw_interfaces_only
+// For simplicity, we ignore the server namespace and use named guids:
+#if defined (USINGPROJECTSYSTEM)
+#import "..\RegisterCSharpServerAndExportTLB\CSharpServer.tlb" no_namespace named_guids
+#else  // Compiling from the command line, all files in the same directory
+#import "CSharpServer.tlb" no_namespace named_guids
+#endif
+int main(int argc, char* argv[])
+{
+   IManagedInterface *cpi = NULL;
+   int retval = 1;
+   // Initialize COM and create an instance of the InterfaceImplementation class:
+   CoInitialize(NULL);
+   HRESULT hr = CoCreateInstance(CLSID_InterfaceImplementation,
+               NULL, CLSCTX_INPROC_SERVER,
+               IID_IManagedInterface, reinterpret_cast<void**>(&cpi));
+   if (FAILED(hr))
+   {
+      printf("Couldn't create the instance!... 0x%x\n", hr);
+   }
+   else
+   {
+      if (argc > 1)
+      {
+         printf("Calling function.\n");
+         fflush(stdout);
+         // The variable cpi now holds an interface pointer 
+         // to the managed interface.
+         // If you are on an OS that uses ASCII characters at the 
+         // command prompt, notice that the ASCII characters are 
+         // automatically marshaled to Unicode for the C# code.
+         if (cpi->PrintHi(argv[1]) == 33)
+            retval = 0;
+         printf("Returned from function.\n");
+      }
+      else
+         printf ("Usage:  COMClient <name>\n");
+      cpi->Release();
+      cpi = NULL;
+   }
+   // Be a good citizen and clean up COM:
+   CoUninitialize();
+   return retval;
+}
+输出
+可以用以下命令行调用可执行客户端：COMClient <name>，其中 <name> 表示要使用的任何字符串，如 COMClient friend。
+Calling function.
+Hello, friend!
+Returned from function.
+在示例 IDE 项目中，将项目“属性页”中的“命令行参数”属性设置为需要的字符串（例如，“friend”）。

@@ -1,0 +1,97 @@
+第2章 类型和值
+Lua是动态类型语言，变量不要类型定义。Lua中有8个基本类型分别为：nil、boolean、number、string、userdata、function、thread和table。函数type可以测试给定变量或者值的类型。
+print(type("Hello world"))      --> string
+print(type(10.4*3))             --> number
+print(type(print))              --> function
+print(type(type))               --> function
+print(type(true))               --> boolean
+print(type(nil))                --> nil
+print(type(type(X)))            --> string
+变量没有预定义的类型，每一个变量都可能包含任一种类型的值。
+print(type(a))    --> nil   ('a' is not initialized)
+a = 10
+print(type(a))    --> number
+a = "a string!!"
+print(type(a))    --> string
+a = print         -- yes, this is valid!
+a(type(a))        --> function
+注意上面最后两行，我们可以使用function像使用其他值一样使用（更多的介绍参考第六章）。一般情况下同一变量代表不同类型的值会造成混乱，最好不要用，但是特殊情况下可以带来便利，比如nil。
+2.1 Nil
+Lua中特殊的类型，他只有一个值：nil；一个全局变量没有被赋值以前默认值为nil；给全局变量负nil可以删除该变量。
+2.2 Booleans
+两个取值false和true。但要注意Lua中所有的值都可以作为条件。在控制结构的条件中除了false和nil为假，其他值都为真。所以Lua认为0和空串都是真。
+ 2.3 Numbers
+表示实数，Lua中没有整数。一般有个错误的看法CPU运算浮点数比整数慢。事实不是如此，用实数代替整数不会有什么误差（除非数字大于100,000,000,000,000）。Lua的numbers可以处理任何长整数不用担心误差。你也可以在编译Lua的时候使用长整型或者单精度浮点型代替numbers，在一些平台硬件不支持浮点数的情况下这个特性是非常有用的，具体的情况请参考Lua发布版所附的详细说明。和其他语言类似，数字常量的小数部分和指数部分都是可选的，数字常量的例子：
+4      0.4    4.57e-3       0.3e12     5e+20
+ 2.4 Strings
+指字符的序列。lua是8位字节，所以字符串可以包含任何数值字符，包括嵌入的0。这意味着你可以存储任意的二进制数据在一个字符串里。Lua中字符串是不可以修改的，你可以创建一个新的变量存放你要的字符串，如下：
+a = "one string"
+b = string.gsub(a, "one", "another")   -- change string parts
+print(a)          --> one string
+print(b)          --> another string
+string和其他对象一样，Lua自动进行内存分配和释放，一个string可以只包含一个字母也可以包含一本书，Lua可以高效的处理长字符串，1M的string在Lua中是很常见的。可以使用单引号或者双引号表示字符串
+a = "a line"
+b = 'another line'
+为了风格统一，最好使用一种，除非两种引号嵌套情况。对于字符串中含有引号的情况还可以使用转义符\来表示。Lua中的转义序列有：
+\a bell
+\b back space               -- 后退
+\f form feed                -- 换页
+\n newline                  -- 换行
+\r carriage return          -- 回车
+\t horizontal tab           -- 制表
+\v vertical tab
+\\ backslash                 -- "\"
+\" double quote             -- 双引号
+\' single quote             -- 单引号
+\[ left square bracket      -- 左中括号
+\] right square bracket     -- 右中括号
+例子：
+> print("one line\nnext line\n\"in quotes\", 'in quotes'")
+one line
+next line
+"in quotes", 'in quotes'
+> print('a backslash inside quotes: \'\\\'')
+a backslash inside quotes: '\'
+> print("a simpler way: '\\'")
+a simpler way: '\'
+还可以在字符串中使用\ddd（ddd为三位十进制数字）方式表示字母。
+"alo\n123\""和'\97lo\10\04923"'是相同的。
+还可以使用[[...]]表示字符串。这种形式的字符串可以包含多行也，可以嵌套且不会解释转义序列，如果第一个字符是换行符会被自动忽略掉。这种形式的字符串用来包含一段代码是非常方便的。
+page = [[
+<HTML>
+<HEAD>
+<TITLE>An HTML Page</TITLE>
+</HEAD>
+<BODY>
+Lua
+[[a text between double brackets]]
+</BODY>
+</HTML>
+]]
+ 
+io.write(page)
+运行时，Lua会自动在string和numbers之间自动进行类型转换，当一个字符串使用算术操作符时，string就会被转成数字。
+print("10" + 1)             --> 11
+print("10 + 1")             --> 10 + 1
+print("-5.3e - 10" * "2")   --> -1.06e-09
+print("hello" + 1)          -- ERROR (cannot convert "hello")
+反过来，当Lua期望一个string而碰到数字时，会将数字转成string。
+print(10 .. 20)      --> 1020
+..在Lua中是字符串连接符，当在一个数字后面写..时，必须加上空格以防止被解释错。
+尽管字符串和数字可以自动转换，但两者是不同的，像10 == "10"这样的比较永远都是错的。如果需要显式将string转成数字可以使用函数tonumber()，如果string不是正确的数字该函数将返回nil。
+line = io.read()         -- read a line
+n = tonumber(line)       -- try to convert it to a number
+if n == nil then
+    error(line .. " is not a valid number")
+else
+    print(n*2)
+end
+反之,可以调用tostring()将数字转成字符串，这种转换一直有效：
+print(tostring(10) == "10")     --> true
+print(10 .. "" == "10")         --> true
+ 2.5 Functions
+函数是第一类值（和其他变量相同），意味着函数可以存储在变量中，可以作为函数的参数，也可以作为函数的返回值。这个特性给了语言很大的灵活性：一个程序可以重新定义函数增加新的功能或者为了避免运行不可靠代码创建安全运行环境而隐藏函数，此外这特性在Lua实现面向对象中也起了重要作用（在第16章详细讲述）。
+Lua可以调用lua或者C实现的函数，Lua所有标准库都是用C实现的。标准库包括string库、table库、I/O库、OS库、算术库、debug库。
+ 2.6 Userdata and Threads
+userdata可以将C数据存放在Lua变量中，userdata在Lua中除了赋值和相等比较外没有预定义的操作。userdata用来描述应用程序或者使用C实现的库创建的新类型。例如：用标准I/O库来描述文件。下面在C API章节中我们将详细讨论。
+在第九章讨论协同操作的时候，我们介绍线程。

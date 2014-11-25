@@ -1,6 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.sharpApp.app" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <preference name="loglevel" value="DEBUG" />
+    <feature name="File">
+        <param name="android-package" value="org.apache.cordova.file.FileUtils" />
+        <param name="onload" value="true" />
+    </feature>
     <name>SharpApp</name>
     <description>
         Hello World sample application that responds to the deviceready event.
@@ -9,6 +13,7 @@
         PhoneGap Team
     </author>
     <content src="index.html" />
+    <preference name="DisallowOverscroll" value="true" />
     <preference name="permissions" value="none" />
     <preference name="phonegap-version" value="3.5.0" />
     <preference name="orientation" value="default" />
@@ -69,8 +74,4 @@
     <gap:splash gap:platform="ios" height="768" src="www/res/screen/ios/screen-ipad-landscape.png" width="1024" />
     <gap:splash gap:platform="winphone" src="www/res/screen/windows-phone/screen-portrait.jpg" />
     <access origin="*" />
-    <feature name="File">
-        <param name="android-package" value="org.apache.cordova.file.FileUtils" />
-        <param name="onload" value="true" />
-    </feature>
 </widget>

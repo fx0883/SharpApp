@@ -1,0 +1,97 @@
+实例
+简单的 AdRotator 实例
+    本例展示：每当用户访问网站或者刷新一次页面，如何使用 AdRotator 组件来显示一幅不同的广告图像。
+AdRotator - 图片链接
+    本例展示：每当用户访问网站或者刷新一次页面，如何使用 AdRotator 组件来显示一幅不同的广告图像。此外，图片本身就是链接。
+ASP AdRotator 组件
+每当用户进入网站或刷新页面时，ASP AdRotator 组件就会创建一个 AdRotator 对象来显示一幅不同的图片。
+语法：
+<%
+set adrotator=server.createobject("MSWC.AdRotator")
+adrotator.GetAdvertisement("textfile.txt")
+%>
+实例
+假设我们有一个文件名为 "banners.asp"。它类似于这样：
+<html%>
+<body%>
+<%
+set adrotator=Server.CreateObject("MSWC.AdRotator")
+response.write(adrotator.GetAdvertisement("ads.txt"))
+%>
+</body%>
+</html%>
+文件 "ads.txt" 类似这样：
+*
+w3school.gif
+http://www.w3school.com.cn/
+Visit W3School
+80
+microsoft.gif
+http://www.microsoft.com/
+Visit Microsoft
+20  
+"ads.txt" 文件中星号下面的代码定义了如何显示这些图像，链接地址，图像的替换文本，在每百次点击中的显示几率。我们可以看到，W3School 图片的显示几率是 80%，而 Microsoft 图片的显示几率是 20%。
+注释：为了使这些链接在用户点击时可以正常工作，我们需要对文件 "ads.txt" 进行一点点小小的修改：
+REDIRECT banners.asp
+*
+w3school.gif
+http://www.w3school.com.cn/
+Visit W3School
+80
+microsoft.gif
+http://www.microsoft.com/
+Visit Microsoft
+20
+转向页面会接收到名为 url 的变量的查询字符串，其中含有供转向的 URL。
+注释：如需规定图像的高度、宽度和边框，我们可以在 REDIRECT 下面插入这些代码：
+REDIRECT banners.asp
+WIDTH 468 
+HEIGHT 60 
+BORDER 0 
+*
+w3school.gif
+...
+...
+最后要做的是把这些代码加入文件"banners.asp"中：
+<%
+url=Request.QueryString("url")
+If url<>"" then Response.Redirect(url)
+%>
+<html>
+<body>
+<%
+set adrotator=Server.CreateObject("MSWC.AdRotator")
+response.write(adrotator.GetAdvertisement("textfile.txt"))
+%>
+</body>
+</html>
+好了，这就是全部的内容！
+AdRotator 组件的属性
+Border 属性
+规定围绕广告的边框的尺寸。
+<%
+set adrot=Server.CreateObject("MSWC.AdRotator")
+adrot.Border="2"
+Response.Write(adrot.GetAdvertisement("ads.txt"))
+%>
+Clickable 属性
+规定广告本身是否是超级链接。
+<%
+set adrot=Server.CreateObject("MSWC.AdRotator")
+adrot.Clickable=false
+Response.Write(adrot.GetAdvertisement("ads.txt"))
+%>
+TargetFrame 属性
+显示广告的框架名称。
+<%
+set adrot=Server.CreateObject("MSWC.AdRotator")
+adrot.TargetFrame="target='_blank'"
+Response.Write(adrot.GetAdvertisement("ads.txt"))
+%>
+AdRotator 组件的方法
+GetAdvertisement 方法
+返回在页面中显示广告的 HTML。
+<%
+set adrot=Server.CreateObject("MSWC.AdRotator")
+Response.Write(adrot.GetAdvertisement("ads.txt"))
+%>

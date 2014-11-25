@@ -1,0 +1,20 @@
+实数用于编写类型 float、double 和 decimal 的值。
+real-literal:（实数：）
+    decimal-digits   .   decimal-digits   exponent-partopt   real-type-suffixopt（十进制数字   .   十进制数字   指数部分可选   实数类型后缀可选）
+    .   decimal-digits   exponent-partopt   real-type-suffixopt（.   十进制数字   指数部分可选   实数类型后缀可选）
+    decimal-digits   exponent-part   real-type-suffixopt（十进制数字   指数部分   实数类型后缀可选）
+    decimal-digits   real-type-suffix（十进制数字   实数类型后缀） 
+exponent-part:（指数部分：）
+    e   signopt   decimal-digits（e   符号可选   十进制数字）
+    E   signopt   decimal-digits（E   符号可选   十进制数字） 
+sign: one of（符号：下列之一）
+    + - 
+real-type-suffix: one of（实数类型后缀：下列之一）
+    F f D d M m 
+如果未指定实数类型后缀，则实数的类型为 double。否则，实数类型后缀确定实数的类型，如下所示：
+    以 F 或 f 为后缀的实数的类型为 float。例如，实数 1f、1.5f、1e10f 和 123.456F 的类型都是 float。
+    以 D 或 d 为后缀的实数的类型为 double。例如，实数 1d、1.5d、1e10d 以及 123.456D 的类型都是 double。
+    以 M 或 m 为后缀的实数的类型为 decimal。例如，实数 1m、1.5m、1e10m 和 123.456M 的类型都是 decimal。此实数通过取精确值转换为 decimal 值，如果有必要，用银行家舍入法（第 4.1.7 节）舍入为最接近的可表示值。保留该实数的所有小数位数，除非值被舍入或者值为零（在后一种情况中，符号和小数位数为 0）。因此，实数 2.900m 经分析后将形成这样的一个小数：符号为 0、系数为 2900，小数位数为 3。 
+如果一个给定的实数不能用指定的类型表示，则会发生编译时错误。
+使用 IEEE“就近舍入”模式确定类型 float 或 double 的实数的值。
+注意在实数中，小数点后必须始终是十进制数字。例如，1.3F 是实数，但 1.F 不是。

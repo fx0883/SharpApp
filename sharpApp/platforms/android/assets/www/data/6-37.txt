@@ -1,0 +1,14 @@
+诊断指令用于显式生成错误信息和警告消息，这些信息的报告方式与其他编译时错误和警告相同。
+pp-diagnostic:（pp 诊断：）
+    whitespaceopt   #   whitespaceopt   error   pp-message（空白可选   #   空白可选   error   pp 消息）
+    whitespaceopt   #   whitespaceopt   warning   pp-message（空白可选   #   空白可选   warning   pp 消息） 
+pp-message:（pp 消息：）
+    new-line（新行）
+    whitespace   input-charactersopt   new-line（空白   输入字符可选   新行） 
+示例：
+#warning Code review needed before check-in
+#if Debug && Retail
+   #error A build can't be both debug and retail
+#endif
+class Test {...}
+总是产生一个警告（“Code review needed before check-in”），如果同时定义条件符号 Debug 和 Retail，则产生一个编译时错误（“A build can't be both debug and retail”）。注意 pp-message（pp 消息）可以包含任意文本；具体说来，它可以包含格式不正确的标记，比如“can't”中的单引号就是这样。

@@ -1,0 +1,130 @@
+Lua中的表达式包括数字常量、字符串常量、变量、一元和二元运算符、函数调用。还可以是非传统的函数定义和表构造。
+3.1 算术运算符
+二元运算符：+ - * / ^  (加减乘除幂)
+一元运算符：-  (负值)
+这些运算符的操作数都是实数。
+ 3.2 关系运算符
+<      >      <=     >=     ==     ~=
+这些操作符返回结果为false或者true；==和~=比较两个值，如果两个值类型不同，Lua认为两者不同；nil只和自己相等。Lua通过引用比较tables、userdata、functions。也就是说当且仅当两者表示同一个对象时相等。
+a = {}; a.x = 1; a.y = 0
+b = {}; b.x = 1; b.y = 0
+c = a
+a==c but a~=b
+Lua比较数字按传统的数字大小进行，比较字符串按字母的顺序进行，但是字母顺序依赖于本地环境。
+当比较不同类型的值的时候要特别注意：
+"0" == 0       -- false
+2 < 15         -- true
+"2" < "15"     -- false (alphabetical order!)
+为了避免不一致的结果，混合比较数字和字符串，Lua会报错，比如：2 < "15"
+ 3.3 逻辑运算符
+and    or     not
+逻辑运算符认为false和nil是假（false），其他为真，0也是true.
+and和or的运算结果不是true和false，而是和它的两个操作数相关。
+a and b       -- 如果a为false，则返回a，否则返回b
+a or  b        -- 如果a为true，则返回a，否则返回b
+例如：
+print(4 and 5)           --> 5
+print(nil and 13)        --> nil
+print(false and 13)      --> false
+print(4 or 5)            --> 4
+print(false or 5)        --> 5
+一个很实用的技巧：如果x为false或者nil则给x赋初始值v
+x = x or v
+等价于
+if not x then
+    x = v
+end
+and的优先级比or高。
+ 
+C语言中的三元运算符
+a ? b : c
+在Lua中可以这样实现：
+(a and b) or c
+ 
+not的结果只返回false或者true
+print(not nil)           --> true
+print(not false)         --> true
+print(not 0)             --> false
+print(not not nil)       --> false
+ 3.4 连接运算符
+..         --两个点
+字符串连接，如果操作数为数字，Lua将数字转成字符串。
+print("Hello " .. "World")      --> Hello World
+print(0 .. 1)                   --> 01
+ 3.5 优先级
+从高到低的顺序：
+^
+not    - (unary)
+*      /
++      -
+..
+<      >      <=     >=     ~=     ==
+and
+or
+除了^和..外所有的二元运算符都是左连接的。
+a+i < b/2+1          <-->       (a+i) < ((b/2)+1)
+5+x^2*8              <-->       5+((x^2)*8)
+a < y and y <= z     <-->       (a < y) and (y <= z)
+-x^2                 <-->       -(x^2)
+x^y^z                <-->       x^(y^z)
+3.6 表的构造
+构造器是创建和初始化表的表达式。表是Lua特有的功能强大的东西。最简单的构造函数是{}，用来创建一个空表。可以直接初始化数组:
+days = {"Sunday", "Monday", "Tuesday", "Wednesday",
+              "Thursday", "Friday", "Saturday"}
+Lua将"Sunday"初始化days[1]（第一个元素索引为1），用"Monday"初始化days[2]...
+print(days[4])       --> Wednesday
+构造函数可以使用任何表达式初始化：
+tab = {sin(1), sin(2), sin(3), sin(4),
+           sin(5),sin(6), sin(7), sin(8)}
+如果想初始化一个表作为record使用可以这样：
+a = {x=0, y=0}       <-->       a = {}; a.x=0; a.y=0
+不管用何种方式创建table，我们都可以向表中添加或者删除任何类型的域，构造函数仅仅影响表的初始化。
+w = {x=0, y=0, label="console"}
+x = {sin(0), sin(1), sin(2)}
+w[1] = "another field"
+x.f = w
+print(w["x"])     --> 0
+print(w[1])       --> another field
+print(x.f[1])     --> another field
+w.x = nil         -- remove field "x"
+每次调用构造函数，Lua都会创建一个新的table，可以使用table构造一个list：
+list = nil
+for line in io.lines() do
+    list = {next=list, value=line}
+end
+这段代码从标准输入读进每行，然后反序形成链表。下面的代码打印链表的内容：
+l = list
+while l do
+    print(l.value)
+    l = l.next
+end
+在同一个构造函数中可以混合列表风格和record风格进行初始化，如：
+polyline = {color="blue", thickness=2, npoints=4,
+              {x=0,   y=0},
+              {x=-10, y=0},
+              {x=-10, y=1},
+              {x=0,   y=1}
+}
+这个例子也表明我们可以嵌套构造函数来表示复杂的数据结构.
+print(polyline[2].x)     --> -10
+上面两种构造函数的初始化方式还有限制，比如你不能使用负索引初始化一个表中元素，字符串索引也不能被恰当的表示。下面介绍一种更一般的初始化方式，我们用[expression]显示的表示将被初始化的索引：
+opnames = {["+"] = "add", ["-"] = "sub",
+              ["*"] = "mul", ["/"] = "div"}
+ 
+i = 20; s = "-"
+a = {[i+0] = s, [i+1] = s..s, [i+2] = s..s..s}
+ 
+print(opnames[s])    --> sub
+print(a[22])         --> ---
+list风格初始化和record风格初始化是这种一般初始化的特例:
+{x=0, y=0}        <-->       {["x"]=0, ["y"]=0}
+{"red", "green", "blue"}        <-->
+                  {[1]="red", [2]="green", [3]="blue"}
+如果真的想要数组下标从0开始：
+days = {[0]="Sunday", "Monday", "Tuesday", "Wednesday",
+              "Thursday", "Friday", "Saturday"}
+注意：不推荐数组下标从0开始，否则很多标准库不能使用。
+在构造函数的最后的","是可选的，可以方便以后的扩展。
+a = {[1]="red", [2]="green", [3]="blue",}
+在构造函数中域分隔符逗号（","）可以用分号（";"）替代，通常我们使用分号用来分割不同类型的表元素。
+{x=10, y=45; "one", "two", "three"}

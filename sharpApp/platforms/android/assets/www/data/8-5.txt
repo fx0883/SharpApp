@@ -1,0 +1,166 @@
+§5.1  代码块(Block)
+§5.1.1 什么是代码块
+	在Ruby中在在大括号之间的代码或放在do/end之间的代码是一个代码块。代码块只能出现在一个方法的后边，它紧接在方法最后一个参数的同一行上。代码块的内容并不会被马上执行，当执行到被调用的方法时，解释器的运行时环境会记住代码块出现的现场，然后执行被调用的方法。
+[1,2,3,4,5].each { |i| 
+	puts i
+}
+[1,2,3,4,5].each do |i| 
+	puts i
+end
+一般的使用习惯是：（to-do 具体解释）
+当关心边际(side effect)效应时使用 do/end。
+当关心返回结果应时使用大括号。
+§5.1.2 代码块与对象
+	代码块并不是对象，但可以方便的转化为Proc类的对象。有三种转化的方法：
+将一个代码块传递给最后一个参数以&开始的方法。
+	def meth1(p1, p2, &block)
+		puts block.inspect
+		puts block.call
+	end
+	meth1(1, 2) { "This is a block" }
+	
+使用Proc.new方法，后边的参数为一个代码块：
+	block = Proc.new { "a block" }
+	
+调用Kernel.lambda方法：
+		block = lambda { "a block" }
+	前两种方法是等价的，而第三种方法，用 lambda 生成的 Proc 对象和用 Proc.new 生成的 Proc 对象之间是有差别的。这是一个微妙的差别，这个差别与 return 关键字相关。lambda 中的 return 从 lambda 返回。而 Proc 中的 return 从外围方法返回。
+	可以看以下两个例子：
+	def test_proc
+		p = Proc.new { return 1 }
+		p.call
+		puts "Never come here"
+	end
+	
+	test_proc		#=> 1
+	
+	执行后"Never come here"不会被输出，执行p.call相当于在test_proc方法内执行了return语句。
+	
+	def test_lambda
+		p = lambda { return 1 }
+		result = p.call
+		puts "The value is: #{result}"
+	end
+	
+	test_lambda
+	
+	执行后的结果为：
+	The value is: 1	
+	可见使用lambda生成的Proc对象执行call方法调用时，return表示从lambda包围得块内返回。
+	
+	在一个代码块中执行next语句会导致代码块返回。返回值就是next语句后带的参数。如果next后没有参数，那么返回值为nil。
+	def meth2
+		result = yield
+		"The block result is #{result}"
+	end
+	puts meth2 { next 9 } 
+	pr = Proc.new { next 100 }
+	puts pr.call
+	pr = lambda { next }
+	puts pr.call
+执行结果为：
+	The block result is 9
+	100
+	nil
+§5.2  迭代器(Iterator)
+§5.2.1 什么是迭代器
+	简单的讲，一个迭代器就是一个能接受代码块的方法。当初为了进行迭代操作而设置了带块方法，所以现在它仍然常常被称作迭带器。
+	[1,2,3,4,5].each { |i| 
+		puts i
+	}
+	上述代码中，each方法反复调用代码块，我们称each方法为一个迭代器。
+	迭代器(Iterator)即指调用带块方法。实际上，在早期版本的 Ruby 中，使用代码块的方法被称为迭代器，因为它们就是被设计来实现循环迭代的。但是在Ruby发展过程中，代码块的用途在后来已经得到了很大的增强，从最初的循环抽象到任何事情。可以将那些进行迭代操作的方法叫做迭代器，但如果将所有带块方法的调用过程都看作迭带器的话，并不合适而且概念上会引起混乱
+	　
+§5.2.2 使用迭代器
+	#一个使用迭代器的简单例子，数组中每一个元素作为参数执行其后的代码块
+	['This', 'is', 'a', 'dog'].each do |entry|
+		print entry, ' '
+	end
+	执行结果为：
+	This is a dog 
+	#另一个使用迭代器的例子，代码块可以访问其外的数据
+	factorial = 1
+	1.upto(10) do |i|
+		factorial*= i
+	end
+	puts factorial
+	执行结果为：
+	3628800
+	#代码块的返回值可以被调用者使用
+	b = [1, 2, 3, 4, 5].map do |entry|
+		entry * entry
+	end
+	print b.inspect 
+	执行结果为：
+	[1, 4, 9, 16, 25]
+	#代码块也可以使用一个以上的参数
+	result = (0..100).inject(0) do |sum, i|
+		sum + i
+	end
+	print result
+	
+	执行结果为：
+	5050
+§5.2.3 yield
+	在方法中可以使用yield来执行代码块的内容，就好像传入的代码块是这个方法的一部分一样。每当碰到一个yield调用，代码块的内容就会被执行一次。当代码块执行结束后，程序会回到yield的那一行继续向下执行。
+	def twoTimes
+		yield
+		yield
+	end
+	twoTimes { puts "Hello World!" }
+	执行结果为：
+	Hello World!
+	Hello World!
+	
+你可以使用yield操作传参数给一个代码块，并且从代码块取回返回值。
+	def fibonacii(max)
+		f1, f2 = 1, 1
+		while f1 <= max
+			yield f1
+			f1, f2 = f2, f1+f2
+		end
+	end
+	fibonacii(1000) { |f| print f, " " }
+	执行结果为：
+	1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987
+在这个例子中，yield接收一个参数，这个参数将会在执行的时候传递给指定的代码块。在代码块中，接收的参数使用两个竖线括起来放在代码块的头部。yield操作也可以有返回值，yield操作的返回值就是代码块中最后一个表达式的值。
+§5.2.4 编写自己的迭代器
+def factorial(count, &block)
+		value = 1
+		1.upto(count) do |i|
+			value = value * i
+			block.call(i, value)
+		end
+end
+factorial(5) do |i, sum|
+		puts "factorial(#{i}) = #{sum}"
+end
+执行结果为：
+factorial(1) = 1
+factorial(2) = 2
+factorial(3) = 6
+factorial(4) = 24
+factorial(5) = 120
+也可以将传入的代码块保存以供以后使用：
+class Mathematics
+		def initialize(&block)
+			@block = block
+		end
+		def factorial(max)
+			value = 1
+			1.upto(max) do |i|
+				value = value * i
+				@block.call(value)
+			end
+		end
+end
+the_value = Mathematics.new do |count|
+		puts "Current value is #{count}"
+end
+the_value.factorial(5)
+执行结果为：
+Current value is 1
+Current value is 2
+Current value is 6
+Current value is 24
+Current value is 120

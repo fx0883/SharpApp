@@ -1,0 +1,31 @@
+Radio 对象
+Radio 对象代表 HTML 表单中的单选按钮。
+在 HTML 表单中 <input type="radio"> 每出现一次，一个 Radio 对象就会被创建。
+单选按钮是表示一组互斥选项按钮中的一个。当一个按钮被选中，之前选中的按钮就变为非选中的。
+当单选按钮被选中或不选中时，该按钮就会触发 onclick 事件句柄。
+您可通过遍历表单的 elements[] 数组来访问 Radio 对象，或者通过使用 document.getElementById()。
+IE: Internet Explorer, F: Firefox, O: Opera, W3C: W3C 标准.
+Radio 对象属性
+属性 	描述 	IE 	F 	O 	W3C
+accessKey 	设置或返回访问单选按钮的快捷键。 	4 	1 	9 	Yes
+alt 	设置或返回在不支持单选按钮时显示的替代文本。 	5 	1 	9 	Yes
+checked 	设置或返回单选按钮的状态。 	4 	1 	9 	Yes
+defaultChecked 	返回单选按钮的默认状态。 	4 	1 	9 	Yes
+disabled 	设置或返回是否禁用单选按钮。 	5 	1 	9 	Yes
+form 	返回一个对包含此单选按钮的表单的引用。 	4 	1 	9 	Yes
+id 	设置或返回单选按钮的 id。 	4 	1 	9 	Yes
+name 	设置或返回单选按钮的名称。 	4 	1 	9 	Yes
+tabIndex 	设置或返回单选按钮的 tab 键控制次序。 	4 	1 	9 	Yes
+type 	返回单选按钮的表单类型。 	4 	1 	9 	Yes
+value 	设置或返回单选按钮的 value 属性的值。 	4 	1 	9 	Yes
+标准属性
+属性 	描述 	IE 	F 	O 	W3C
+className 	设置或返回元素的 class 属性。 	5 	1 	9 	Yes
+dir 	设置或返回文本的方向。 	5 	1 	9 	Yes
+lang 	设置或返回元素的语言代码。 	5 	1 	9 	Yes
+title 	设置或返回元素的 title 属性。 	5 	1 	9 	Yes
+Radio 对象方法
+方法 	描述 	IE 	F 	O 	W3C
+blur() 	从单选按钮移开焦点。 	No 	1 	9 	Yes
+click() 	在单选按钮上模拟一次鼠标点击。 	No 	2 	9 	Yes
+focus() 	为单选按钮赋予焦点。 	No 	1 	9 	Yes

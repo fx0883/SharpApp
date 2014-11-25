@@ -16,6 +16,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+
 var app = {
     // Application Constructor
     initialize: function() {
@@ -27,14 +29,26 @@ var app = {
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
+        
     },
     // deviceready Event Handler
     //
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
+        document.addEventListener('pause',app.onPause,false);
+        document.addEventListener('resume',app.onResume,false);
         app.receivedEvent('deviceready');
+        console.log('应用开始了');
     },
+    
+    onPause:function(){
+        console.log('应用被暂停了');
+    },
+    onResume:function(){
+        console.log('应用已经恢复');
+    },
+
     // Update DOM on a Received Event
     receivedEvent: function(id) {
         var parentElement = document.getElementById(id);
@@ -47,3 +61,8 @@ var app = {
         console.log('Received Event: ' + id);
     }
 };
+
+//function onSuccess(fileSystem) {
+//	console.log(fileSystem.name);
+//	console.log(fileSystem.root.name);
+//}

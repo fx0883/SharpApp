@@ -1,0 +1,32 @@
+Textarea 对象
+Textarea 对象代表 HTML 表单中的一个文本区 (text-area)。在表单中 <textarea> 标签每出现一次，一个 Textarea 对象就会被创建。
+您可以通过索引相应表单的元素数组来访问某个 Textarea 对象，或者使用 getElementById()。
+IE: Internet Explorer, F: Firefox, O: Opera, W3C: W3C 标准.
+Textarea Object Properties
+属性 	描述 	IE 	F 	O 	W3C
+accessKey 	设置或返回访问 textarea 的键盘快捷键。 	4 	1 	9 	Yes
+cols 	设置或返回 textarea 的宽度。 	4 	1 	9 	Yes
+defaultValue 	设置或返回文本框中的初始内容。 	4 	1 	9 	Yes
+disabled 	设置或返回 textarea 是否应当被禁用。 	5 	1 	9 	Yes
+form 	返回对包含该 textarea 的表单对象的引用。 	4 	1 	9 	Yes
+id 	设置或返回某个 textarea 的 id。 	4 	1 	9 	Yes
+name 	设置或返回 textarea 的名称。 	4 	1 	9 	Yes
+readOnly 	设置或返回 textarea 是否应当是只读的。 	4 	1 	9 	Yes
+rows 	设置或返回 textarea 的高度。 	4 	1 	9 	Yes
+tabIndex 	设置或返回 textarea 的 tab 键控制次序。 	4 	1 	9 	Yes
+type 	返回该文本框的表单类型。 	4 	1 	9 	Yes
+value 	设置或返回在 textarea 中的文本。 	4 	1 	9 	Yes
+标准属性
+属性 	描述 	IE 	F 	O 	W3C
+className 	设置或返回元素的 class 属性。 	5 	1 	9 	Yes
+dir 	设置或返回文本的方向。 	5 	1 	9 	Yes
+lang 	设置或返回元素的语言代码。 	5 	1 	9 	Yes
+title 	设置或返回元素的 title 属性。 	5 	1 	9 	Yes
+Textarea 对象方法
+方法 	描述 	IE 	F 	O 	W3C
+blur() 	从 textarea 移开焦点。 	4 	1 	9 	Yes
+focus() 	在 textarea 上设置焦点。 	4 	1 	9 	Yes
+select() 	选择 textarea 中的文本。 	4 	1 	9 	Yes
+Textarea 对象事件句柄
+事件句柄 	描述 	IE 	F 	O 	W3C
+onchange 	当输入值改变时调用的事件句柄 	4 	1 	9 	Yes

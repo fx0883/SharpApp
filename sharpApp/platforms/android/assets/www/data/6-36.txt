@@ -1,0 +1,89 @@
+条件编译指令用于按条件包含或排除源文件中的某些部分。
+pp-conditional:（pp 条件：）
+    pp-if-section   pp-elif-sectionsopt   pp-else-sectionopt   pp-endif（pp if 节   pp elif 节可选   pp else 节可选   pp endif） 
+pp-if-section:（pp if 节：）
+    whitespaceopt   #   whitespaceopt   if   whitespace   pp-expression   pp-new-line   conditional-sectionopt（空白可选   #   空白可选   if   空白   pp 表达式   pp 新行   条件节可选） 
+pp-elif-sections:（pp elif 节：）
+    pp-elif-section（pp elif 节）
+    pp-elif-sections   pp-elif-section（pp elif 节   pp elif 节） 
+pp-elif-section:（pp elif 节：）
+    whitespaceopt   #   whitespaceopt   elif   whitespace   pp-expression   pp-new-line   conditional-sectionopt（空白可选   #   空白可选   elif   空白   pp 表达式   pp 新行   条件节可选） 
+pp-else-section:（pp-else 节：）
+    whitespaceopt   #   whitespaceopt   else   pp-new-line   conditional-sectionopt（空白可选   #   空白可选   else   pp 新行   条件节可选） 
+pp-endif:
+    whitespaceopt   #   whitespaceopt   endif   pp-new-line（空白可选   #   空白可选   endif   pp 新行） 
+conditional-section:（条件节：）
+    input-section（输入节）
+    skipped-section（跳过节） 
+skipped-section:（跳过节：）
+    skipped-section-part（跳过节部分）
+    skipped-section   skipped-section-part（跳过节   跳过节部分） 
+skipped-section-part:（跳过节部分：）
+    skipped-charactersopt   new-line（跳过字符可选   新行）
+    pp-directive（pp 指令） 
+skipped-characters:（跳过字符：）
+    whitespaceopt   not-number-sign   input-charactersopt（空白可选   非数字符号   输入字符可选） 
+not-number-sign:（非数字符号：）
+    除 # 外的任何输入字符 
+按照语法的规定，条件编译指令必须写成集的形式，集的组成依次为：一个 #if 指令、一个或多个 #elif 指令（或没有）、一个或多个 #else 指令（或没有）和一个 #endif 指令。指令之间是源代码的条件节。每节代码直接位于它前面的那个指令控制。条件节本身可以包含嵌套的条件编译指令，前提是这些指令构成完整的指令集。
+“pp 条件”最多只能选择一个它所包含的“条件节”去做通常的词法处理：
+    按顺序计算 #if 和 #elif 指令的“pp 表达式”直到获得值 true。如果表达式的结果为 true，则选择对应指令的“条件节”。
+    如果所有“pp 表达式”的结果都为 false 并且存在 #else 指令，则选择 #else 指令的“条件节”。
+    否则不选择任何“条件节”。 
+选定的“条件节”（若有）按正常的“输入节”处理：节中包含的源代码必须符合词法文法；从节中的源代码生成标记；节中的预处理指令具有规定的效果。
+剩余的“条件节”（若有）按“跳过节”处理：除了预处理指令，节中的源代码不必一定要符合词法文法；不从节中的源代码生成任何词法标记；节中的预处理指令必须在词法上正确，但不另外处理。在按“跳过节”处理的“条件节”中，任何嵌套的“条件节”（包含在嵌套的 #if...#endif 和 #region...#endregion 构造中）也按“跳过节”处理。
+下面的示例阐释如何嵌套条件编译指令：
+#define Debug      // Debugging on
+#undef Trace      // Tracing off
+class PurchaseTransaction
+{
+   void Commit() {
+      #if Debug
+         CheckConsistency();
+         #if Trace
+            WriteToLog(this.ToString());
+         #endif
+      #endif
+      CommitHelper();
+   }
+}
+除预处理指令外，跳过的源代码与词法分析无关。例如，尽管在 #else 节中有未结束的注释，但下面的示例仍然有效：
+#define Debug      // Debugging on
+class PurchaseTransaction
+{
+   void Commit() {
+      #if Debug
+         CheckConsistency();
+      #else
+         /* Do something else
+      #endif
+   }
+}
+但请注意，即使是在源代码的跳过节中，也要求预处理指令在词法上正确。
+当预处理指令出现在多行输入元素的内部时，不作为预处理指令处理。例如，程序：
+class Hello
+{
+   static void Main() {
+      System.Console.WriteLine(@"hello, 
+#if Debug
+      world
+#else
+      Nebraska
+#endif
+      ");
+   }
+}
+输出结果为：
+hello,
+#if Debug
+      world
+#else
+      Nebraska
+#endif
+在特殊的情况下，如何处理预处理指令集可能取决于 pp 表达式的计算。示例：
+#if X
+   /* 
+#else
+   /* */ class Q { }
+#endif 
+总是产生同样的标记流 (class Q { })，不管是否定义了 X。如果定义了 X，由于多行注释的缘故，只处理 #if 和 #endif 指令。如果未定义 X，则这三个指令（#if、#else、#endif）是指令集的组成部分。

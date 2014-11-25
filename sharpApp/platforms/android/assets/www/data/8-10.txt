@@ -1,0 +1,426 @@
+当你要同时处理多件任务时Ruby提供了两种基本方式，一种方式是在一个程序协调需要同时执行的任务，使用多线程处理需要同时执行的操作。另一种方式是将需要同时执行的操作分散到多个程序中使用多进程。
+	按照教科书上的定义，进程是资源管理的最小单位，线程是程序执行的最小单位。
+一般来说,我们把正在计算机中执行的程序叫做“进程”（Process），而所谓“线程”（Thread），是“进程”中某个单一顺序的控制流。
+	线程之间独立运行，每个线程有它自己的堆栈、自己的程序计数器和自己的局部变量。但是与进程相比，线程之间的隔离程度要小。它们彼此共用变量，也有可能会同时操作一片内存。
+	一个进程至少需要一个线程作为它的指令执行体，进程管理着资源（比如CPU、内存、文件等等），而将线程分配到某个CPU上执行。一个进程可以拥有多个线程，此时，如果进程运行在多处理器的机器上，它就可以同时使用多个CPU来执行各个线程，达到最大程度的并行，以提高效率；同时，即使是在单CPU的机器上，采用多线程模型来设计程序，可以使设计更简洁、功能更完备，程序的执行效率也更高。例如采用多个线程响应多个输入，而此时多线程模型所实现的功能实际上也可以用多进程模型来实现，而与后者相比，线程的上下文切换开销就要小多了。
+	在操作系统设计上，从进程演化出线程，最主要的目的就是更好的支持多处理器以及减小上下文切换开销。
+§10.1  多线程处理
+	Ruby的多线程是用户级多线程，这样使得Ruby的多线程移植非常容易，你并不需关心具体的操作系统；这样做也使线程容易控制，程序不容易产生死锁这类严重的线程问题。
+但是同时，由于Ruby的多线程并不是真正意义上的操作系统级多线程，不管代码使用了多少个Thread类的实例，都只会在启动解释器这一个进程内执行，由Ruby解释器进行具体的线程切换管理，其效率要低于由操作系统管理线程的效率，且不能使用多个CPU。
+	在Ruby中同时做多件事最简单的方式就是使用Thread类，Thread类提供了一种高效和轻量级的手段来同时处理多件任务。
+	Thread类由Ruby解释器具体实现，提供了一种同时处理多个任务的方法， Thread类实现的并不是操作系统级多线程。
+	Ruby多线程的优点和缺点同样明显，缺点是效率不如操作系统级多线程，不能使用多个CPU，但其优点也很明显，即可移植性很高。这就需要设计人员综合考虑。
+§10.1.1  线程创建
+我们可以使用Thread.new方法去创建一个线程，可以随后代码块中列出线程执行的代码：
+x = Thread.new { sleep 0.1; print "x"; print "y"; print "z" }
+a = Thread.new { print "a"; print "b"; sleep 0.2; print "c" }
+执行结果为：
+	ab
+上面的示例程序中使用Thread.new创建了二个线程，线程随即开始运行。但是运行结果很奇怪，为什么程序运行结果是“ab”呢？我们预期的执行结果应该是 “abxyzc”。
+当Ruby程序执行完毕的时候，他会杀掉所有的线程，不管其它的线程的运行状态如何。如果没有使用join方法，那么主程序执行完毕后会把所有没有执行完毕的线程杀掉。
+上面的实例程序中，当主程序运行完毕时，两个线程都没有运行结束就被中止掉了。我们可以使用join方法来让主程序等待某个特定线程结束，对每一个线程使用join方法，可以确保在程序结束前所有的线程可以运行完毕。
+	
+x = Thread.new { sleep 0.1; print "x"; print "y"; print "z" }
+a = Thread.new { print "a"; print "b"; sleep 0.2; print "c" }
+x.join
+a.join
+我们使用Thread.new方法创建两个新的线程并开始运行, 然后使用join方法等待线程结束。执行结果为：
+	abxyzc
+可以看到通过使用join方法等待线程结束，程序运行结果和我们预期结果相符。
+另一个例子：
+x = Thread.new { sleep 0.1; print "x"; print "y"; print "z" }
+a = Thread.new { sleep 0.1; print "a"; print "b"; sleep 0.2; print "c" }
+执行没有任何输出，因为主程序执行完毕杀死两个线程的时候这两个线程没有运行到输出语句。
+也可以给join方法添加时间用来指明最大等待时间。如果超时join返回nil。
+x = Thread.new { sleep 0.1; print "x"; print "y"; print "z" }
+a = Thread.new { sleep 0.1; print "a"; print "b"; sleep 10; print "c" }
+x.join(5)
+a.join(5)
+	执行结果为：
+	abxyz
+	上面的例子中对于每一个线程的最大等待时间是5秒，由于a线程需要执行10秒以上，所以a线程没有运行完毕程序就将返回。
+§10.1.2  线程操作
+可以使用Thread.current方法来访问当前线程，也可以使用Thread.list方法列出所有线程；可以使用Thread#status和Thread#alive?方法得到线程的状态；也可以使用Thread#priority方法得到线程的优先级和使用Thread#priority=方法来调整线程的优先级。
+test_thread = Thread.new {}
+test_thread.join
+Thread.current.alive? => true
+Test_thread.alive? => false
+上面的例子中，使用alive?方法得线程的状态，由于主线程并没有执行完毕所以状态为true，由于Test_thread已经执行完毕所以返回false。
+Thread.new { sleep(200) }
+Thread.new { 1000000.times {|i| i*i } }
+Thread.new { Thread.stop }
+Thread.list.each {|t| p t}
+执行结果为：
+#<Thread:0x2938168 sleep>
+#<Thread:0x2938228 run>
+#<Thread:0x29382b8 sleep>
+#<Thread:0x2955628 run>
+上面的例子中创建了三个线程，然后列出所有的线程，可以看到，列出的线程数目是四个而不是三个，因为除了创建的三个线程之外还有主线程。
+number1 = 0
+number2 = 0
+thr1 = Thread.new { loop { number1 += 1 } }
+print "th1:", thr1.priority, "\n"
+thr1.priority = -1
+thr2 = Thread.new { loop { number2 += 1 } }
+print "th2:", thr2.priority, "\n"
+thr2.priority = -2
+sleep 1
+Thread.critical = 1
+puts number1
+puts number2
+输出结果为：
+th1:0
+th2:0
+174100
+98
+上面的例子中使用priority方法得到线程的优先级，使用priority＝方法设置线程的优先级。县城的优先级默认为0。可以看到同样的代码，优先级较高的执行的要快。
+我们可以使用critical方法和critical＝方法得到和设置全局线程临界区（Thread.critical）的值，如果这个值为true，那么所有存在的线程将停止运行。
+一个Thread可以访问自己作用域内的所有数据，但如果有需要在某个线程内访问其他线程的数据应该怎么做呢？Thread类提供了线程数据互相访问的方法，你可以简单的把一个线程作为一个Hash表，可以在任何线程内使用[]=写入数据，使用[]读出数据。
+athr = Thread.new { Thread.current["name"] = "Thread A"; Thread.stop }
+bthr = Thread.new { Thread.current["name"] = "Thread B"; Thread.stop }
+cthr = Thread.new { Thread.current["name"] = "Thread C"; Thread.stop }
+Thread.list.each {|x| puts "#{x.inspect}: #{x["name"]}" }
+可以看到，把线程作为一个Hash表，使用[]和[]=方法，我们实现了线程之间的数据共享。
+§10.1.3  线程和异常
+	当一个线程运行时如果发生异常会怎样？这和abort_on_exception标志和解释器的debug标志有关，abort_on_exception默认被设置为false，这时候发生异常的那个线程会被杀死，其他线程继续运行。只有当你对发生异常的线程使用join操作时你才会察觉到有异常发生。
+a = Thread.new { raise "Error A" }
+b = Thread.new { puts "Thead B" }
+c = Thread.new { puts "Thead C" }
+b.join
+c.join
+执行结果为：
+Thead B
+Thead C
+a = Thread.new { raise "Error A" }
+b = Thread.new { puts "Thead B" }
+c = Thread.new { puts "Thead C" }
+a.join
+b.join
+c.join
+执行结果为：
+Thead B
+Thead C
+test.rb:1: Error A (RuntimeError)
+	from test.rb:4:in `join'
+	from test.rb:4
+我们也可以在使用join时捕获这个异常:
+threads = []
+threads[0] = Thread.new { raise "Error A" }
+threads[1] = Thread.new { puts "Thead B" }
+threads[2] = Thread.new { puts "Thead C" }
+threads.each do |t|
+		begin
+		t.join
+		rescue RuntimeError => e
+			puts "#{e.message}"
+		end
+	end
+执行结果为:
+Thead B
+Thead C
+Error A
+然而设置了abort_on_exception标志或者使用-d打开了debug开关，如果抛出了未被捕获的异常，程序将结束，所有的线程都将被终止。
+Thread.abort_on_exception = true
+threads = []
+threads[0] = Thread.new { raise "Error A" }
+threads[1] = Thread.new { puts "Thead B" }
+threads[2] = Thread.new { puts "Thead C" }
+threads.each do |t|
+		begin
+		t.join
+		rescue RuntimeError => e
+			puts "#{e.message}"
+		end
+end
+执行结果为：
+test.rb:3: Error A (RuntimeError)
+	from test.rb:3:in `initialize'
+	from test.rb:3:in `new'
+	from test.rb:3
+§10.1.4  线程调度
+Thread类提供了一系列的方法用来控制线程调度，Thread#run方法用来运行一个线程；Thread#stop方法停止线程的运行。
+Thread#pass方法取消运行当前线程，继续其他线程的运行；Thread#join方法将当前线程挂起直到指定线程运行结束；Thread#value方法和Thread#join类似，将线程挂起直到指定线程运行结束并取得返回值。
+a = Thread.new {
+		print "a"; 
+		Thread.pass;
+		print "b"; 
+		Thread.pass;
+	print "c" 
+}
+b = Thread.new {
+		print "x"; 
+		Thread.pass;
+		print "y";
+		Thread.pass;
+		print "z"
+}
+a.join
+b.join
+执行结果为：
+axbycz
+上面的例子中，我们使用pass方法放弃当前的控制权，继续下一个线程的运行。
+a = Thread.new { print "a"; Thread.stop; print "c" }
+Thread.pass
+print "b"
+a.run
+a.join
+执行结果为：
+abc
+上面的例子中，线程a开始运行后先输出“a”，然后使用stop方法停止运行；主线程使用pass方法放弃放弃当前的控制权，保证“a”最先输出。然后我们使用run方法重新运行线程a，所以输出结果为“abc”。
+a = Thread.new { 4 + 5 }
+puts a.value 
+执行结果为：
+9
+上面的例子中，我们是用value方法等待线程结束并打印出线程执行的返回值，线程执行的返回值就是线程执行的最后一个语句的值。
+§10.1.5  线程同步
+因为线程共享内存空间，所以可以使用普通的变量完成线程间的数据交换工作。如果有多个线程同时工作，请确保它们之间不存在互相等待以到达某一点或完成的情况。如果操作错误，可能会导致死锁状态，两个线程都无法完成，因为它们都在相互等待。
+使用线程的另一个常见问题是竞争状态。如果一个线程正在将数据写入文件，而另一个线程正在从该文件中读取数据，如果读取线程快于写入线程，则将返回无法预料的结果。这种情况称为竞争状态。
+有时候在运行程序中，一些你认为不需要同步的地方也会出现资源同步的问题：
+class Counter
+	attr_reader :number
+		def initialize
+			@number = 0
+	end
+		def plus
+			@number += 1
+		end
+end
+c = Counter.new
+t1 = Thread.new { 10000.times { c.plus } }
+t2 = Thread.new { 10000.times { c.plus } }
+t1.join
+t2.join
+puts c.number
+执行结果为：
+14228
+这里或许大家会奇怪，为什么number的值不是20000呢？
+原因在于这一句：
+		@number += 1
+	这一行在解释器内部会分解为多个操作，
+		得到number的值
+		将number的值加一
+		保存number的值
+在两个线程运行过程中，因为时机问题，在一个线程读取number的数值后还没来得及进行赋值的时候，另一个线程有可能已经改变了number的数值。这样多个进程同时访问共享数据造成了数据混乱从而与我们预想的结果不符。
+§10.1.5.2  Monitor
+Monitor是一种资源互斥访问的解决方案。它提供了一种机制，以供不同线程互斥访问指定的共享资源。
+我们可以通过使用继承Monitor类解决上一节的问题。
+require 'monitor'
+class Counter < Monitor
+		attr_reader :number
+		def initialize
+			@number = 0
+			super #初始化父类数据
+		end
+		def plus
+			synchronize do
+				@number += 1
+			end
+		end
+end
+c = Counter.new
+t1 = Thread.new { 10000.times { c.plus } }
+t2 = Thread.new { 10000.times { c.plus } }
+t1.join
+t2.join
+puts c.number
+执行结果为：
+20000
+可以看到，继承Monitor类后，我们可以使用synchronize方法，对于一个Monitor类的实例，同时只能有一个线程执行synchronize代码块的操作。代码的执行结果为“20000”，和我们期望的一致。
+如果不想使Monitor成为自己类的父类，也可以使用MonitorMixin模块。
+require 'monitor'
+class Counter
+	include MonitorMixin
+	attr_reader :number
+		def initialize
+			@number = 0
+			super
+		end
+		def plus
+			synchronize do
+				@number += 1
+			end
+		end
+end
+c = Counter.new
+t1 = Thread.new { 10000.times { c.plus } }
+t2 = Thread.new { 10000.times { c.plus } }
+t1.join
+t2.join
+puts c.number
+执行结果为：
+20000
+也可以单独使用Monitor类的实例对象来完成同步操作。
+require 'monitor'
+class Counter
+		attr_reader :number
+		def initialize
+			@number = 0
+			super
+		end
+		def plus
+			@number += 1
+		end
+end
+c = Counter.new
+lock = Monitor.new
+t1 = Thread.new { 10000.times { lock.synchronize{ c.plus } } }
+t2 = Thread.new { 10000.times { lock.synchronize{ c.plus } } }
+t1.join
+t2.join
+puts c.number
+执行结果为：
+20000
+也可以将使用extend方法将Monitor模块的方法引入完成同步操作。
+require 'monitor'
+class Counter
+		attr_reader :number
+		def initialize
+			@number = 0
+			super
+		end
+		def plus
+			@number += 1
+		end
+end
+c = Counter.new
+c.extend(MonitorMixin)
+t1 = Thread.new { 10000.times { c.synchronize{ c.plus } } }
+t2 = Thread.new { 10000.times { c.synchronize{ c.plus } } }
+t1.join
+t2.join
+puts c.number
+§10.1.5.2  Mutex
+Mutex是mutual-exclusion lock（互斥锁）的简称。它实现了一种简单的信号量机制，用来协调并发线程对共享数据的访问。
+在多线程并行访问共享数据时，可以使用下列代码（m是Mutex的实例）。
+begin
+   m.lock
+   # 访问受m保护的共享数据
+ensure
+   m.unlock
+end
+Mutex类有个synchronize方法可以简化这一过程。
+m.synchronize {
+   # 访问受m保护的共享数据
+}
+若对Mutex加锁时发现已经处于锁定状态时，线程会挂起直到解锁为止。
+我们修改一下上一节的例子，
+require 'thread'
+class Counter
+		attr_reader :number
+		def initialize
+			@number = 0
+		end
+		def plus
+			@number += 1
+		end
+end
+c = Counter.new
+m = Mutex.new
+t1 = Thread.new {
+		m.synchronize {
+			10000.times { c.plus }
+		}
+}
+t2 = Thread.new { 
+		m.synchronize {
+			10000.times { c.plus }
+		}
+}
+t1.join
+t2.join
+puts c.number
+输出结果为:
+20000
+从上一节我们可以知道，若此程序中不使用Mutex加以保护的话，因为时机问题，在一个线程读取number的数值后还没来得及进行赋值的时候，另一个线程可能已经改变了number的数值。这样，通过Mutex互斥锁，我们实现了对共享数据的正确使用。
+Mutex主要方法如下：
+new	生成新的互斥锁
+lock	若已经处于加锁状态则会一直等待下去直到解锁
+unlock	执行解锁操作，若有其它等锁的线程则会将他们唤醒
+synchronize	执行从获得锁到解锁全过程的迭代器
+try_lock	尝试执行加锁操作，若已处于加锁状态，则返回false且不会挂起
+locked?	测试Mutex对象是否处于加锁状态
+§10.1.5.3  Queue
+Queue就像一条读写数据的管道。提供数据的线程在一边写入数据，而读取数据的线程则在另一边读出数据。若Queue中没有可供读取的数据时，读取数据的线程会挂起等待数据的到来。
+下面是一个使用Queue的简单例子：
+require "thread"
+q = Queue.new
+th = Thread.start {
+   while line = q.pop
+      print line
+   end
+}
+while gets
+   q.push $_
+end
+q.push nil	# 终止标记
+th.join
+本程序中，一个线程读入一行之后，另一个线程就输出它。若把第3行改成数组，即“q = []”后，线程间失去同步，则程序无法正确运作。
+Queue有下列方法：
+new	生成新的Queue
+empty	测试Queue是否为空，若为空则返回真
+push	将数据压入Queue
+pop	尝试从Queue中取数据，如果Queue为空当参数为真则引发一个异常，否则挂起线程
+enq	含义与push相同
+deq	含义与pop相同
+clear	清空Queue
+length	返回Queue中的元素个数
+size	含义与length相同
+下面的例子使用Queue来解决生产者-消费者问题。生产者-消费者问题是一个经典的进程同步问题，该问题最早由Dijkstra提出，用以演示他提出的信号量机制。生产者线程生产物品，然后将物品放置在一个空缓冲区中供消费者线程消费。消费者线程从缓冲区中拿走产品。生产者线程在缓冲区满时必须等待，直到缓冲区有空间才继续生产。消费者线程在缓冲区空时必须等待，直到缓冲区中有产品才能继续读取。在这个问题上需要考虑缓冲区满和缓冲区空的情况以及竞争条件。
+require 'thread'
+queue = Queue.new
+consumers = Thread.new do
+		5.times do |i|
+			obj = queue.deq
+			print "consumer: #{i}\n"
+			sleep(rand(0.05))
+		end
+	end
+producers = Thread.new do
+		5.times do |i|
+			sleep(0.1)
+			print "producer: #{i}\n"
+			queue.enq("Item #{i}")
+		end
+	end
+producers.join
+consumers.join
+§10.2  多进程处理
+Thread类实现的并不是真正意义上的操作系统级多线程，但是有时候，你需要将一个任务分解为几个进程去执行，或者可能你需要运行的进程并不是Ruby语言编写，对于这种情况，Ruby语言也有办法处理，Ruby有几种方法创建真正的操作系统级的进程。
+§10.2.1  进程创建
+§10.2.1.1  system方法和反引号
+	可以使用反引号或system去执行一个命令。
+	system(“tar czf samples.tar.gz .”)
+	result = `date`
+		使用Kernel.system方法去执行一个外部命令时，这个外部命令将在一个子进程中被执行。如果命令无法执行返回false，否则返回true。命令执行的返回值保存在全局变量$?中。
+使用system方法执行外部命令，外部命令的结果输出将和程序的结果输出在一起。使用反引号则不同，执行的返回值为就是外部命令执行的输出结果。
+	result = `date`
+		result  #=> Thu Jan  4 22:45:49 CST 2007
+§10.2.1.2  popen方法
+很多时候，我们需要将输入数据发送给外部命令，然后取回执行结果。可以使用IO.popen方法完成这样的功能。
+IO.popen ("date") { |f| puts f.gets }　
+执行结果为：
+		Thu Jan  4 22:55:19 CST 2007
+另一个例子：
+	command1 = IO.popen("dir", "w+")
+command1.puts "."
+command1.close_write
+puts command1.gets
+§10.2.1.3  fork方法
+也可以使用fork方法产生一个新的子进程。产生子进程后原有进程继续向下执行。
+fork do
+3.times {|i| puts "Child: #{i}" }
+end
+3.times {|i| puts "Parent: #{i}" }
+执行结果为：
+Child: 0
+Parent: 0
+Child: 1
+Parent: 1
+Child: 2
+Parent: 2
+fork方法调用时返回值如果是nil表示子进程ID，否则表示的是父进程的ID。可以使用Process.wait方法来等待子进程执行结束，Process.wait方法返回所在进程的ID。进程的退出状态保存在$?中。
+fork{
+	sleep(3)
+}
+Process.wait
+	注意，如果要使用fork方法，那么在Ruby解释器所在的操作系统必须支持fork系统调用。例如在Window下fork方法就无法使用。

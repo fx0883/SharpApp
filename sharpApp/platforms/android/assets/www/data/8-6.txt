@@ -1,0 +1,487 @@
+Ruby语言的一切都有返回值，这是Ruby语言和其他程序设计语言的一个显著不同。
+irb(main):006:0> a = b = c = 0
+=> 0
+irb(main):007:0> print "\n"
+=> nil
+同样，if和case语句也有返回值，if和case语句的返回值就是if和case中最后一个执行语句的值。
+irb(main):014:0> if( 1+1 == 2)
+irb(main):015:1>   "Like in school."
+irb(main):016:1> else
+irb(main):017:1*   "What a surprise!"
+irb(main):018:1> end
+=> "Like in school." 
+
+§6.1  运算符
+和其他程序设计语言一样，Ruby中含有丰富的运算符。但是在Ruby中，大多数运算符实际上是方法调用。例如 a+b，其实真实执行的是 a.+(b)，调用a对象的+方法，b作为这个方法的参数。这样带来了相当的灵活性，你可以改变原有运算符的语义从而赋予它新的含义。
+以下代码仅仅作为一个例子重写Fixnum类的 + 方法，赋予两个定长整数相加新的含义。
+irb(main):001:0> class Fixnum
+irb(main):002:1>   alias the_plus +
+irb(main):003:1*   def +(integer)
+irb(main):004:2>     the_plus(integer) * 2
+irb(main):005:2>   end
+irb(main):006:1> end
+=> nil
+irb(main):007:0> 1+1
+=> 4
+irb(main):032:0> 2+2
+=> 8
+irb(main):132:0> 2+5
+=> 14
+
+对于运算符(+ - * / % ** & | ^ << >> && ||),Ruby有相应形式的赋值运算符缩写形式+=, -=等。
+运算符优先级：
+::
+[]
++(一元) -(一元) ! ~
+* / %
++ -
+<< >>
+&
+| ^
+> >= < <=
+<=> == === != =~ !~
+&&
+||
+.. …
+?:
+= += -= *= /=(所有的赋值运算符缩写)
+not
+and or
+以下运算符不能作为方法调用，也就是说不能改变以下运算符的含义：
+…
+!
+not
+&&
+And
+||
+Or
+::
+=
++= -= *= /=(所有的赋值运算符缩写)
+?:
+§6.2  命令替换
+在Shell中，可以使用反引号（`）执行命令替换。
+		`date`	=〉Mon Nov 27 11:07:22 CST 2006
+		`pwd`	=〉/usr/include
+Ruby也有这个功能。在Ruby中，可以使用反引号或%x来执行命令替换。命令替换表达式的返回值就是命令执行的输出结果。命令执行的返回值存储在全局变量$?中。
+		irb(main):2134:0> %x{echo "Hello World!"}
+	=> "\"Hello World!\"\n"
+反引号的默认行为是执行命令替换，同样，我们也可以重写它，赋予它新的含义。
+alias old_backquote `
+  def `(cmd)
+  result = old_backquote(cmd)
+  if $? != 0
+    fail "Command #{cmd} failed: #$?"
+  else
+    puts "Command #{cmd} success."
+  end
+  result
+end
+print `date`
+print `data`
+执行结果为：
+Command date success.
+Mon Jan 15 21:48:16 CST 2007
+Command uname success.
+Linux
+
+§6.3  赋值运算符
+to-do 定义。
+赋值运算的返回值就是左值的值，所以可以进行链式赋值。
+irb(main):001:0> a = b = c = 5
+=> 5
+irb(main):002:0> a = ( b = 1 + 2 ) + 5
+=> 8
+Ruby的基本赋值有两种形式，一种左边是一个对象或变量，这时把右边的值或变量的引用赋予左边。这种赋值运算由语言本身提供。
+irb(main):003:0> str = "This is a dog."
+=> "This is a dog."
+irb(main):004:0> num = 100
+=> 100
+另一种形式的赋值运算左边是一个类的实例的某一属性，这时候是执行这个类的方法，方法名称为“属性=”。方法的返回值就是右值的值，你可以重写这个方法从而赋予它新的含义。
+irb(main):001:0> class Test
+irb(main):002:1>   def num=(num)
+irb(main):003:2>     @num = num
+irb(main):004:2>   end
+irb(main):005:1> end
+=> nil
+irb(main):006:0> t = Test.new
+=> #<Test:0x2e20568>
+irb(main):007:0> t.num = 10
+=> 10
+§6.4  并行赋值
+Ruby中另一个有趣的地方是支持并行赋值。例如，交换两个变量a,b的值可以写为：
+			a,b = b,a
+Ruby会先从左到右依次计算 = 右边的表达式，然后再执行赋值的动作。
+			irb(main):008:0> x = 0
+=> 0
+irb(main):009:0> a,b,c = x, x+=1, x+=2
+=> [0, 1, 3]
+	如果左边的变量比右边的多，那么多余的变量会被赋为nil.
+			irb(main):001:0> x, y, z = 1, 2
+=> [1, 2]
+irb(main):002:0> print z
+nil=> nil
+	如果右边的变量或值比左边的多，那么多余的会被忽略。
+			irb(main):001:0> x, y = 1, 2, 3  # 3将被忽略
+	=> [1, 2, 3]
+	
+	也可以在数组赋值时使用并行赋值。
+irb(main):001:0> a = [1, 2, 3, 4, 5]
+=> [1, 2, 3, 4, 5]
+irb(main):002:0> x, y = a
+=> [1, 2, 3, 4, 5]
+irb(main):003:0> puts x, y
+1
+2
+=> nil
+在对数组进行并行赋值时可以使用*，*出现在左边最后一个变量时，表示将数组中所有剩余的值赋给这个变量。
+irb(main):001:0> a = [1, 2, 3, 4, 5]
+=> [1, 2, 3, 4, 5]
+irb(main):002:0> x,*y = a
+=> [1, 2, 3, 4, 5]
+irb(main):003:0> puts x
+1
+=> nil
+irb(main):004:0> puts y
+2
+3
+4
+5
+=> nil
+*出现在右边最后一个变量时，和左边类似。
+a = [1, 2, 3, 4]
+b, c	= 9, a		=〉b == 9, c == [1, 2, 3, 4]
+b, c 	= 9, *a	=〉b == 9, c == 1
+b, *c	= 9, a		=〉b == 9, c == [[1, 2, 3, 4]]
+b, *c 	= 9, *a	=〉b == 9, c == [1, 2, 3, 4]
+§6.5  嵌套赋值
+在赋值中，左边的变量可以使用括号括起来。这样括号内的变量被视作位于一个层次。
+b, (c, d), e = 1,2,3,4 		=〉b == 1, c == 2, d == nil, e == 3
+b, (c, d), e = [1,2,3,4]	=〉b == 1, c == 2, d == nil, e == 3
+b, (c, d), e = 1,[2,3],4	=〉b == 1, c == 2, d == 3, e == 4
+b, (c, d), e = 1,[2,3,4],5	=〉b == 1, c == 2, d == 3, e == 5
+b, (c,*d), e = 1,[2,3,4],5	=〉b == 1, c == 2, d == [3, 4], e == 5
+§6.6  其他赋值
+Ruby支持自加（+=）和自减运算符。和C/C++/Java一样，a = a + 2可以写成a+=2。其它类似的运算符还有%= ~= /= = += |= &= >>= <<= *= &&= ||= **=。
+我们经常可以遇到类似这样的语句words[key] ||= []，他与words[key] = words[key] || []等价，意思是如果Hash表words[key]的值为空时，对words[key]赋值为一个新建的空数组，否则不变。
+相应的，对于
+	num = 1 if num.nil?
+	num = 1 unless num
+Ruby中习惯写为 num ||= 1，这样代码更简洁。
+§6.7  条件运算
+布尔运算符
+在Ruby中定义nil和false为假，其他值为真。注意，和C/C++不同的是0并不被解释为假，空字符串也一样。
+Ruby支持常见的布尔运算符，例如 and和 &&，而且还引入一个新的布尔运算符‘defined？’。
+和其他程序设计语言一样，and 和 && 代表与关系。
+or 和 || 代表或关系。
+Not 和 ！ 代表非关系。
+如果参数没有定义 defined？ 返回nil,否则返回一个描述串用来描述参数信息。
+irb(main):013:0> defined? 1
+=> "expression"
+irb(main):014:0> defined? dummy
+=> nil
+irb(main):015:0> defined? printf
+=> "method"
+irb(main):016:0> defined? String
+=> "constant"
+irb(main):017:0> defined? $_
+=> "global-variable"
+irb(main):018:0> defined? Math::PI
+=> "constant"
+irb(main):019:0> defined? a = 0
+=> "assignment"
+irb(main):020:0> defined? 30.abs
+=> "method"
+条件运算符
+Ruby支持一系列条件运算符，==， ===， <=>，=~，eql? 等等，equal?。除了<=> 其他的都是类方法。 == 和 =~ 有否定形式 != 和 !~。
+If和unless
+Ruby中的if和其他程序设计语言中的if大同小异：
+if x == 5 then
+	print “The value of x is 5.”
+elsif x == 0 then
+	print “The value of x is 0.”
+else
+	print “The value of x is ”, x
+end
+也可以省略then：
+if x == 5
+	print “The value of x is 5.”
+elsif x == 0
+	print “The value of x is 0.”
+else
+	print “The value of x is ”, x
+end
+如果为了代码紧凑而将代码放到同一行则不能省略then：
+if x == 5 then print “The value of x is 5.”
+elsif x == 0 then print “The value of x is 0.”
+else print “The value of x is ”, x
+end
+也可以使用冒号分隔，这样代码更紧凑 :
+if x == 5: print “The value of x is 5.”
+elsif x == 0: print “The value of x is 0.”
+else print “The value of x is ”, x
+end
+正如我们前面所说的，if是一个表达式，它有自己的返回值。你可以忽略这个返回值，但是他确实存在。If语句的返回值就是最后执行的语句的值。
+	x = 10
+	str = if x == 5: "x==5"
+			elsif x == 0: "x==0"
+			else "x==?"
+			end
+执行后str的内容为：x== ? 
+Ruby也支持if的否定形式unless，unless的语法和if没有差别。
+unless x != 5
+	print “The value of x is 5.”
+else 
+	print “The value of x is not 5.”
+end
+Ruby也支持C/C++的 ?:运算符。
+	str = x == 5? "x==5":"x==?"
+Ruby也从Perl那里继承了一个很好的语法，你可以将条件写到表达式的后边。
+puts "a = #{a}" if debug
+print total unless total.zero?
+§6.8  case表达式
+Ruby中的case语句非常强大，首先我们来看一个基本用法：
+grade = case
+			  when point >= 85: 'A'
+			  when point >= 70 && point < 80: 'B'
+			  when point >= 60 && point < 70: 'C'
+			  when point < 60: 'D'
+			  else 'E'
+			  end
+这里case语句的作用和if表达式类似，case语句的返回值就是最后一个执行的表达式的值。和if语句类似，如果写在同一行的话需要加then或冒号。
+
+另一种也是最常用的形式是在case后列出目标，然后每个语句依次和目标比较：
+case input_line
+when "debug"
+	print "We are in debug mode."
+when /p\s+(\w+)/
+	dump_variable($1)
+when "quit", "exit"
+	exit
+else
+	print "Illegal command: #{input_line}"
+end
+另一个例子：
+Season = case month
+		when 3..5 :	"Spring"
+		when 6..8 :	"Summer"
+		when 9..11:	"Autumn"
+		when 12..2:	"Winter"
+		else 			"Error"
+		end
+Ruby提供了一个运算符===，只要一个类提供了===方法，那这个类的对象就可以出现在case语句中。例如对于正则表达式定义了===为模式匹配。
+Ruby中，所有类的基类是Class类，所有类实例都是Class类的实例（to-do）。它定义===的含义为为参数所提供是否为实例的类或父类。
+case shape
+when Square, Rectangle
+# ...
+when Circle
+# ...
+when Triangle
+# ...
+else
+# ...
+end
+
+§6.9  循环
+§6.9.1 Loop
+Loop循环始终执行其后的方法块，直到break退出。
+x = 0
+loop do
+    x += 1
+    if x <= 5: print x, " "
+    else break
+    end
+end
+执行结果为：1 2 3 4 5 。
+§6.9.2 While
+当条件为真时While循环继续，条件为假时退出循环。
+x = 0
+while x < 10
+		x += 1
+end
+§6.9.3 Until
+Until和While厢房当条件为假时While循环继续，条件为真时退出循环。
+x = 0
+until x == 9
+		x += 1
+end
+§6.9.4 Iterator
+和C/C++/Java不同，Ruby语言并不支持C/C++/Java中的For循环，但Ruby通过迭代器来提供更为强大的功能。先看一个例子：
+4.times do
+    puts "Hello!"
+end
+执行结果为：
+Hello!
+Hello!
+Hello!
+Hello!
+除了times方法之外，整数还提供upto和downto两个方法，看以下例子，
+0.upto(9) do |i|
+		print i, " "
+end
+执行结果为0 1 2 3 4 5 6 7 8 9 。
+也可以使用Step方法，step第二个参数表示步长：
+0.step(10, 2) do |i| 
+		print i, " "
+end
+执行结果为：0 2 4 6 8 10 。
+许多容器类，例如数组，提供了each方法依次遍历容器中的数据：
+	[1, 2, 3, 4, 5].each { |i| print i, " "}
+执行结果为：1 2 3 4 5 。
+如果一个类支持each方法，那么就可以使用Enumerable模块中的一些方法。
+["apple", "orange", "banana", "watermelon"].grep(/an/) do |fruit|
+		puts fruit
+end
+执行结果为：
+orange
+banana
+§6.9.5 For..In
+如果一个类提供了each方法，那么相应的，这个类的对象可以使用For..in循环。例如Array类和Range类都有each方法：
+for fruit in ["apple", "orange", "banana", "watermelon"]
+		print fruit, " "
+end
+执行结果为：apple orange banana watermelon 。
+for i in 1..9
+		print i, " "
+end
+执行结果为：1 2 3 4 5 6 7 8 9 。
+
+§6.9.6 Break，Redo，Next
+Break，Redo和Next用来改变循环的流程。
+§6.9.6.1 break
+	Break用来退出当前循环： 
+	
+	times = 0
+	loop do
+		times += 1
+		print "hello #{times}\n"
+		break if times > 2
+	end
+	
+	执行结果为：
+	hello 1
+	hello 2
+	hello 3
+	
+	与C/C++不同，如果循环有多重的话，break将退出最内层的循环。
+	outer = 0
+	loop do
+		outer += 1
+		
+		inner = 0
+		loop do
+			inner += 1
+			print "Inner #{inner}\n"
+			break if inner > 1
+		end
+		
+		print "Outer #{outer}\n"
+		break if outer > 1
+	end
+	
+	执行结果为：
+	Inner 1
+	Inner 2
+	Outer 1
+	Inner 1
+	Inner 2
+	Outer 2
+	
+	另一个与C/C++语言不同的地方是break只能从循环中退出，而不能从case中退出。
+§6.9.6.2 redo
+	redo语句重新执行当前这一次循环。
+count = 0
+for i in 1..3
+		print "hello #{i}\n"
+		break if count == 1
+	
+		if i > 1
+			count += 1
+			redo
+		end
+end
+执行结果为：
+hello 1
+hello 2
+hello 2
+上面的例子中，使用redo后，循环变量i的值还是2，可见redo语句重新执行了这次循环。
+和break语句类似，redo语句只对最内层的循环起作用。
+
+3.times do
+		count = 0
+		for i in 1..3
+			print "hello #{i}\n"
+			break if count == 1
+	
+			if i > 1
+				count += 1
+				redo
+			end
+		end
+end
+执行结果为：
+hello 1
+hello 2
+hello 2
+hello 1
+hello 2
+hello 2
+hello 1
+hello 2
+hello 2
+§6.9.6.3 next
+Next类似C/C++中的continue语句，跳转到当前循环的头部，执行下一次循环。
+loop do
+		times += 1
+		next if times == 2
+		print "hello #{times}\n"
+		break if times > 3
+end
+执行结果为：
+hello 1
+hello 3
+hello 4
+与break，redo类似，如果循环有多重，那么next只对最内侧的循环起作用。
+outer = 0
+loop do
+	outer += 1
+	
+	inner = 0
+	loop do
+		inner += 1
+		next if inner == 1
+		print "Inner #{inner}\n"
+		break if inner > 1
+	end
+	
+	print "Outer #{outer}\n"
+	break if outer > 1
+end
+执行结果为：
+Inner 2
+Outer 1
+Inner 2
+Outer 2
+§6.9.7 Retry
+上一节我们看到，可以使用redo重新执行当前这一次的循环，有时候，我们也需要重新执行整个循环而不是仅仅执行当前这次，这时候我们可以用时retry。在迭代、块或for语句中使用retry，意味着重启迭代器。同时迭代器的参数也将被重新计算。
+一个示例如下，
+for i in 1..5
+  retry if some_condition # 从 i == 1 开始重新执行
+end
+看一个完整可执行的例子：
+count = 0
+for i in 1..3
+		print "hello #{i}\n"
+		break if count == 1
+	
+		if i > 1
+			count += 1
+			redo
+		end
+end
+执行结果为：
+hello 1
+hello 2
+hello 1
+hello 2
+hello 1

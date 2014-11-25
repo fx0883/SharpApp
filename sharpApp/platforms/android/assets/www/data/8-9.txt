@@ -1,0 +1,196 @@
+异常（Exception）顾名思义，指的是在程序处理过程中遇到不能处理的非预期条件，它会打乱正常的执行流程。
+	许多种类的错误会触发异常，典型的异常例如整数除零，Ruby提供了一套处理异常的机制。如果错误发生，方法将创建一个异常对象并把它抛出到运行时系统。创建一个异常对象并将其交给运行时系统叫做抛出异常。异常对象包含了异常的信息，包括异常类型，异常发生时的堆栈状态等。运行时系统负责找到一些代码处理这个错误。
+	当某个方法抛出一个异常后，运行时系统需要找到一些代码来处理这个异常。运行时系统从发生异常的代码处开始，依次查找调用堆栈，直到找到相应的代码处理这个异常，然后继续执行其下的代码。注意处理异常过后程序不会返回到异常抛出处继续往下执行。
+	和传统错误管理技术相比，使用异常来管理错误具有如下优点：
+将正常处理逻辑与错误处理逻辑分开
+错误沿着调用堆栈向上传递，异常处理的代码简洁容易理解
+错误具有相应得类型，可以使用类型来区分不同的错误
+§9.1 异常处理
+Ruby处理异常的语法如下：
+begin
+# 正常处理流程代码
+rescue ……
+# 处理异常
+ensure
+# 这里的代码总会被执行
+End
+我们看一个例子，以下代码产生一个除零错误：
+begin
+		numerator = 10
+		denominator = 0
+		value = numerator / denominator
+	rescue ZeroDivisionError => ex
+		puts "Error, divide zero"
+ensure
+		puts "Finish the process!"
+end
+执行结果：
+Error, divide zero
+Finish the process!
+在异常产生后，如果相应的rescue语句被匹配到，那么这个异常对象会被复制到ex中。而ensure后的代码永远都会被执行到。
+在Ruby中，异常类的基类是Exception，也就是说所有异常类都是Exception类直接或间接的子类。Ruby预定义了一个层次结构用来处理常见的异常。
+(to-do Ruby异常层次图)
+在捕捉异常时，可以使用多个rescue语句：
+begin
+# 正常处理流程代码
+rescue ExceptionClass1 => exception1
+# 处理当发生ExceptionClass1类型的异常
+rescue ExceptionClass2 => exception2
+# 处理当发生ExceptionClas21类型的异常
+rescue
+# 处理其他异常
+ensure
+# 这里的代码总会被执行
+end
+注意，rescue不加参数默认是匹配StandardError类型的异常。
+Ruby使用最先匹配的规则，如果一个异常和rescue语句匹配成功，那么接下来的rescue语句都不会被匹配。在搜寻匹配的时候可以做从子类到父类的转换。
+begin
+		number1 = number2
+rescue SyntaxError, NameError => ex
+		print "The code doesn't compile: " + ex.class.to_s
+rescue StandardError => ex
+		print "Error running script: " + ex.class.to_s
+end
+执行结果为：
+The code doesn't compile: NameError
+上面的例子中使用到number2，但是number2并没有被定义，所以产生了一个NameError。第一个rescue语句被匹配到，于是放弃继续搜寻，直接执行相应的rescue语句后的代码。
+begin
+		number1 = number2
+rescue StandardError => ex
+		print "Error running script: " + ex.class.to_s
+rescue SyntaxError, NameError => ex
+		print "The code doesn't compile: " + ex.class.to_s
+end
+执行结果为：
+	Error running script: NameError
+这个例子和第一个例子区别就是rescue语句的顺序，从例子中可以看到，由于StandardError是NameError和SyntaxError的父类，而按顺序StandardError会先被匹配到，所以会放弃继续搜寻，StandardError下面的代码会被执行。上面的例子中，print "The code doesn't compile: " + ex.class.to_s永远不会被执行到。
+当抛出一个异常时，可以使用Ruby内置的异常类，也可以自定义自己的异常类。如果使用自定义的异常类，那么这个异常类应该是StandardError类直接或间接的子类。如果不这么做，那么默认情况下，这个异常不能正确地被捕捉。
+在rescue处理逻辑之后可以加一个else子句，只有没有任何异常发生的时候程序才会运行到那里，这种用法比较少见。
+begin
+# 正常处理流程代码
+rescue ExceptionClass1 => exception1
+# 处理当发生ExceptionClass1类型的异常
+rescue ExceptionClass2 => exception2
+# 处理当发生ExceptionClas21类型的异常
+rescue
+# 处理其他任何异常
+else
+# 没有任何异常
+ensure
+# 这里的代码总会被执行
+end
+可以使用raise显式抛出一个异常。raise后可以跟异常说明信息，这种情况下抛出的异常为RuntimeError类型：
+# 抛出一个RuntimeError类型的异常，异常说明信息"FTP Server down"
+raise "FTP Server down"
+可以使用raise抛出特定类型的异常：
+# 抛出一个FTPServerError类型的异常，异常说明信息" Server not responding”
+raise FTPServerError, "Server not responding"
+还可以附加第三个参数表示调用栈的信息：
+	# 抛出一个FTPServerError类型的异常，异常说明信息" Server not responding”
+#第三个参数为Kernel#caller方法的处理结果，用来指定调用栈的层次
+raise FTPServerError, "Server not responding", caller
+	Kernel#caller方法可以返回一个数组包含了当前调用栈的信息，方法可以携带参数，表示从调用栈内部开始，跳过堆栈的层次，默认值为1。
+	def meth1(skip)
+		meth2(skip)
+end
+def meth2(skip)
+		meth3(skip)
+end
+def meth3(skip)
+		caller(skip)
+end
+puts meth1(0)
+puts meth1(1)
+puts meth1(2)
+puts meth1(3)
+	可以看到，puts meth1(0)的结果为：
+test.rb:10:in `meth3'
+test.rb:6:in `meth2'
+test.rb:2:in `meth1'
+	puts meth1(1)的结果为：
+test.rb:6:in `meth2'
+test.rb:2:in `meth1'
+	puts meth1(2)的结果为：
+test.rb:2:in `meth1'
+	puts meth1(3)的结果为空。
+	通过caller方法，当抛出异常时，我们可以指定调用栈的层次：
+def meth1
+		meth2
+end
+def meth2
+		meth3
+end
+def meth3
+		begin
+			raise RuntimeError, "Test Error", caller[1..2]
+		rescue RuntimeError => ex
+			puts ex.backtrace
+		end
+end
+meth1
+执行结果为：
+test.rb:2:in `meth1'
+	上面的例子中，通过调用caller方法得到当前调用栈，然后通过caller[1..2]指定异常发生时传递的调用堆栈信息，最后使用异常对象的backtrace方法来得到调用堆栈。
+	使用raise不加参数表示重新抛出当前异常，如果当前没有异常，那么将抛出一个RuntimeError类型的异常：
+	begin
+		numerator = 10
+		denominator = 0
+		value = numerator / denominator
+	rescue ZeroDivisionError => ex
+		puts "Error, divide zero"
+		raise  #重新抛出当前异常
+ensure
+		puts "Rethow the error!"
+end
+执行结果：
+Error, divide zero
+Finish the process!
+	如果没有任何相应的rescue语句处理异常，那么这个异常会交给运行时环境。运行时环境会输入异常并中止程序的执行。
+	另外，全局变量“$!”保存了最近抛出的异常对象，而“$@”保存了最近发生的异常发生异常的调用栈信息。
+除了循环以外，还可以在rescue部分中使用retry。这时将从begin表达式开始重新执行。使用retry可以在某处理过程成功之前，一直循环该处理过程。
+begin
+  do_something # exception raised
+rescue
+  # handles error
+  retry  # restart from beginning
+end
+若在rescue部分、迭代器块或for语句之外使用retry的话会引发LocalJumpError异常。
+§9.2 定义异常类
+	Exception类提供了堆栈和异常的描述信息，在自定义的异常类中，你可以添加额外的信息。自定义的异常类应该是StandardError类直接或间接的子类。否则这个异常可能不会正确地被捕捉。
+看下面的例子，以下代码位于MyExceptionTest.rb中。
+class MyException < RuntimeError
+end
+begin
+		raise MyException, "MyException Testing..."
+rescue MyException => ex
+		puts ex.to_s
+		puts ex.backtrace.join("\n")
+ensure
+		puts "Finish the process!"
+end
+执行结果为：
+MyException Testing...
+MyException.rb:5
+Finish the process!
+§9.3 catch和throw
+使用raise，rescue用来处理出错的情况，同时也可以使处理流程从很深的嵌套结构中跳出。catch和throw也能使处理流程从很深的嵌套结构中跳出。
+Catch定义了一个代码块，并给这个代码块一个名字作为标注。当Ruby遇到一个throw时会展开调用堆栈来查找相应的catch块，当找到时，Ruby在相应得catch处展开堆栈并中止块。
+def method1(n)
+		puts n
+		throw :done if n <= 0
+		method1(n-1)
+end
+catch(:done) { 
+		method1(3) 
+		puts "Can not reach here!"
+}
+puts "Reach here!"
+执行结果：
+	3
+	2
+	1
+	0
+	Reach here!
+上面的例子中，我们首先用“catch(:done)”标注了一个块，当执行到“throw :done”时，中止当前“catch(:done)”所标注的块，处理流程继续向下处理。
+在catch/throw中，当碰到throw时，Ruby会展开调用堆栈来查找匹配的catch，当找到后，堆栈会被展开，catch块剩余的代码不会被执行。
+Ruby中没有goto 语句，但你可以使用catch/throw或异常来实现goto的功能。

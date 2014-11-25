@@ -1,0 +1,69 @@
+JsonSerializer 有许多属性用于自定义其序列化JSON的方式。这些也会被JsonConvert 的方法通过JsonSerializerSettings 重载来复用。
+3.1 MissingMemberHandling
+MissingMemberHandling 控制如何忽略成员。例如：JSON包含的某个属性不是对象的成员，那么在反序列化期间就需要一个处理。
+常量	描述
+Ignore	默认情况下，在反序列化期间Json.NET忽略JSON中不属于对象属性或字段的值。
+Error	在反序列化期间出现不存在的成员则Json.NET报错。
+3.2 ReferenceLoopHandling
+ReferenceLoopHandling 控制对象的循环引用。例如：一个Person对象通过一个管理属性引用了它自己，被序列化。
+常量	描述
+Error	默认情况下，如果一个循环引用发生Json.NET就会报错。（否则序列化器将会进入无限循环）
+Ignore	Json.NET将忽略引用循环，且不序列化他们。一个对象第一次被遇到就像往常一样被序列化，但是如果这个对象作为自己的子对象被遇到时，序列化器将跳过序列化它。
+Serialize	这个选项强制Json.NET在循环引用中序列化对象。这对于如果对象存在嵌套，但并不发生无限循环时，是有用的。
+ReferenceLoopHandling can also be customized on individual properties with JsonPropertyAttribute.
+3.3 NullValueHandling
+NullValueHandling 控制.NET对象上的Null值在序列化期间如何被处理，以及在反序列化期间JSON中的null值如何被处理。
+常量	描述
+Include	默认情况下，序列化时Json.NET写null值到JSON中，并且在反序列化时把null值设置到对象的属性或字段上。
+Ignore	序列化时Json.NET将跳过.NET值为null的JSON属性，在反序列化时如果JSON属性是null也提啊过设置对象的字段或属性。
+ReferenceLoopHandling can also be customized on individual properties with JsonPropertyAttribute.
+3.4 DefaultValueHandling
+DefaultValueHandling 在序列化和反序列化时，用.NET的DefaultValueAttribute [属性]来控制Json.NET如何设置默认值。
+常量	描述
+Include	默认情况下，Json.NET在序列化时如果值和字段属性的默认值一样，将写入字段和属性值给JSON。如果JSON值和默认值相同则Json.NET反序列化器将继续设置字段属性。
+Ignore	Json.NET将跳过写入一个属性字段值到JSON中，这个值和字段属性的默认值一样的话。Json.NET反序列化器将跳过设置一个.NET对象的字段属性，这个JSON值和默认值一样的话。
+DefaultValueHandling can also be customized on individual properties with JsonPropertyAttribute.
+3.5 ObjectCreationHandling
+ObjectCreationHandling控制对象在反序列化期间如何被创建以及反序列化。
+常量	描述
+Auto	默认情况下，反序列化时Json.NET将试图设置JSON值到存在的对象上，且增加JSON值存在的集合上。
+Reuse	和auto相同的行为。
+Replace	Json.NET在反序列化期间，在设置值之前一直再重新创建对象和集合。
+ObjectCreationHandling can also be customized on individual properties with JsonPropertyAttribute.
+3.6 TypeNameHandling
+TypeNameHandling 控制Json.NET在序列化期间是否包含.NET类型名，通过一个$type属性并且在从属性中读取值的时候可以确定要创建的类型。
+常量	描述
+None	默认情况下Json.NET在反序列化期间不读写类型名。
+Objects	Json.NET将写入并使用对象的类型名，除了集合。
+Arrays	Json.NET将写入和使用集合的类型名，除了对象。
+Auto	Json.NET将检查一个对象或集合是否匹配声明的属性，并且如果他们不匹配的时候写入类型名。Auto确保类型信息在自动序列化和反序列化时不会丢失。
+All	Json.NET将为对象和集合写入和使用类型名。
+TypeNameHandling can also be customized on individual properties with JsonPropertyAttribute.
+3.7 TypeNameAssemblyFormat
+TypeNameAssemblyFormat 控制序列化期间如何写入类型名。
+常量	描述
+Simple	默认Json.NET写入部分程序集名称作为类型，例如System.Data.DataSet, System.Data。注意Silverlight 和Windows Phone不支持这个格式。
+Full	Json.NET将写入完整的程序集名，包含版本数字，文化和公钥令牌。
+Read more about the valid values at FormatterAssemblyStyle.
+3.8 Binder
+这个序列化binder被用来产生一个.net类型的类型名。
+Read more about the serialization binder here: SerializationBinder
+3.9 ConstructorHandling
+ConstructorHandling在反序列化期间初始化对象时，决定构造器如何被使用。
+常量	描述
+Default	默认情况下，Json.NET首先寻找一个构造器（用JsonConstructorAttribute标识的），然后寻找默认的公开构造器（不带任何参数的），最后检查这个类是否只有单个带参的构造器。如果这个类有多个带参的共有构造器，将会抛出一个错误。这可以通过为构造器标识JsonConstructorAttribute来修补。
+AllowNonPublicDefaultConstructor	Json.NET将会使用一个后援的默认私有构造器，如果有的话。
+3.10 Converters
+这个被成为JsonConverters 的集合在序列化和反序列化期间被使用。JsonConverters 允许在序列化期间手动写入JSON，或在反序列化期间读。这对于处理特别复杂的JSON结构是很有用的，或者当你想改变一个类型被序列化的方式。
+当一个JsonConverter被加入到JsonSerializer 中时，它将被用来检查每个值，其被序列化或反序列化时用CanConvert 来查看是否应该使用。如果CanConvert 返回true，那么JsonConverter 将会被用来读或写该值的JSON。注意当一个JsonConverter 给你完全控制那个值时，许多Json.NET序列化特性将不再有效，例如类型名和引用处理。
+为了创建你自己的个性化的converter ，可以直接从JsonConverter 类继承。参看关于内建JsonConverters 如下：
+Serializing Dates in JSON
+Converting between JSON and XML
+CustomCreationConverter
+StringEnumConverter
+3.11 ContractResolver
+JsonSerializer的内部为每个.NET类型创建一个契约，关于这个类型应该以何种方式被序列化或反序列化，基于应用到类的metadata和attribute。指定一个自定义的IContractResolver ，就可以创建自定义的契约。
+Read more about Contract Resolvers here: Contract Resolvers
+3.12 Error
+Error事件可以捕获在序列化期间的错误，并处理这个事件，以及继续序列化或让错误继续抛出直到应用程序。
+Read more about error handling here: Serialization Error Handling

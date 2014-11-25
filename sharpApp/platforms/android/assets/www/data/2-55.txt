@@ -1,0 +1,32 @@
+Anchor 对象
+Anchor 对象表示 HTML 超链接。
+在 HTML 文档中 <a> 标签每出现一次，就会创建 Anchor 对象。
+锚可用于创建指向另一个文档的链接（通过 href 属性），或者创建文档内的书签（通过 name 属性）。
+您可以通过搜索 Document 对象中的 anchors[] 数组来访问锚，或者使用 document.getElementById()。
+IE: Internet Explorer, F: Firefox, O: Opera, W3C: W3C 标准.
+Anchor 对象的属性
+属性 	描述 	IE 	F 	O 	W3C
+accessKey 	设置或返回访问一个链接的快捷键。 	5 	1 	No 	Yes
+charset 	设置或返回被链接资源的字符集。 	6 	1 	9 	Yes
+coords 	设置或返回逗号分隔列表，包含了图像映射中链接的坐标。 	6 	1 	9 	Yes
+href 	设置或返回被链接资源的 URL。 	5 	1 	9 	Yes
+hreflang 	设置或返回被链接资源的语言代码。 	6 	1 	9 	Yes
+id 	设置或返回一个链接的 id。 	4 	1 	9 	Yes
+innerHTML 	设置或返回一个链接的内容。 	4 	1 	9 	No
+name 	设置或返回一个链接的名称。 	4 	1 	9 	Yes
+rel 	设置或返回当前文档与目标 URL 之间的关系。 	5 	1 	No 	Yes
+rev 	设置或返回目标 URL 与之间当前文档的关系。 	5 	1 	No 	Yes
+shape 	设置或返回图像映射中某个链接的形状。 	6 	1 	9 	Yes
+tabIndex 	设置或返回某个链接的 Tab 键控制次序。 	6 	1 	9 	Yes
+target 	设置或返回在何处打开链接。 	5 	1 	9 	Yes
+type 	设置或返回被链接资源的 MIME 类型。 	6 	1 	9 	Yes
+标准属性
+属性 	描述 	IE 	F 	O 	W3C
+className 	设置或返回元素的 class 属性。 	5 	1 	9 	Yes
+dir 	设置或返回文本的方向。 	5 	1 	9 	Yes
+lang 	设置或返回元素的语言代码。 	5 	1 	9 	Yes
+title 	设置或返回元素的 title 属性。 	5 	1 	9 	Yes
+Anchor 对象的方法
+方法 	描述 	IE 	F 	O 	W3C
+blur() 	把焦点从链接上移开。 	5 	1 	9 	Yes
+focus() 	给链接应用焦点。 	5 	1 	9 	Yes
