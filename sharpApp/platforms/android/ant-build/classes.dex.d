@@ -1,4 +1,5 @@
 /Users/fx/work/MyCode/SharpApp/sharpApp/platforms/android/ant-build/classes.dex : \
+/Users/fx/work/MyCode/SharpApp/sharpApp/platforms/android/ant-build/classes/com/sharpApp/app/App.class \
 /Users/fx/work/MyCode/SharpApp/sharpApp/platforms/android/ant-build/classes/com/sharpApp/app/BuildConfig.class \
 /Users/fx/work/MyCode/SharpApp/sharpApp/platforms/android/ant-build/classes/com/sharpApp/app/R$attr.class \
 /Users/fx/work/MyCode/SharpApp/sharpApp/platforms/android/ant-build/classes/com/sharpApp/app/R$drawable.class \

@@ -22,6 +22,7 @@
 /Users/fx/work/MyCode/SharpApp/sharpApp/platforms/android/ant-build/res/drawable-port-mdpi/screen.png \
 /Users/fx/work/MyCode/SharpApp/sharpApp/platforms/android/ant-build/res/drawable-port-xhdpi/screen.png \
 /Users/fx/work/MyCode/SharpApp/sharpApp/platforms/android/assets/_where-is-www.txt \
+/Users/fx/work/MyCode/SharpApp/sharpApp/platforms/android/assets/data.zip \
 /Users/fx/work/MyCode/SharpApp/sharpApp/platforms/android/assets/www \
 /Users/fx/work/MyCode/SharpApp/sharpApp/platforms/android/assets/www/1.txt \
 /Users/fx/work/MyCode/SharpApp/sharpApp/platforms/android/assets/www/app-common.css \
@@ -34,7 +35,6 @@
 /Users/fx/work/MyCode/SharpApp/sharpApp/platforms/android/assets/www/images \
 /Users/fx/work/MyCode/SharpApp/sharpApp/platforms/android/assets/www/img \
 /Users/fx/work/MyCode/SharpApp/sharpApp/platforms/android/assets/www/index.html \
-/Users/fx/work/MyCode/SharpApp/sharpApp/platforms/android/assets/www/index2.html \
 /Users/fx/work/MyCode/SharpApp/sharpApp/platforms/android/assets/www/js \
 /Users/fx/work/MyCode/SharpApp/sharpApp/platforms/android/assets/www/plugins \
 /Users/fx/work/MyCode/SharpApp/sharpApp/platforms/android/assets/www/res \
