@@ -41,7 +41,7 @@ var dicName = "data/";
 				$pro.config.DirList.push(arr[i]);
 			}
             $pro.ui.createDirList();
-            
+            $("div[data-role=panel] ul").listview("refresh");  
 		});
 	};
 
