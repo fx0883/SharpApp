@@ -1,5 +1,8 @@
-﻿var dicName = "data/";
-(function(){
+
+document.addEventListener("deviceready",
+function(){
+var dicName = "data/";
+
 	var $pro = window.$pro ? window.$pro : function(){};
 	$pro.config = {
 		num : 9,							//左侧列表目录数
@@ -28,13 +31,17 @@
 	* 获取左侧列表目录的数据
 	*/
 	$pro.data.getDirListContent = function(){
+        console.log("getDirListContent=== ");
 		if( $pro.config.DirList.length != 0 ) return;
 		$pro.event.readFileContent("config.ini",function(data){
-			var arr = data.split(/^title\d=$/);
-			for(var i=0; i<arr.length; i++){
-				if( !(i%2) ) return;
+			var arr = data.split(/title[\d]=/);
+            console.log(arr);
+			for(var i=1; i<arr.length; i++){
+                console.log(arr[i]);
 				$pro.config.DirList.push(arr[i]);
 			}
+            $pro.ui.createDirList();
+            location.href = "\";
 		});
 	};
 
@@ -43,6 +50,7 @@
 	* 生成左侧列表
 	*/
 	$pro.ui.createDirList = function(){
+        console.log($pro.config.DirList.length);
 		if( $pro.config.DirList.length == 0 ) return;
 		for(var i=0; i < $pro.config.num; i++){
 			$("."+$pro.config.leftClass).append('<li><a href="#" data-rel="close"><img src="images/'+(i+1)+$pro.config.iconAte+'" /><h2>'+$pro.config.DirList[i]+'</h2></a></li>');
@@ -55,25 +63,32 @@
 	*/
 	$pro.event.readFileContent = function( docName,callback ){
 		// 等待加载PhoneGap
-	
-		document.addEventListener("deviceready", onDeviceReady, false); 
+	    console.log("readFileContent");
+        
+		
 		
 		// PhoneGap加载完毕
 		
-		function onDeviceReady() { 
-			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail); 
-		}  
+		
+        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail); 
+		
 		
 		function gotFS(fileSystem) { 
-			fileSystem.root.getFile( dicName+docname, {create: true, exclusive: false}, gotFileEntry, fail); 
+            console.log(dicName+docName);
+            console.log("gotFS");
+            
+			fileSystem.root.getFile( dicName+docName, {create: true, exclusive: false}, gotFileEntry, fail); 
 		}  
 		
+        Function 
+        
 		function gotFileEntry(fileEntry) { 
+            console.log("gotFileEntry");
 			fileEntry.file(gotFile, fail); 
 		}  
 		
 		function gotFile(file){ 
-
+            console.log("file");
 			readAsText(file); 
 		}  
 		
@@ -90,10 +105,10 @@
 			var reader = new FileReader(); 
 			reader.onloadend = function(evt) { 
 				console.log("Read as text1");
-				console.log(evt.target.result);				
+				console.log(evt.target.result);			
 				//writeHtml(evt.target.result);
 				if( callback && typeof callback == "function"){
-					callback(contextText);
+					callback(evt.target.result);
 				}
 			}; 
 
@@ -107,11 +122,13 @@
 		}		
 		
 		function fail(evt) { 
+            console.log("fail");
 			console.log(evt.target.error.code); 
 		}
 		
 	};
 	$pro.init = function(){
+        console.log("mainJSinit");
 		$pro.init.InitData();
 		$pro.init.InitUI();
 	};	
@@ -119,10 +136,10 @@
 		$pro.data.getDirListContent();
 	};
 	$pro.init.InitUI = function(){
-		$pro.ui.createDirList();
+		
 	};
 
 	
 	$pro.init();
 	
-}).call(this);
+}, false);
