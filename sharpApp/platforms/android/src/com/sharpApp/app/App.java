@@ -13,9 +13,14 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.app.Application;
+import android.app.Dialog;
+import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
+import android.view.WindowManager;
 
 /*
  * Author: wangjie Email:wangj@bluemobi.sh.cn
@@ -66,7 +71,25 @@ public class App extends Application {
 		File sdDir = null;
 		boolean sdCardExist = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED); // 锟斤拷���锟斤拷sd锟斤拷���锟斤拷锟斤拷锟界��锟斤拷锟斤拷
 		if (sdCardExist) {
-			sdDir = Environment.getExternalStorageDirectory();// 锟斤拷宄帮拷锟界�猴拷锟斤拷锟借ぐ锟�
+			
+			sdDir = Environment.getExternalStorageDirectory();
+		}
+		else {
+			//如果没有sd卡哥就要退出了
+//			new  AlertDialog.Builder(this)    
+//			.setTitle("标题" )  
+//			.setMessage("简单消息框" )  
+//			.setPositiveButton("确定" ,  null )  
+//			.show();  
+			
+			Builder alertDialog = new  AlertDialog.Builder(this);
+			
+			 AlertDialog alert = alertDialog.create();
+			
+			
+			
+			alert.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT); 
+			System.exit(0);
 		}
 		return sdDir.toString();
 	}
