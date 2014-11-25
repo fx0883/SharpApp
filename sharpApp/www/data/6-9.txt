@@ -1,0 +1,53 @@
+一个接口定义一个协定。实现接口的类或结构必须遵守其协定。接口可以包含方法、属性、索引器和事件作为成员。
+示例
+interface IExample
+{
+   string this[int index] { get; set; }
+   event EventHandler E;
+   void F(int value);
+   string P { get; set; }
+}
+public delegate void EventHandler(object sender, EventArgs e);
+显示了一个包含索引器、事件 E、方法 F 和属性 P 的接口。
+接口可以使用多重继承。在下面的示例中，
+interface IControl
+{
+   void Paint();
+}
+interface ITextBox: IControl
+{
+   void SetText(string text);
+}
+interface IListBox: IControl
+{
+   void SetItems(string[] items);
+}
+interface IComboBox: ITextBox, IListBox {}
+接口 IComboBox 同时从 ITextBox 和 IListBox 继承。
+类和结构可以实现多个接口。在下面的示例中，
+interface IDataBound
+{
+   void Bind(Binder b);
+}
+public class EditBox: Control, IControl, IDataBound
+{
+   public void Paint() {...}
+   public void Bind(Binder b) {...}
+} 
+类 EditBox 从类 Control 派生，并且同时实现 IControl 和 IDataBound。
+在前面的示例中，IControl 接口中的 Paint 方法和 IDataBound 接口中的 Bind 方法是使用 EditBox 类的公共成员实现的。C# 提供了另一种方式来实现这些方法，使得实现类避免将这些成员设置成公共的。这就是：接口成员可以用限定名来实现。例如，在 EditBox 类中将 Paint 方法命名为 IControl.Paint，将 Bind 方法命名为 IDataBound.Bind 方法。
+public class EditBox: IControl, IDataBound
+{
+   void IControl.Paint() {...}
+   void IDataBound.Bind(Binder b) {...}
+}
+用这种方式实现的接口成员称为显式接口成员，这是因为每个成员都显式地指定要实现的接口成员。显式接口成员只能通过接口来调用。例如，在 EditBox 中实现的 Paint 方法只能通过强制转换为 IControl 接口来调用。
+class Test
+{
+   static void Main() {
+      EditBox editbox = new EditBox();
+      editbox.Paint();   // error: no such method
+      IControl control = editbox;
+      control.Paint();   // calls EditBox's Paint implementation
+   }
+}

@@ -1,0 +1,79 @@
+版本控制是一个过程，它以兼容的方式对组件进行不断的改进。如果依赖于早期版本的代码重新编译后可以适用于新版本，则组件的新版本与早期版本源代码兼容。相反，如果依赖于早期版本的应用程序不用重新编译即可适用于新版本，则组件的新版本为二进制兼容。
+大多数语言根本不支持二进制兼容性，而且许多语言对促进源代码兼容性所做甚少。实际上，某些语言所含的缺陷使得用它开发出来的组件在不断的改进过程中，一般至少会使依赖于该组件的某些客户端代码失效。
+例如，请看一个发布名为 Base 的类的基类作者的情况。在第一个版本中，Base 不包含任何 F 方法。名为 Derived 的组件从 Base 派生，并引入 F。此 Derived 类与它所依赖的 Base 类一起发布给客户，客户又部署到众多客户端和服务器。
+// Author A
+namespace A 
+{
+   public class Base      // version 1
+   {
+   }
+}
+// Author B
+namespace B
+{
+   class Derived: A.Base
+   {
+      public virtual void F() {
+         System.Console.WriteLine("Derived.F"); 
+      }
+   }
+}
+从这时起，开始产生版本问题。Base 的作者生成了一个拥有自己的 F 方法的新版本。
+// Author A
+namespace A 
+{
+   public class Base      // version 2
+   {
+      public virtual void F() {      // added in version 2
+         System.Console.WriteLine("Base.F"); 
+      }
+   }
+}
+这个新版本的 Base 在源代码和二进制方面都应该与初始版本兼容。（如果仅添加一个新的方法就会产兼容性问题，则基类可能就永远不能改进了。）不幸的是，Base 中的新 F 使 Derived 的 F 的含义不清。Derived 是指重写 Base 的 F 吗？这看上去不太可能，因为编译 Derived 时，Base 还没有 F！此外，如果 Derived 的 F 的确是重写了 Base 的 F，则它必须遵守由 Base 指定的协定（此协定在编写 Derived 时尚未指定）！在某些情况下，这是不可能的。例如，Base 的 F 可能要求它的重写始终调用基方法。Derived 的 F 不可能遵守这样的协定。
+C# 通过要求开发人员明确声明它们的意图来解决此版本问题。在原始的代码示例中，代码很清楚，因为 Base 甚至没有 F。很明显，由于不存在名为 F 的基方法，因此 Derived 的 F 是一个新方法而不是对基方法的一个重写。
+如果 Base 添加 F 并发布新版本，则在 Derived 的二进制版本中对“Derived 的 F”是什么仍很清楚：它语义上与重写无关，不应将它视为重写。
+然而，当重新编译 Derived 时，其含义仍是不清楚的：Derived 的作者可能打算让它的 F 重写 Base 的 F 或者隐藏它。由于意图不清，编译器生成一个警告，并在默认情况下使 Derived 的 F 隐藏 Base 的 F。此编译过程造成了语义上的二义性（与重新编译 Derived 前相比较）。生成的警告提醒 Derived 的作者 Base 中存在 F 方法。
+如果 Derived 的 F 在语义上与 Base 的 F 无关，则 Derived 的作者可以通过在 F 的声明中使用 new 关键字来表示此意图（并且有效地关闭警告）。
+// Author A
+namespace A 
+{
+   public class Base         // version 2
+   {
+      public virtual void F() { // added in version 2
+         System.Console.WriteLine("Base.F"); 
+      }
+   }
+}
+// Author B
+namespace B
+{
+   class Derived: A.Base   // version 2a: new
+   {
+      new public virtual void F() {
+         System.Console.WriteLine("Derived.F"); 
+      }
+   }
+}
+另一方面，Derived 的作者经过进一步考虑，可能决定 Derived 的 F 应重写 Base 的 F。可以通过使用 override 关键字来指定此意图，如下所示。
+// Author A
+namespace A 
+{
+   public class Base               // version 2
+   {
+      public virtual void F() { // added in version 2
+         System.Console.WriteLine("Base.F"); 
+      }
+   }
+}
+// Author B
+namespace B
+{
+   class Derived: A.Base   // version 2b: override
+   {
+      public override void F() {
+         base.F();
+         System.Console.WriteLine("Derived.F"); 
+      }
+   }
+}
+Derived 的作者还有另一种选择，就是更改 F 的名称，从而彻底避免名称冲突。尽管此更改会破坏 Derived 的源代码和二进制兼容性，但这种兼容性的重要性因方案而异。如果不向其他程序公开 Derived，则更改 F 的名称很可能是个好主意，因为这会提高程序的可读性，就是说 F 的含义不会再有任何混淆。

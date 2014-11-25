@@ -1,0 +1,56 @@
+Attribute用于控制Json.NET如何序列化和反序列化.NET对象。
+JsonObjectAttribute- 放在class上方用于控制其被序列化为一个JSON object
+JsonArrayAttribute- 放在集合上方用于控制其被序列化为一个JSON array.
+JsonPropertyAttribute- 放在field 和property 上用于来控制一个JSON 其被序列化为JSON object属性。
+JsonConverterAttribute- 放在无论class或fields 和properties上，用来指定在序列化期间哪个JsonConverter 应该被使用。
+Json.NET 不但使用内建的Json.net attribute，在决定JSON应该被怎么序列化或反序列化时还会去寻找DataContract 和 DataMember attribute。如果两者都有的话，Json.NET的serialization attribute优先。
+[JsonObject(MemberSerialization.OptIn)]
+public class Person
+{
+  // "John Smith"
+  [JsonProperty]
+  public string Name { get; set; }
+  // "2000-12-15T22:11:03"
+  [JsonProperty]
+  [JsonConverter(typeof(IsoDateTimeConverter))]
+  public DateTime BirthDate { get; set; }
+  // new Date(976918263055)
+  [JsonProperty]
+  [JsonConverter(typeof(JavaScriptDateTimeConverter))]
+  public DateTime LastModified { get; set; }
+  // not serialized
+  public string Department { get; set; }
+}
+5.1 JsonObjectAttribute
+在这个attribute 上的MemberSerialization 标志，指明是否成员序列化是用opt-in （一个成员必须有JsonProperty 或DataMember 才会被序列化）还是 opt-out 模式（默认每个成员都序列化，但是会忽略带有JsonIgnoreAttribute的成员，这个模式是Json.NET的默认行为）。
+Json.NET序列化实现了IEnumerable 的.NET类->JSON数组（具备了IEnumerable 值）。当把JsonObjectAttribute 来覆盖这个行为可以强制序列化器序列化这个class的field和property。
+5.2 JsonPropertyAttribute
+JsonPropertyAttribute 有如下用途：
+默认JSON property 将拥有和.NET property 一样的名字。这个属性允许名字被自定义。
+当序列化被设置为opt-in模式时，指明一个property 应该被序列化。
+在序列化和反序列化的时候把非共有property 给包含进来。
+5.3 JsonIgnoreAttribute
+从序列化中排除一个field或property。
+5.4 JsonConverterAttribute
+这个JsonConverterAttribute 指出该用哪个JsonSerializer 来转换一个对象。
+这个attribute 可以被放在一个class上或一个member上。当在一个class上放JsonConverter ，就表明了指定的JsonConverter 被用作这个class默认的序列化方法。当attribute 在一个field或property上时，指定的JsonConverter 将被一直用来序列化这个值。
+JsonConverter使用的优先级是 先 member attribute，然后 class attribute，最后是任何传给JsonSerializer的converter。
+public class MemberConverterClass
+{
+  public DateTime DefaultConverter { get; set; }
+  [JsonConverter(typeof(IsoDateTimeConverter))]
+  public DateTime MemberConverter { get; set; }
+}
+这个例子展示了JsonConverterAttribute 被用于一个property。
+DateTime date = Convert.ToDateTime("1970-01-01T00:00:00Z").ToUniversalTime();
+MemberConverterClass c = new MemberConverterClass
+  {
+    DefaultConverter = date,
+    MemberConverter = date
+  };
+string json = JsonConvert.SerializeObject(c, Formatting.Indented);
+Console.WriteLine(json);
+//{
+//  "DefaultConverter": "\/Date(0)\/",
+//  "MemberConverter": "1970-01-01T00:00:00Z"
+//}

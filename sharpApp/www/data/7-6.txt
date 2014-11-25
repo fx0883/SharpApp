@@ -1,0 +1,718 @@
+6．1 线程简介
+　　随着计算机的飞速发展，个人计算机上的操作系统也纷纷采用多任务和分时设计，将早期只有大型计算机才具有的系统特性带到了个人计算机系统中。一般可以在同一时间内执行多个程序的操作系统都有进程的概念。一个进程就是一个执行中的程序，而每一个进程都有自己独立的一块内存空间、一组系统资源。在进程概念中，每一个进程的内部数据和状态都是完全独立的。Java程序通过流控制来执行程序流，程序中单个顺序的流控制称为线程，多线程则指的是在单个程序中可以同时运行多个不同的线程，执行不同的任务。多线程意味着一个程序的多行语句可以看上去几乎在同一时间内同时运行。
+　　线程与进程相似，是一段完成某个特定功能的代码，是程序中单个顺序的流控制；但与进程不同的是，同类的多个线程是共享一块内存空间和一组系统资源，而线程本身的数据通常只有微处理器的寄存器数据，以及一个供程序执行时使用的堆栈。所以系统在产生一个线程，或者在各个线程之间切换时，负担要比进程小的多，正因如此，线程被称为轻负荷进程（light-weight process）。一个进程中可以包含多个线程。
+　　一个线程是一个程序内部的顺序控制流。
+　　1. 进程：每个进程都有独立的代码和数据空间（进程上下文） ，进程切换的开销大。
+　　2. 线程：轻量的进程，同一类线程共享代码和数据空间，每个线程有独立的运行栈和程序计数器（PC），线程切换的开销小。
+　　3. 多进程：在操作系统中，能同时运行多个任务程序。
+　　4. 多线程：在同一应用程序中，有多个顺序流同时执行。
+6．1．1 线程的概念模型
+　　Java内在支持多线程，它的所有类都是在多线程下定义的，Java利用多线程使整个系统成为异步系统。Java中的线程由三部分组成，如图6.1所示。
+　　1. 虚拟的CPU，封装在java.lang.Thread类中。
+　　2. CPU所执行的代码，传递给Thread类。
+　　3. CPU所处理的数据，传递给Thread类。
+图6.1线程
+6. 1. 2 线程体(1)
+　Java的线程是通过java.lang.Thread类来实现的。当我们生成一个Thread类的对象之后,一个新的线程就产生了。
+　　此线程实例表示Java解释器中的真正的线程，通过它可以启动线程、终止线程、线程挂起等，每个线程都是通过类Thread在Java的软件包Java.lang中定义，它的构造方法为：
+　　　public Thread （ThreadGroup group，Runnable target，String name）；
+　　其中，group 指明该线程所属的线程组；target实际执行线程体的目标对象，它必须实现接口Runnable； name为线程名。Java中的每个线程都有自己的名称，Java提供了不同Thread类构造器，允许给线程指定名称。如果name为null时，则Java自动提供唯一的名称。
+当上述构造方法的某个参数为null时，我们可得到下面的几个构造方法：
+　　public Thread （）；
+　　public Thread （Runnable target）；
+　　public Thread （Runnable target，String name）；
+　　public Thread （String name）；
+　　public Thread （ThreadGroup group，Runnable target）；
+　　public Thread （ThreadGroup group，String name）；
+　　一个类声明实现Runnable接口就可以充当线程体，在接口Runnable中只定义了一个方法 run（）：
+　　　　　　　public void run（）；
+　　任何实现接口Runnable的对象都可以作为一个线程的目标对象，类Thread本身也实现了接口Runnable，因此我们可以通过两种方法实现线程体。
+　　（一）定义一个线程类，它继承线程类Thread并重写其中的方法 run（），这时在初始化这个类的实例时，目标target可为null，表示由这个实例对来执行线程体。由于Java只支持单重继承，用这种方法定义的类不能再继承其它父类。
+　　（二）提供一个实现接口Runnable的类作为一个线程的目标对象，在初始化一个Thread类或者Thread子类的线程对象时，把目标对象传递给这个线程实例，由该目标对象提供线程体 run（）。这时，实现接口Runnable的类仍然可以继承其它父类。
+　　每个线程都是通过某个特定Thread对象的方法run( )来完成其操作的，方法run( )称为线程体。图6.2表示了java线程的不同状态以及状态之间转换所调用的方法。
+图6.2 线程的状态
+　　　　
+　 1. 创建状态(new Thread)
+　　执行下列语句时，线程就处于创建状态：
+　　Thread myThread = new MyThreadClass( );
+　　当一个线程处于创建状态时，它仅仅是一个空的线程对象，系统不为它分配资源。
+　　2. 可运行状态( Runnable )
+　　Thread myThread = new MyThreadClass( );
+　　myThread.start( );
+　　当一个线程处于可运行状态时，系统为这个线程分配了它需的系统资源，安排其运行并调用线程运行方法，这样就使得该线程处于可运行( Runnable )状态。需要注意的是这一状态并不是运行中状态（Running )，因为线程也许实际上并未真正运行。由于很多计算机都是单处理器的，所以要在同一时刻运行所有的处于可运行状态的线程是不可能的，Java的运行系统必须实现调度来保证这些线程共享处理器。
+　　
+　　3. 不可运行状态（Not Runnable）
+　　进入不可运行状态的原因有如下几条：
+　　1) 调用了sleep（）方法;
+　　2) 调用了suspend（）方法;
+　　3) 为等候一个条件变量，线程调用wait（）方法;
+　　4) 输入输出流中发生线程阻塞;
+　　不可运行状态也称为阻塞状态（Blocked）。因为某种原因（输入/输出、等待消息或其它阻塞情况），系统不能执行线程的状态。这时即使处理器空闲，也不能执行该线程。
+　　4. 死亡状态（Dead）
+　　线程的终止一般可通过两种方法实现：自然撤消（线程执行完）或是被停止（调用stop()方法）。目前不推荐通过调用stop()来终止线程的执行，而是让线程执行完。
+6. 1. 2 线程体(2)
+　◇线程体的构造
+　　任何实现接口Runnable的对象都可以作为一个线程的目标对象，上面已讲过构造线程体有两种方法，下面通过实例来说明如何构造线程体的。
+例6．1 通过继承类Thread构造线程体
+　　class SimpleThread extends Thread {
+　　public SimpleThread(String str) {
+　　　super(str); //调用其父类的构造方法
+　　}
+　　public void run() { //重写run方法
+　　　for (int i = 0; i < 10; i++) {
+　　　　System.out.println(i + " " + getName());
+　　　　　　　　　　　　　//打印次数和线程的名字
+　　　　try {
+　　　　　　sleep((int)(Math.random() * 1000));
+　　　　　　　　　　　　　//线程睡眠，把控制权交出去
+　　　　} catch (InterruptedException e) {}
+　　}
+　　　　　System.out.println("DONE! " + getName());
+　　　　　　　　　　　　　//线程执行结束
+　　　　}
+　　}
+　　public class TwoThreadsTest {
+　　　public static void main (String args[]) {
+　　　　new SimpleThread("First").start();
+　　　　　　　　　　　　　//第一个线程的名字为First
+　　　　new SimpleThread("Second").start();
+　　　　　　　　　　　　　//第二个线程的名字为Second
+}
+}
+　　　运行结果:
+　　　　0 First
+　　　　0 Second
+　　　　1 Second
+　　　　1 First
+　　　　2 First
+　　　　2 Second
+　　　　3 Second
+　　　　3 First
+　　　　4 First
+　　　　4 Second
+　　　　5 First
+　　　　5 Second
+　　　　6 Second
+　　　　6 First
+　　　　7 First
+　　　　7 Second
+　　　　8 Second
+　　　　9 Second
+　　　　8 First
+　　　　DONE! Second
+　　　　9 First
+　　　　DONE! First
+　　仔细分析一下运行结果，会发现两个线程是交错运行的，感觉就象是两个线程在同时运行。但是实际上一台计算机通常就只有一个CPU，在某个时刻只能是只有一个线程在运行，而java语言在设计时就充分考虑到线程的并发调度执行。对于程序员来说，在编程时要注意给每个线程执行的时间和机会，主要是通过让线程睡眠的办法（调用sleep()方法）来让当前线程暂停执行，然后由其它线程来争夺执行的机会。如果上面的程序中没有用到sleep()方法，则就是第一个线程先执行完毕，然后第二个线程再执行完毕。所以用活sleep()方法是学习线程的一个关键。
+　例6．2 通过接口构造线程体
+　　　public class Clock extends java.applet.Applet implements Runnable {//实现接口
+　　　　　　Thread clockThread;
+　　　　　　public void start() {
+　　　　　　　　　//该方法是Applet的方法，不是线程的方法
+　　　　　　if (clockThread == null) {
+　　　　　　　　　clockThread = new Thread(this, "Clock");
+　　　　　　　　　/*线程体是Clock对象本身，线程名字为"Clock"*/
+　　　　　　　　　clockThread.start(); //启动线程
+　　　　　　　　　}
+　　　　　　}
+　　　　　　public void run() { //run()方法中是线程执行的内容
+　　　　　　　　　while (clockThread != null) {
+　　　　　　　　　repaint(); //刷新显示画面
+　　　　　　　　　try {
+　　　　　　　　　　　clockThread.sleep(1000);
+　　　　　　　　　　　//睡眠1秒，即每隔1秒执行一次
+　　　　　　　　　　} catch (InterruptedException e){}
+　　　　　　　　　}
+　　　　　　}
+　　　　　　public void paint(Graphics g) {
+　　　　　　　　　　Date now = new Date(); //获得当前的时间对象
+　　　　　　　　　　g.drawString(now.getHours() + ":" + now.getMinutes()+ ":" +now.getSeconds(), 5, 10);//显示当前时间
+　　　　　　}
+　　　　　　public void stop() {
+　　　　　　　　//该方法是Applet的方法，不是线程的方法
+　　　　　　　　　　clockThread.stop();
+　　　　　　　　　　clockThread = null;
+　　　　　　}
+　　　}
+　　上面这个例子是通过每隔1秒种就执行线程的刷新画面功能，显示当前的时间；看起来的效果就是一个时钟，每隔1秒就变化一次。由于采用的是实现接口Runnable的方式，所以该类Clock还继承了Applet, Clock就可以Applet的方式运行。
+　　构造线程体的两种方法的比较：
+　　1. 使用Runnable接口
+　　　1) 可以将CPU，代码和数据分开，形成清晰的模型;
+　　　2) 还可以从其他类继承;
+　　　3) 保持程序风格的一致性。
+　　2. 直接继承Thread类
+　　　1) 不能再从其他类继承;
+　　　2) 编写简单，可以直接操纵线程，无需使用Thread.currentThread()。
+6．1．3 线程的调度
+　　Java提供一个线程调度器来监控程序中启动后进入就绪状态的所有线程。线程调度器按照线程的优先级决定应调度哪些线程来执行。
+　　线程调度器按线程的优先级高低选择高优先级线程（进入运行中状态）执行，同时线程调度是抢先式调度，即如果在当前线程执行过程中，一个更高优先级的线程进入可运行状态，则这个线程立即被调度执行。
+　　抢先式调度又分为：时间片方式和独占方式。在时间片方式下，当前活动线程执行完当前时间片后，如果有其他处于就绪状态的相同优先级的线程，系统会将执行权交给其他就绪态的同优先级线程；当前活动线程转入等待执行队列，等待下一个时间片的调度。
+　　在独占方式下，当前活动线程一旦获得执行权，将一直执行下去，直到执行完毕或由于某种原因主动放弃CPU，或者是有一高优先级的线程处于就绪状态。
+　　下面几种情况下，当前线程会放弃CPU:
+　　1. 线程调用了yield() 或sleep() 方法主动放弃；
+　　2. 由于当前线程进行I/O 访问，外存读写，等待用户输入等操作，导致线程阻塞；或者是为等候一个条件变量，以及线程调用wait（）方法；
+　　3. 抢先式系统下，由高优先级的线程参与调度；时间片方式下，当前时间片用完，由同优先级的线程参与调度。
+　　线程的优先级
+　　线程的优先级用数字来表示，范围从1到10，即Thread.MIN_PRIORITY到Thread.MAX_PRIORITY。一个线程的缺省优先级是5，即Thread.NORM_PRIORITY。下述方法可以对优先级进行操作：
+　　int getPriority(); //得到线程的优先级
+　　void setPriority(int newPriority);
+　　//当线程被创建后，可通过此方法改变线程的优先级
+　　例6．3中生成三个不同线程，其中一个线程在最低优先级下运行，而另两个线程在最高优先级下运行。
+　例6．3
+　　class ThreadTest{
+　　　　public static void main( String args [] ) {
+　　　　　　Thread t1 = new MyThread("T1");
+　　　　　　t1.setPriority( Thread.MIN_PRIORITY ); //设置优先级为最小
+　　　　　　t1.start( );
+　　　　　　Thread t2 = new MyThread("T2");
+　　　　　　t2.setPriority( Thread.MAX_PRIORITY ); //设置优先级为最大
+　　　　　　t2.start( );
+　　　　　　Thread t3 = new MyThread("T3");
+　　　　　　t3.setPriority( Thread.MAX_PRIORITY ); //设置优先级为最大
+　　　　　　t3.start( );
+　　　　}
+　　　　　　　　}
+　　　class MyThread extends Thread {
+　　　　　String message;
+　　　　　MyThread ( String message ) {
+　　　　　　　　this.message = message;
+　　　　　}
+　　　　　public void run() {
+　　　　　　　for ( int i=0; i<3; i++ )
+　　　　　　　　System.out.println( message+" "+getPriority() );
+　　　　　　　　　　　　　　　　　　　　　　　　　//获得线程的优先级
+　　　　　}
+　　　　　　　　}
+　　运行结果：
+　　　　　　　T2 10
+　　　　　　　T2 10
+　　　　　　　T2 10
+　　　　　　　T3 10
+　　　　　　　T3 10
+　　　　　　　T3 10
+　　　　　　　T1 1
+　　　　　　　T1 1
+　　　　　　　T1 1
+　　注意：并不是在所有系统中运行Java程序时都采用时间片策略调度线程，所以一个线程在空闲时应该主动放弃CPU，以使其他同优先级和低优先级的线程得到执行。
+6．1．4基本的线程控制
+　1．终止线程
+　　线程终止后，其生命周期结束了，即进入死亡态，终止后的线程不能再被调度执行，以下几种情况，线程进入终止状态：
+　　1) 线程执行完其run()方法后，会自然终止。
+　　2) 通过调用线程的实例方法stop()来终止线程。
+　2． 测试线程状态
+　　可以通过Thread 中的isAlive() 方法来获取线程是否处于活动状态；线程由start() 方法启动后，直到其被终止之间的任何时刻，都处于'Alive'状态。
+　3． 线程的暂停和恢复
+　　有几种方法可以暂停一个线程的执行，在适当的时候再恢复其执行。
+　　1) sleep() 方法
+　　当前线程睡眠（停止执行）若干毫秒，线程由运行中状态进入不可运行状态，停止执行时间到后线程进入可运行状态。
+　　2) suspend()和resume()方法
+　　线程的暂停和恢复，通过调用线程的suspend()方法使线程暂时由可运行态切换到不可运行态，若此线程想再回到可运行态，必须由其他线程调用resume()方法来实现。
+　　注：从JDK1.2开始就不再使用suspend()和resume()。
+　　3) join()
+　　当前线程等待调用该方法的线程结束后, 再恢复执行.
+　　TimerThread tt=new TimerThread(100);
+　　tt.start();
+　　…
+　　public void timeout(){
+　　tt.join();// 当前线程等待线程tt 执行完后再继续往下执行
+　　… }
+6．2多线程的互斥与同步
+　　临界资源问题
+　　前面所提到的线程都是独立的，而且异步执行，也就是说每个线程都包含了运行时所需要的数据或方法，而不需要外部的资源或方法，也不必关心其它线程的状态或行为。但是经常有一些同时运行的线程需要共享数据，此时就需考虑其他线程的状态和行为，否则就不能保证程序的运行结果的正确性。例6．4说明了此问题。
+例6．4
+　　class stack{
+　　　int idx=0; //堆栈指针的初始值为0
+　　　char[ ] data = new char[6]; //堆栈有6个字符的空间
+　　　public void push(char c){ //压栈操作
+　　　　data[idx] = c; //数据入栈
+　　　　idx + +; //指针向上移动一位
+　　　}
+　　　　　public char pop(){ //出栈操作
+　　　　　　　idx - -; //指针向下移动一位
+　　　　　　　return data[idx]; //数据出栈
+　　　　　}
+　　　}
+
+　　两个线程A和B在同时使用Stack的同一个实例对象，A正在往堆栈里push一个数据，B则要从堆栈中pop一个数据。如果由于线程A和B在对Stack对象的操作上的不完整性，会导致操作的失败，具体过程如下所示：
+　　1) 操作之前
+　　　　　data = | p | q | | | | | idx=2
+
+　　2) A执行push中的第一个语句，将r推入堆栈；
+　　　　　data = | p | q | r | | | | idx=2
+　　3) A还未执行idx++语句，A的执行被B中断，B执行pop方法，返回q：
+　　　　　data = | p | q | r | | | | idx=1
+　　4〕A继续执行push的第二个语句：
+　　　　　data = | p | q | r | | , | | idx=2
+　　
+　　最后的结果相当于r没有入栈。产生这种问题的原因在于对共享数据访问的操作的不完整性。
+6．2．1 互斥锁
+　　为解决操作的不完整性问题，在Java 语言中，引入了对象互斥锁的概念，来保证共享数据操作的完整性。每个对象都对应于一个可称为" 互斥锁" 的标记，这个标记用来保证在任一时刻，只能有一个线程访问该对象。 关键字synchronized 来与对象的互斥锁联系。当某个对象用synchronized 修饰时，表明该对象在任一时刻只能由一个线程访问。
+　　　　public void push(char c){
+　　　　synchronized(this){ //this表示Stack的当前对象
+　　　　　　　data[idx]=c;
+　　　　　　　idx++;
+　　　　}
+　　　　}
+　　　　public char pop(){
+　　　　　　　synchronized(this){ //this表示Stack的当前对象
+　　　　　　　idx--;
+　　　　　　　return data[idx];
+　　　　　　　}
+　　　　}
+　　synchronized 除了象上面讲的放在对象前面限制一段代码的执行外，还可以放在方法声明中，表示整个方法为同步方法。
+　　public synchronized void push(char c){
+　　…
+　　　　}
+　　如果synchronized用在类声明中，则表明该类中的所有方法都是synchronized的。
+6．2．2多线程的同步
+　 本节将讨论如何控制互相交互的线程之间的运行进度,即多线程之间的同步问题,下面我们将通过多线程同步的模型: 生产者-消费者问题来说明怎样实现多线程的同步。
+　　我们把系统中使用某类资源的线程称为消费者，产生或释放同类资源的线程称为生产者。
+在下面的Java的应用程序中，生产者线程向文件中写数据，消费者从文件中读数据，这样，在这个程序中同时运行的两个线程共享同一个文件资源。通过这个例子我们来了解怎样使它们同步。
+
+　例6．5
+　　　class SyncStack{ //同步堆栈类
+　　　private int index = 0; //堆栈指针初始值为0
+　　　private char []buffer = new char[6]; //堆栈有6个字符的空间
+　　　public synchronized void push(char c){ //加上互斥锁
+　　　　　while(index = = buffer.length){ //堆栈已满，不能压栈
+　　　　　try{
+　　　　　　　　this.wait(); //等待，直到有数据出栈
+　　　　　　　}catch(InterruptedException e){}
+　　　　　　　}
+　　　this.notify(); //通知其它线程把数据出栈
+　　　buffer[index] = c; //数据入栈
+　　　index++; //指针向上移动
+　　　}
+　　　public synchronized char pop(){ //加上互斥锁
+　　　　　　　while(index ==0){ //堆栈无数据，不能出栈
+　　　　　　　　try{
+　　　　　　　　　　　this.wait(); //等待其它线程把数据入栈
+　　　　　　　　}catch(InterruptedException e){}
+　　　　　　　　　　}
+　　　　　　　this.notify(); //通知其它线程入栈
+　　　　　　　index- -; //指针向下移动
+　　　　　　　return buffer[index]; //数据出栈
+　　　　}
+　　　　　　　}
+　　　　class Producer implements Runnable{ //生产者类
+　　　　　　　SyncStack theStack;
+　　　　　　　　//生产者类生成的字母都保存到同步堆栈中
+　　　　　　　public Producer(SyncStack s){
+　　　　　　　　　　theStack = s;
+　　　　　　　}
+　　　　　　　public void run(){
+　　　　　　　　　　char c;
+　　　　　　　　　　for(int i=0; i<20; i++){
+　　　　　　　　　　　　c =(char)(Math.random()*26+'A');
+　　　　　　　　　　　　　　　　　　　　　　　　　　//随机产生20个字符
+　　　　　　　　　　　　theStack.push(c); //把字符入栈
+　　　　　　　　　　　　System.out.println("Produced: "+c); //打印字符
+　　　　　　　　　　　　try{
+　　　　　　　　　　　　Thread.sleep((int)(Math.random()*1000));
+　　　　　　　　　　　　　　　　　　　　　/*每产生一个字符线程就睡眠*/
+　　　　　　　　　　　　}catch(InterruptedException e){}
+　　　　　　　　　　}
+　　　　　　　}
+　　　　　}
+　　　　　class Consumer implements Runnable{ //消费者类
+　　　　　　　　　SyncStack theStack;
+　　　　　　　　　　　　　　　　　　//消费者类获得的字符都来自同步堆栈
+　　　　　　　　　public Consumer(SyncStack s){
+　　　　　　　　　　　　　theStack = s;
+　　　　　　　　　}
+　　　　　　　　　public void run(){
+　　　　　　　　　　　　　char c;
+　　　　　　　　　　　　　for(int i=0;i<20;i++){
+　　　　　　　　　　　　　　　c = theStack.pop(); //从堆栈中读取字符
+　　　　　　　　　　　　　System.out.println("Consumed: "+c);
+　　　　　　　　　　　　　　　　　　　　　　　　　　　　　//打印字符
+　　　　　　　　　　　　　try{
+　　　　　　　　　　　　　Thread.sleep((int)(Math.random()*1000));
+　　　　　　　　　　　　　　　　　　　　/*每读取一个字符线程就睡眠*/
+　　　　　　　　　　　　　}catch(InterruptedException e){}
+　　　　　　　　　}
+　　　　　　　}
+　　　　　}
+　　　　　public class SyncTest{
+　　　　　　　public static void main(String args[]){
+　　　　　　　　　SyncStack stack = new SyncStack();
+　　　//下面的消费者类对象和生产者类对象所操作的是同一个同步堆栈对象
+　　　　　　　　　Runnable source=new Producer(stack);
+　　　　　　　　　Runnable sink = new Consumer(stack);
+　　　　　　　　　Thread t1 = new Thread(source); //线程实例化
+　　　　　　　　　Thread t2 = new Thread(sink); //线程实例化
+　　　　　　　　　t1.start(); //线程启动
+　　　　　　　　　t2.start(); //线程启动
+　　　　　　　}
+　　　　　}
+　　类Producer是生产者模型，其中的 run()方法中定义了生产者线程所做的操作，循环调用push()方法,将生产的20个字母送入堆栈中，每次执行完push操作后，调用sleep()方法睡眠一段随机时间，以给其他线程执行的机会。类Consumer是消费者模型，循环调用pop()方法,从堆栈中取出一个数据，一共取20次，每次执行完pop操作后，调用sleep()方法睡眠一段随机时间，以给其他线程执行的机会。
+　　程序执行结果
+　　　　　　　　Produced:V
+　　　　　　　　Consumed:V
+　　　　　　　　Produced:E
+　　　　　　　　Consumed:E
+　　　　　　　　Produced:P
+　　　　　　　　Produced:L
+　　　　　　　　...
+　　　　　　　　Consumed:L
+　　　　　　　　Consumed:P
+　　在上述的例子中，通过运用wait()和notify()方法来实现线程的同步，在同步中还会用到notifyAll()方法，一般来说，每个共享对象的互斥锁存在两个队列，一个是锁等待队列，另一个是锁申请队列，锁申请队列中的第一个线程可以对该共享对象进行操作，而锁等待队列中的线程在某些情况下将移入到锁申请队列。下面比较一下wait()、notify()和notifyAll()方法：
+　　(1) wait,nofity,notifyAll必须在已经持有锁的情况下执行,所以它们只能出现在synchronized作用的范围内，也就是出现在用　　 　　　　synchronized修饰的方法或类中。
+　　(2) wait的作用:释放已持有的锁,进入等待队列.
+　　
+　　(3) notify的作用:唤醒wait队列中的第一个线程并把它移入锁申请队列.
+　　(4) notifyAll的作用:唤醒wait队列中的所有的线程并把它们移入锁申请队列.
+　　注意：
+　　1） suspend()和resume()
+　　　　在JDK1.2中不再使用suspend()和resume(),其相应功能由wait()和notify()来实现。
+　　2) stop()
+　　　 在JDK1.2中不再使用stop(),而是通过标志位来使程序正常执行完毕。例6.6就是一个典型的例子。
+　例6．6
+　　　public class Xyz implements Runnable {
+　　　　　　private boolean timeToQuit=false; //标志位初始值为假
+　　　　　　public void run() {
+　　　　　　　　　while(!timeToQuit) {//只要标志位为假，线程继续运行
+　　　　　　　　　　　　　…
+　　　　　　　　　}
+　　　　　　}
+　　　public void stopRunning() {
+　　　　　　　　　timeToQuit=true;} //标志位设为真，表示程序正常结束
+　　　　　　}
+　　　public class ControlThread {
+　　　　　　private Runnable r=new Xyz();
+　　　　　　private Thread t=new Thread(r);
+　　　　　　public void startThread() {
+　　　　　　　　　t.start();
+　　　　　　}
+　　　　　　public void stopThread() {
+　　　　　　　　　r.stopRunning(); }
+　　　　　　　　　　　　　　　//通过调用stopRunning方法来终止线程运行
+　　　　　　}
+6.3 Java Applet
+　　前面的章节我们阐述了Application的应用,这一讲我们将介绍java的另一类应用java Applet,即java小应用程序。
+　　在Java问世的头几年里，之所以如此热门,其根本原因还是在于Java具有"让Internet动起来"的能力。具体地说，就是Java能创建一种特殊类型的程序（通常称作"小应用程序"或者Applet），具备Java能力的Web浏览器可从网上下载这种程序，然后运行。
+　　目前，几乎所有浏览器均支持动态HTML（DHTML）和脚本编制（支持XML的浏览器也有很多），所以比起Java刚刚问世的时候，浏览器能够做的事情要多得多。但尽管如此，由于小应用程序是用一种全功能的程序设计语言编制的，所以同HTML、XML和脚本语言的任何一种可能的组合相比，它仍然具有应用前景！
+6.3.1 Applet 介绍(1)
+　　Applet就是使用Java语言编写的一段代码，它可以在浏览器环境中运行。它与Application的区别主要在于其执行方式的不同。application 是从其中的main() 方法开始运行的，而Applet 是在浏览器中运行的，必须创建一个HTML 文件，通过编写HTML 语言代码告诉浏览器载入何种Applet 以及如何运行。
+例6．7 HelloWorld.java 源程序：
+　　import java.awt.Graphics; //引入图形类Graphics
+　　import java.applet.Applet; //引入Applet类
+　　public class HelloWorld extends Applet {
+　　　　　　String hw_text ;
+　　　　　　public void init () { //init()方法是Applet首先执行的方法
+　　　　　　hw_text = "Hello World";
+　　　　　　}
+　　　　　　public void paint(Graphics g) {
+　　　　　　g.drawString (hw_text , 25, 25) ;
+　　　　　　　　　//在坐标为（25，25）的地方显示字符串hw_text
+　　　　　　}
+　　}
+　　Applet程序编写完后，首先要用java编译器编译成为字节码文件，然后编写相应的HTML文件才能够正常执行，例如为运行上面的Applet程序所编写的HTML文件HelloWorld.html如下:
+　　<HTML>
+　　<APPLET CODE="HelloWorld.class" WIDTH=200 HEIGHT=100
+　　</APPLET>
+　　</HTML>
+6.3.1 Applet 介绍(2)
+　　2．Applet的 安全性
+　　"沙箱"机制：Java虚拟机为Applet提供能够良好运行的沙箱，一旦它们试图离开沙箱则会被禁止。
+　　由于小应用程序是通过网络传递的，这就不可避免地使人想到会发生安全问题。例如有人编写恶意程序通过小应用程序读取用户密码并散播到网络上，这将会是一件非常可怕的事情。所以，必须对小应用程序进行限制。
+　　浏览器禁止Applet执行下列操作:
+　　(1)在运行时调用其它程序。
+　　(2)文件读写操作。
+　　(3)装载动态连接库和调用任何本地方法。
+　　(4)试图打开一个socket进行网络通信,但是所连接的主机并不是提供Applet的主机。
+　◇ Applet的类层次：
+
+　◇ Applet的生命周期
+　　小应用程序的生命周期相对于Application而言较为复杂。在其生命周期中涉及到Applet类的四个方法（也被JApplet类继承）：init()、start()、stop()和destroy()。下面首先用图来表示一个小应用程序的生命周期，然后再简要描述这四个方法。   看图
+　　Applet的生命周期中有四个状态：初始态、运行态、停止态和消亡态。当程序执行完init()方法以后，Applet程序就进入了初始态；然后马上执行start()方法，Applet程序进入运行态；当Applet程序所在的浏览器图标化或者是转入其它页面时，该Applet程序马上执行stop()方法，Applet程序进入停止态；在停止态中，如果浏览器又重新装载该Applet程序所在的页面，或者是浏览器从图标中复原，则Applet程序马上调用start()方法，进入运行态；当然，在停止态时，如果浏览器关闭，则Applet程序调用destroy()方法，进入消亡态。
+　◇ Applet的主要方法：
+　　1． init( )
+　　创建Applet时执行,只执行一次
+　　当小应用程序第一次被支持Java的浏览器加载时，便执行该方法。在小应用程序的生命周期中，只执行一次该方法，因此可以在其中进行一些只执行一次的初始化操作，如处理由浏览器传递进来的参数、添加用户接口组件、加载图像和声音文件等。
+小应用程序有默认的构造方法，但它习惯于在init()方法中执行所有的初始化，而不是在默认的构造方法内。
+　　2．start( )
+　　多次执行,当浏览器从图标恢复成窗口,或者是返回该主页时执行。
+　　系统在调用完init()方法之后，将自动调用start()方法。而且每当浏览器从图标恢复为窗口时，或者用户离开包含该小应用程序的主页后又再返回时，系统都会再执行一遍start()方法。start()方法在小应用程序的生命周期中被调用多次，以启动小应用程序的执行，这一点与init()方法不同。该方法是小应用程序的主体，在其中可以执行一些需要重复执行的任务或者重新激活一个线程，例如开始动画或播放声音等。
+　　3．stop( )
+　　多次执行,当浏览器变成图标时,或者是离开主页时执行，主要功能是停止一些耗用系统资源的工作,。
+　　与start()相反，当用户离开小应用程序所在页面或浏览器变成图标时，会自动调用stop()方法。因此，该方法在生命周期中也被多次调用。这样使得可以在用户并不注意小应用程序的时候，停止一些耗用系统资源的工作（如中断一个线程），以免影响系统的运行速度，且并不需要去人为地去调用该方法。如果你的小应用程序中不包含动画、声音等程序，通常也不必重载该方法。
+　　4．destroy( )
+　　用来释放资源，在stop( )之后执行
+　　浏览器正常关闭时，Java自动调用这个方法。destroy()方法用于回收任何一个与系统无关的内存资源。当然，如果这个小应用程序仍然处于活动状态，Java会在调用destroy()之前，调用stop()方法。
+　　下面的例子使用了小应用程序生命周期中的这几个方法。
+　例6．8
+　　import java.awt.Graphics;
+　　import java.applet.Applet;
+　　public class HWloop extends Applet {
+　　　　　AudioClip sound; //声音片断对象
+　　　　　public void init( ){
+　　　　　　　　sound=getAudioClip("audio/hello.au"); //获得声音片断
+　　　　　}
+　　　　　public void paint(Graphics g) {
+　　　　　　　　g.drawString("hello Audio",25,25); //显示字符串
+　　　　　}
+　　public void start( )
+　　　　　{
+　　　　　　　　sound.loop( ); //声音片断开始播放
+　　　　　}
+　　public void stop( )
+　　　　　{
+　　　　　　　　sound.stop( ); //声音片断停止
+　　　　　　　　}
+　　}
+　　在本例子中，Applet开始执行后就不停的播放声音，如果浏览器图标化或者是转到其它页面，则声音停止播放；如果浏览器恢复正常或者是从其它页面跳回，则程序继续播放声音。
+　　由于Applet程序要嵌入到HTML文件中才能够正常执行，下面介绍与Applet程序有关的HTML文件标记。
+　　<applet>
+　　[archive=archiveList] //同一个codebase中需预先下载的文件
+　　code=appletFile.class //applet的名称
+　　width=pixels height=pixels //applet的初始显示空间
+　　[codebase=codebaseURL] //代码的地址
+　　[alt=alternateText] //如果浏览器不支持applet时，显示的替代文本
+　　[name=appletInstanceName]
+　　　　　　　　　　　//给该applet取名，用于同页面applet之间的通信
+　　[align=alignment] //对齐方式，如left,right,top,baseline...
+　　[vspace=pixels] [hspace=pixels] //预留的边缘空白
+　　>
+　　[<param name=appletAttribute1 value=value>]
+　　[<param name=appletAttribute2 value=value>]
+　　…… //参数名称及其值
+　　[alternateHTML]
+　　</applet>
+注意：
+　　1）不支持Java的浏览器会把<applet></applet>之间的普通HTML文档显示出来；支持Java的浏览器，则把其中的普通HTML文档忽略。
+　　2）AppletViewer仅支持<applet> </applet>标记，其它标记不会被显示出来。
+　　经过精心设计，可以使java程序同时是Applet与Application，如下例所示：
+　例6．9
+　　　import java.awt.*;
+　　　import java.awt.event.*;
+　　　public class AppletApp extends Applet {
+　　　　　　public void main(String args[]) {
+　　　　　　　　Frame frame=new Frame("Application"); //构造一个Frame
+　　　　　　　　AppletApp app=new AppletApp();
+　　　　　　　　frame.add("Center",app);
+　　　　　　　　frame.setSize(200,200); //改变Frame的尺寸
+　　　frame.validate();
+　　　frame.setVisible(true); //使Frame可见
+　　　frame.addWindwoListener(new WindowControl(app));
+　　　　　　　　　　　　　　　　　　　　//给Frame加入监听器
+　　　app.init(); //初始化Applet
+　　　app.start(); //运行该Applet
+　　　}
+　　　　　　public void paint(Graphics g) { //重画方法
+　　　　　　　　g.drawString("hello world",25,25);
+　　　　　　}
+　　　　　　public void destroy(){
+　　　　　　　　System.exit(0);
+　　　　　　}
+　　　}
+　　　class WindowControl extends WindowAdapter { //监听器类
+　　　　　　Applet c;
+　　　　　　public WindowControl(Applet c) { //构造函数
+　　　　　　　　this.c=c;
+　　　　　　}
+　　　　　　public void windowClosing(WindowEvent e) {
+　　　　　　　　　　　　　　　　　　　//关闭窗口时调用的方法
+　　　　　　　　c.destroy( );
+　　　　　　}
+　　　}
+6.3.2 Applet的AWT绘制
+  看图  
+　　Applet程序中所采用的AWT的绘图机制主要涉及三个方法：paint()方法、update()方法和repaint()方法，update()方法和paint()方法都有一个Graphics类参数。Graphics是画图的关键，它可以支持两种绘图：一种是基本的绘图，如：画线、矩形、圆等；另一种是画图象，主要用于动画制作。
+　　要进行绘图，首先要找到一个Graphics类的对象。update()方法和paint()方法所传递的参数都是Graphics类的对象，因此主要是通过重载它们来进行绘图，这是在动画程序中经常使用的方法。我们还可以通过getGraphics()方法得到一个Graphics类的对象，这个对象和update()方法和paint()方法中所传递的对象一样，都是该成员所对应的Graphics类的对象。得到了Graphics类的对象，就可使用各种绘图方法。
+　　Graphics中提供的图形绘制方法有：
+　　paint( ) //进行绘图的具体操作，必须有程序员重写
+　　update( ) //用于更新图形，先清除背景、前景，再调用paint()
+　　repaint( ) /*用于重绘图形，在组件外形发生变化，即大小改变或位置移动时，repaint( )方法立即被系统自动调用，而实际上repaint()方法是自动调用update()方法*/
+　　下面的方法支持基本的绘图和画图像：
+　　void drawLine( )
+　　void drawArc( )
+　　void drawPolygon( )
+　　void drawRect( )
+　　void drawRoundRect( )
+　　void fill3DRect( )
+　　void fillOval( )
+　　java.awt.Graphics类
+　　
+输出文字：
+　　void drawBytes( )
+　　void drawChars( )
+　　void drawString( )
+　　Applet 的AWT绘制举例如下：
+　　
+ 例6．10
+　　import java.awt.*;
+　　import java.awt.event.*;
+　　import java.applet.*;
+　　public class ArcTest extends Applet implements WindowListener {
+　　　　　ArcControls controls;
+　　　　　pulic void init(){ //Applet的入口方法
+　　　　　　　setLayout(new BorderLayout());
+　　　　　　　ArcCanvas c=new ArcCanvas();
+　　
+　　　　　Add("Center",c);
+　　　　　add("South",controls=new ArcControls(C));
+　　}
+　　public void start(){
+　　　　　controls.setEnabled(true); //激活controls
+　　}
+　　public void stop(){
+　　　　　controls.setEnabled(false);
+　　}
+　　public void windowActivated(WindowEvent e){ }
+　　　　　　　　　　　　//重写WindowListener的方法
+　　public void windowClosed(WindowEvent e){ }
+　　　　　　　　　　　　//重写WindowListener的方法
+　　public void windowClosing(WindowEvent e){
+　　　　　　　　　　　　//重写WindowListener的方法
+　　　　　System.exit(0); }
+　　public void windowDeactivated(WindowEvent e){}
+　　　　　　　　　　　　//重写WindowListener的方法
+　　public void windowDeiconified(WindowEvent e){}
+　　　　　　　　　　　　//重写WindowListener的方法
+　　public void windowIconified(WindowEvent e){ }
+　　　　　　　　　　　　//重写WindowListener的方法
+　　public void windowOpend(WindowEvent e){ }
+　　　　　　　　　　　　//重写WindowListener的方法
+　　public static void main(String args[]) {
+　　　　　Frame f=new Frame("ArcTest"); //构造Frame
+　　　　　ArcTest arcTest=new ArcTest(); //构造arcTest
+　　　　　atcTest.init();
+　　　　　arcTest.start();
+　　　　　f.add("Center",arcTest);
+　　　　　f.setSize(300,300);
+　　　　　f.show();
+　　　　　f.addWindowListener(arcTest);
+　　　　　}
+　　}
+　　class ArcCanvas extends Canvas{ //类ArcCanvas
+　　　　　int startAngle=0;
+　　　　　int endAngle=45;
+　　　　　boolean filled=false;
+　　　　　Font font;
+　　　　　public void paint(Graphics g){
+　　　　　　　　//paint方法，该方法的作用是在Canvas上画图
+　　　　　　Rectangle r=getBounds();
+　　　　　　int hlines=r.height/10;
+　　　　　　int vlines=r.width/10;
+　　　　　　g.setColor(Color.pink);
+　　for(int i=1;i<=hlines;i++) {
+　　　　　　g.drawLine(0,i*10,r.width,i*10);
+　　　　　　}
+　　for(int i=1;i<=vlines;i++) {
+　　　　　　g.drawLine(i*10,0,i*10,r.height);
+　　　　　　}
+　　g.setColor(Color.red);
+　　if(filled) {
+　　　　　　g.fillArc(0,0,r.width-1,r.height-1,startAngle,endAngle); }
+　　　　　　else { g.drawArc(0,0,r.width-1,r.height-1,startAngle, endAngle);
+　　}
+　　g.setColor(Color.black);
+　　g.setFont(font);
+　　g.drawLine(0,r.height/2,r.width,r.height/2);
+　　g.drawLine(r.width/2,0,r.width/2,r.height);
+　　g.drawLine(0,,0,r.width,r.height);
+　　g.drawLine(r.width,0,0,r.height);
+　　int sx=10;
+　　int sy=r.height-28;
+　　g.drawString("S="+startAngle,sx,sy);
+　　g.drawString("E="+ednAngle,sx,sy+14);
+　　}
+　　public void redraw(boolean filled,int start,int end){ //重画方法
+　　　　　　　　this.filled=filled;
+　　　　　　　　this.startAngle=start;
+　　　　　　　　this.endAngle=end;
+　　　　　　　　repaint();
+　　　　　　　　//通过调用repaint()方法，从而最终调用paint方法完成重画
+　　　　　　　　}
+　　}
+　　class ArcControls extends Panel implements ActionListener { //ArcControls类
+　　　　　　　　TextFiled s;
+　　　　　　　　TextFiled e;
+　　　　　　　　ArcCanvas canvas;
+　　public ArcControls(ArcCanvas canvas) {
+　　　　　　　　Button b=null;
+　　　　　　　　this.canvas=canvas;
+　　　　　　　　add(s=new TextField("0",4));
+　　　　　　　　add(e=new TextField("45",4));
+　　　　　　　　b=new Button("Fill");
+　　　　　　　　b.addActionListener(this);
+　　　　　　　　add(b);
+　　　　　　　　b=new Button("Draw");
+　　　　　　　　b.addActionListener(this);
+　　　　　　　　add(b);
+　　}
+　　public void actionPerformed(ActionEvent ev) {
+　　　　　　　　　　//实现接口ActionListener的方法
+　　　　　String label=ev.getActionCommand();
+　　　　　canvas.redraw(label.equals("Fill"),
+　　　　　Integer.parseInt(s.getText(),trim()),
+　　　　　Integer.parserInt(e.getText().trim());
+　　　　　}
+　　}
+6．3．3 Applet和浏览器间的通信
+　　在Applet类中提供了许多方法，使之可以与浏览器进行通信。下面对这些方法进行简要的介绍：
+一个Web页可包含一个以上的小应用程序。一个Web页中的多个小应用程序可以直接通过java.applet包中提供的方法进行通信。
+　　getDocumentBase( ) //返回当前网页所在的URL
+　　getCodeBase( ) //返回当前applet所在的URL
+　　getImage(URL base,String target) //返回网址URL中名为target的图像
+　　getAudioClip(URL base,String target)
+　　　　　　　　　　　　　　　　　//返回网址URL中名为target的声音对象
+　　getParameter(String target ) //提取HTML文件中名为target的参数的值
+　　同页Applet间的通信
+　　在java.applet.Applet类中提供了如下方法得到当前运行页的环境上下文AppletContext对象。
+　　public AppletContext getAppletContext();
+　　通过AppletContext对象，可以得到当前小应用程序运行环境的信息。AppletContext是一个接口，其中定义了一些方法可以得到当前页的其它小应用程序，进而实现同页小应用程序之间的通信。
+　　（1）得到当前运行页的环境上下文AppletContext对象
+　　　　　public AppletContext getAppletContext();
+　　（2）取得名为name的Applet对象
+　　　　　public abstract Applet getApplet(String name);
+　　（3）得到当前页中所有Applet对象
+　　　　　public abstract Enumeration getApplets();
+ 例6．11
+　　　import java.applet.*;
+　　　import java.awt.*;
+　　　import java.awt.event.*;
+　　　import java.util.Enumeration;
+　　　public class GetApplets extends Applet implemements ActionListener {
+　　　　　private TextArea textArea; //声明一个TextArea
+　　　　　private String newline;
+　　　　　public void init() {
+　　　　　　　Button b=new Button("Click to call getApplets()");
+　　　　　　　b.addActionListener(this);
+　　　　　　　setLayout(new BorderLayout());
+　　　　　add("North",b);
+　　　　　textArea=new TextAred(5,40);
+　　　　　textArea.setEditable(false);
+　　　　　add("Center",textArea);
+　　　　　newline=System.getProperty("line,separator");
+　　　　　　　　　　　　　　　//取得系统当前的换行符
+　　　}
+　　　　　public void actionPerformed(ActionEvent event) {
+　　　　　　　　　　　　　　/*Button b点击后的事件处理函数*/
+　　　　　　　printApplets();
+　　　　　}
+　　　　　public String getAppletInfo() {
+　　　　　　　return "GetApplets by Dong.li";
+　　　}
+
+　　　public void printApplets()}
+　　　　　　　Enumeration e=getAppletContext().getApplets();
+　　　　　　　　　　　　　/*得到当前网页所有的Applet对象*/
+　　　　　　　textArea.append("Results of getApplets():" + newline);
+　　　　　　　while(e.hasMoreElements()) {
+　　　　　　　　　Applet applet=(Applet) e.nextElement();
+　　　　　　　　　String info=((Applet)applet).getAppletInfo();
+　　　　　　　　　　　　/*逐个取得当前网页Applet对象的信息*/
+　　　　　　　　　if (info!=null) {
+　　　　　　　　　　　textArea.append("-"+info+newline);
+　　　　　　　　　　　　/*在textArea中输出网页所有Applet的信息*/
+　　　　　　　　　} else {
+　　　　　　　　　　　textArea.append("-"+applet.getClass().getName()+newline) ;
+　　　　　　　　　}
+　　　　　　　　　}
+　　　　　　　　　　　textArea.append("__________"+newline+newline);
+　　　　　　　}
+　　　}
+【本讲小结】
+　　本讲介绍了Java的线程和Java Applet的一些基本知识和简单应用，通过对线程简介，阐明了线程与进程的区别，通过描述线程的概念模型的基本原理以及线程体的构造方法和应用实例，讲解了线程的基本特性和线程的不同状态的转换关系和调用方法，明确了线程的使用方法，然后，我们又进一步讲述了线程的几种调度策略，在不同的调度策略下优先级的作用。以及如何进行基本的线程的控制，线程的重点和难点在于多线程的互斥与同步，首先我们必须明白互斥锁的概念和作用，如何使用互斥锁来控制和处理多线程的同步问题。
+　　本讲的后半部分我们对Java Applet做了介绍和一些基本的应用的讲解，例如Applet的创建，生命周期和Applet的主要方法以及Applet的AWT绘制，最后简单介绍了Applet和浏览器间的通信的方法。

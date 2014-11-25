@@ -1,0 +1,127 @@
+本教程展示 C# 类如何声明索引器以提供对类的类似数组的访问。
+示例文件
+请参见“索引器”示例以下载和生成本教程中讨论的示例文件。
+教程
+定义“索引器”使您可以创建作为“虚拟数组”的类。该类的实例可以使用 [] 数组访问运算符进行访问。在 C# 中定义索引器类似于在 C++ 中定义运算符 []，但前者灵活得多。对于封装类似数组的功能或类似集合的功能的类，使用索引器使该类的用户可以使用数组语法访问该类。
+例如，假定您想定义一个类，该类使文件显示为字节数组。如果文件非常大，则将整个文件读入内存是不切实际的，尤其在您只想读取或更改少数字节时。通过定义 FileByteArray 类，您可使文件外观类似于字节数组，但读或写字节时，实际执行的是文件的输入和输出。
+除下面的示例以外，本教程中还讨论有关“创建索引属性”的高级主题。
+示例
+本示例中，FileByteArray 类使得像字节数组那样访问文件成为可能。Reverse 类反转文件的字节。可以运行该程序以反转任何文本文件的字节，包括程序源文件本身。若要将反转的文件更改回正常状态，请在同一文件上再次运行该程序。
+// indexer.cs
+// arguments: indexer.txt
+using System;
+using System.IO;
+// Class to provide access to a large file
+// as if it were a byte array.
+public class FileByteArray
+{
+    Stream stream;      // Holds the underlying stream
+                        // used to access the file.
+// Create a new FileByteArray encapsulating a particular file.
+    public FileByteArray(string fileName)
+    {
+        stream = new FileStream(fileName, FileMode.Open);
+    }
+    // Close the stream. This should be the last thing done
+    // when you are finished.
+    public void Close()
+    {
+        stream.Close();
+        stream = null;
+    }
+    // Indexer to provide read/write access to the file.
+    public byte this[long index]   // long is a 64-bit integer
+    {
+        // Read one byte at offset index and return it.
+        get 
+        {
+            byte[] buffer = new byte[1];
+            stream.Seek(index, SeekOrigin.Begin);
+            stream.Read(buffer, 0, 1);
+            return buffer[0];
+        }
+        // Write one byte at offset index and return it.
+        set 
+        {
+            byte[] buffer = new byte[1] {value};
+            stream.Seek(index, SeekOrigin.Begin);
+            stream.Write(buffer, 0, 1);
+        }
+    }
+    // Get the total length of the file.
+    public long Length 
+    {
+        get 
+        {
+            return stream.Seek(0, SeekOrigin.End);
+        }
+    }
+}
+// Demonstrate the FileByteArray class.
+// Reverses the bytes in a file.
+public class Reverse 
+{
+    public static void Main(String[] args) 
+    {
+        // Check for arguments.
+        if (args.Length == 0)
+        {
+            Console.WriteLine("indexer <filename>");
+            return;
+        }
+        FileByteArray file = new FileByteArray(args[0]);
+        long len = file.Length;
+        // Swap bytes in the file to reverse it.
+        for (long i = 0; i < len / 2; ++i) 
+        {
+            byte t;
+            // Note that indexing the "file" variable invokes the
+            // indexer on the FileByteStream class, which reads
+            // and writes the bytes in the file.
+            t = file[i];
+            file[i] = file[len - i - 1];
+            file[len - i - 1] = t;
+        }
+        file.Close();
+    } 
+}
+输入：indexer.txt
+若要测试程序，可使用具有以下内容的文本文件（该文件在“索引器”示例中称为 Test.txt）。
+public class Hello1
+{
+   public static void Main()
+   {
+      System.Console.WriteLine("Hello, World!");
+   }
+}
+若要反转该文件的字节，请编译程序，然后使用下面的命令行：
+indexer indexer.txt
+若要显示反转的文件，请输入命令：
+Type indexer.txt
+示例输出
+}
+}
+;)"!dlroW ,olleH"(eniLetirW.elosnoC.metsyS
+{
+)(niaM diov citats cilbup
+{
+1olleH ssalc cilbup
+代码讨论
+    由于索引器是使用 [] 运算符进行访问的，因此没有名称。有关索引器声明语法，请参见索引器。
+    在上面的示例中，索引器类型是 byte，并采用 long（64 位整数）类型的单个索引。“获取”(Get) 访问器定义从文件读取一个字节的代码，而“设置”(Set) 访问器定义向文件写入一个字节的代码。在“设置”(Set) 访问器内，预定义的参数值为正赋给虚拟数组元素的值。
+    索引器必须至少有一个参数。尽管相当少见，但索引器可以有多个参数，以模拟多维“虚拟数组”。尽管整数参数最常见，但索引器参数可以为任何类型。例如，标准的“字典”(Dictionary) 类提供参数类型为 Object 的索引器。
+    尽管索引器功能强大，但有一点很重要，仅当类似数组的抽象化有意义时才使用索引器。始终应仔细考虑使用常规方法是否会同样清楚。例如，下面是使用索引器不当的例子：
+    class Employee
+    {
+        // VERY BAD STYLE: using an indexer to access
+        // the salary of an employee.
+        public double this[int year] 
+       {
+            get 
+            {
+                // return employee's salary for a given year.
+            }
+       }
+    }
+    尽管合法，但只有“获取”(Get) 访问器的索引器通常不是很好的结构。在此情况下，强烈建议考虑使用方法。
+    索引器可以重载（有关更多信息，请参见 10.8.1 索引器重载）。

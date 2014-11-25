@@ -1,0 +1,186 @@
+平台调用服务 (PInvoke) 允许托管代码调用在 DLL 中实现的非托管函数。
+本教程说明使用什么方法才能从 C# 调用非托管 DLL 函数。该教程所讨论的属性允许您调用这些函数并使数据类型得到正确封送。
+教程
+C# 代码有以下两种可以直接调用非托管代码的方法：
+    直接调用从 DLL 导出的函数。
+    调用 COM 对象上的接口方法（有关更多信息，请参见 COM Interop 第一部分：C# 客户端教程）。 
+对于这两种技术，都必须向 C# 编译器提供非托管函数的声明，并且还可能需要向 C# 编译器提供如何封送与非托管代码之间传递的参数和返回值的说明。
+该教程由下列主题组成：
+    直接从 C# 调用 DLL 导出
+    默认封送处理和为非托管方法的参数指定自定义封送处理
+    为用户定义的结构指定自定义封送处理
+    注册回调方法 
+该教程包括下列示例：
+    示例 1 使用 DllImport
+    示例 2 重写默认封送处理
+    示例 3 指定自定义封送处理 
+直接从 C# 调用 DLL 导出
+若要声明一个方法使其具有来自 DLL 导出的实现，请执行下列操作：
+    使用 C# 关键字 static 和 extern 声明方法。
+    将 DllImport 属性附加到该方法。DllImport 属性允许您指定包含该方法的 DLL 的名称。通常的做法是用与导出的方法相同的名称命名 C# 方法，但也可以对 C# 方法使用不同的名称。
+    还可以为方法的参数和返回值指定自定义封送处理信息，这将重写 .NET Framework 的默认封送处理。 
+示例 1
+本示例显示如何使用 DllImport 属性通过调用 msvcrt.dll 中的 puts 输出消息。
+// PInvokeTest.cs
+using System;
+using System.Runtime.InteropServices;
+class PlatformInvokeTest
+{
+    [DllImport("msvcrt.dll")]
+    public static extern int puts(string c);
+    [DllImport("msvcrt.dll")]
+    internal static extern int _flushall();
+    public static void Main() 
+    {
+        puts("Test");
+        _flushall();
+    }
+}
+输出
+Test
+代码讨论
+前面的示例显示了声明在非托管 DLL 中实现的 C# 方法的最低要求。PlatformInvokeTest.puts 方法用 static 和 extern 修饰符声明并且具有 DllImport 属性，该属性使用默认名称 puts 通知编译器此实现来自 msvcrt.dll。若要对 C# 方法使用不同的名称（如 putstring），则必须在 DllImport 属性中使用 EntryPoint 选项，如下所示：
+[DllImport("msvcrt.dll", EntryPoint="puts")]
+有关 DllImport 属性的语法的更多信息，请参见 DllImportAttribute 类。
+默认封送处理和为非托管方法的参数指定自定义封送处理
+当从 C# 代码中调用非托管函数时，公共语言运行库必须封送参数和返回值。
+对于每个 .NET Framework 类型均有一个默认非托管类型，公共语言运行库将使用此非托管类型在托管到非托管的函数调用中封送数据。例如，C# 字符串值的默认封送处理是封送为 LPTSTR（指向 TCHAR 字符缓冲区的指针）类型。可以在非托管函数的 C# 声明中使用 MarshalAs 属性重写默认封送处理。
+示例 2
+本示例使用 DllImport 属性输出一个字符串。它还显示如何通过使用 MarshalAs 属性重写函数参数的默认封送处理。
+// Marshal.cs
+using System;
+using System.Runtime.InteropServices;
+class PlatformInvokeTest
+{
+    [DllImport("msvcrt.dll")]
+    public static extern int puts(
+        [MarshalAs(UnmanagedType.LPStr)]
+        string m);
+    [DllImport("msvcrt.dll")]
+    internal static extern int _flushall();
+
+    public static void Main() 
+    {
+        puts("Hello World!");
+        _flushall();
+    }
+}
+输出
+运行此示例时，字符串
+Hello World!
+将显示在控制台上。
+代码讨论
+在前面的示例中，puts 函数的参数的默认封送处理已从默认值 LPTSTR 重写为 LPSTR。
+MarshalAs 属性可以放置在方法参数、方法返回值以及结构和类的字段上。若要设置方法返回值的封送处理，请将 MarshalAs 属性与返回属性位置重写一起放置在方法上的属性块中。例如，若要显式设置 puts 方法返回值的封送处理：
+...
+[DllImport("msvcrt.dll")] 
+[return : MarshalAs(UnmanagedType.I4)]
+public static extern int puts( 
+...
+有关 MarshalAs 属性的语法的更多信息，请参见 MarshalAsAttribute 类。
+    注意   In 和 Out 属性可用于批注非托管方法的参数。它们与 MIDL 源文件中的 in 和 out 修饰符的工作方式类似。请注意，Out 属性与 C# 参数修饰符 out 不同。有关 In 和 Out 属性的更多信息，请参见 InAttribute 类和 OutAttribute 类。
+为用户定义的结构指定自定义封送处理
+可以为传递到非托管函数或从非托管函数返回的结构和类的字段指定自定义封送处理属性。通过向结构或类的字段中添加 MarshalAs 属性可以做到这一点。还必须使用 StructLayout 属性设置结构的布局，还可以控制字符串成员的默认封送处理，并设置默认封装大小。
+示例 3
+本示例说明如何为结构指定自定义封送处理属性。
+请考虑下面的 C 结构：
+typedef struct tagLOGFONT 
+{ 
+   LONG lfHeight; 
+   LONG lfWidth; 
+   LONG lfEscapement; 
+   LONG lfOrientation; 
+   LONG lfWeight; 
+   BYTE lfItalic; 
+   BYTE lfUnderline; 
+   BYTE lfStrikeOut; 
+   BYTE lfCharSet; 
+   BYTE lfOutPrecision; 
+   BYTE lfClipPrecision; 
+   BYTE lfQuality; 
+   BYTE lfPitchAndFamily; 
+   TCHAR lfFaceName[LF_FACESIZE]; 
+} LOGFONT; 
+在 C# 中，可以使用 StructLayout 和 MarshalAs 属性描述前面的结构，如下所示：
+// logfont.cs
+// compile with: /target:module
+using System;
+using System.Runtime.InteropServices;
+[StructLayout(LayoutKind.Sequential)]
+public class LOGFONT 
+{ 
+    public const int LF_FACESIZE = 32;
+    public int lfHeight; 
+    public int lfWidth; 
+    public int lfEscapement; 
+    public int lfOrientation; 
+    public int lfWeight; 
+    public byte lfItalic; 
+    public byte lfUnderline; 
+    public byte lfStrikeOut; 
+    public byte lfCharSet; 
+    public byte lfOutPrecision; 
+    public byte lfClipPrecision; 
+    public byte lfQuality; 
+    public byte lfPitchAndFamily;
+    [MarshalAs(UnmanagedType.ByValTStr, SizeConst=LF_FACESIZE)]
+    public string lfFaceName; 
+}
+有关 StructLayout 属性的语法的更多信息，请参见 StructLayoutAttribute 类。
+然后即可将该结构用在 C# 代码中，如下所示：
+// pinvoke.cs
+// compile with: /addmodule:logfont.netmodule
+using System;
+using System.Runtime.InteropServices;
+ 
+class PlatformInvokeTest
+{   
+      [DllImport("gdi32.dll", CharSet=CharSet.Auto)]
+      public static extern IntPtr CreateFontIndirect(
+            [In, MarshalAs(UnmanagedType.LPStruct)]
+            LOGFONT lplf   // characteristics
+            );
+ 
+      [DllImport("gdi32.dll")]
+      public static extern bool DeleteObject(
+            IntPtr handle
+            );
+ 
+      public static void Main() 
+      {
+            LOGFONT lf = new LOGFONT();
+            lf.lfHeight = 9;
+            lf.lfFaceName = "Arial";
+            IntPtr handle = CreateFontIndirect(lf);
+ 
+            if (IntPtr.Zero == handle)
+            {
+                  Console.WriteLine("Can't creates a logical font.");
+            }
+            else
+            {
+                  
+                  if (IntPtr.Size == 4)
+                        Console.WriteLine("{0:X}", handle.ToInt32());
+                  else
+                        Console.WriteLine("{0:X}", handle.ToInt64());         
+                  // Delete the logical font created.
+                  if (!DeleteObject(handle))
+                       Console.WriteLine("Can't delete the logical font");
+            }
+      }
+}
+运行示例
+C30A0AE5
+代码讨论
+在前面的示例中，CreateFontIndirect 方法使用了一个 LOGFONT 类型的参数。MarshalAs 和 In 属性用于限定此参数。程序将由此方法返回的数值显示为十六进制大写字符串。
+注册回调方法
+若要注册调用非托管函数的托管回调，请用相同的参数列表声明一个委托并通过 PInvoke 传递它的一个实例。在非托管端，它将显示为一个函数指针。有关 PInvoke 和回调的更多信息，请参见平台调用详解。
+例如，考虑以下非托管函数 MyFunction，此函数要求 callback 作为其参数之一：
+typedef void (__stdcall *PFN_MYCALLBACK)();
+int __stdcall MyFunction(PFN_ MYCALLBACK callback);
+若要从托管代码调用 MyFunction，请声明该委托，将 DllImport 附加到函数声明，并根据需要封送任何参数或返回值：
+public delegate void MyCallback();
+[DllImport("MYDLL.DLL")]
+public static extern void MyFunction(MyCallback callback);
+同时，请确保委托实例的生存期覆盖非托管代码的生存期；否则，委托在经过垃圾回收后将不再可用。

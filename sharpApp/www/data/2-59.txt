@@ -1,0 +1,20 @@
+Button 对象
+Button 对象代表一个按钮。
+在 HTML 文档中 <button> 标签每出现一次，Button 对象就会被创建。
+IE: Internet Explorer, F: Firefox, O: Opera, W3C: W3C 标准.
+Button 对象的属性
+属性 	描述 	IE 	F 	O 	W3C
+accessKey 	设置或返回访问某个按钮的快捷键。 	6 	1 	9 	Yes
+disabled 	设置或返回是否禁用按钮。 	6 	1 	9 	Yes
+form 	返回对包含按钮的表单的引用。 	6 	1 	9 	Yes
+id 	设置或返回按钮的 id。 	6 	1 	9 	Yes
+name 	设置或返回按钮的名称。 	6 	1 	9 	Yes
+tabIndex 	设置或返回按钮的 Tab 键控制次序。 	6 	1 	9 	Yes
+type 	返回按钮的表单类型。 	6 	1 	9 	Yes
+value 	设置或返回显示在按钮上的文本。 	6 	1 	9 	Yes
+标准属性
+属性 	描述 	IE 	F 	O 	W3C
+className 	设置或返回元素的 class 属性。 	5 	1 	9 	Yes
+dir 	设置或返回文本的方向。 	5 	1 	9 	Yes
+lang 	设置或返回元素的语言代码。 	5 	1 	9 	Yes
+title 	设置或返回元素的 title 属性。 	5 	1 	9 	Yes

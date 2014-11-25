@@ -1,0 +1,72 @@
+本教程使用 override 和 new 关键字来演示 C# 中的版本控制。版本控制在基类和派生类衍生时维护它们之间的兼容性。
+教程
+C# 语言被设计为不同库中的基类和派生类之间的版本控制可以衍生，并保持向后兼容。例如，这意味着在基类中引入与派生类中的某个成员名称相同的新成员不是错误。它还意味着类必须显式声明某方法是要重写一个继承方法，还是一个仅隐藏具有类似名称的继承方法的新方法。
+在 C# 中，默认情况下方法不是虚拟的。若要使方法成为虚拟方法，必须在基类的方法声明中使用 virtual 修饰符。然后，派生类可以使用 override 关键字重写基虚拟方法，或使用 new 关键字隐藏基类中的虚拟方法。如果 override 关键字和 new 关键字均未指定，编译器将发出警告，并且派生类中的方法将隐藏基类中的方法。下面的示例在实际操作中展示这些概念。
+示例
+// versioning.cs
+// CS0114 expected
+public class MyBase 
+{
+   public virtual string Meth1() 
+   {
+      return "MyBase-Meth1";
+   }
+   public virtual string Meth2() 
+   {
+      return "MyBase-Meth2";
+   }
+   public virtual string Meth3() 
+   {
+      return "MyBase-Meth3";
+   }
+}
+class MyDerived : MyBase 
+{
+   // Overrides the virtual method Meth1 using the override keyword:
+   public override string Meth1() 
+   {
+      return "MyDerived-Meth1";
+   }
+   // Explicitly hide the virtual method Meth2 using the new
+   // keyword:
+   public new string Meth2() 
+   {
+      return "MyDerived-Meth2";
+   }
+   // Because no keyword is specified in the following declaration
+   // a warning will be issued to alert the programmer that 
+   // the method hides the inherited member MyBase.Meth3():
+   public string Meth3() 
+   {
+      return "MyDerived-Meth3";
+   }
+   public static void Main() 
+   {
+      MyDerived mD = new MyDerived();
+      MyBase mB = (MyBase) mD;
+      System.Console.WriteLine(mB.Meth1());
+      System.Console.WriteLine(mB.Meth2());
+      System.Console.WriteLine(mB.Meth3());
+   }
+}
+输出
+MyDerived-Meth1
+MyBase-Meth2
+MyBase-Meth3
+代码讨论
+从派生类隐藏基类成员在 C# 中不是错误。该功能使您可以在基类中进行更改，而不会破坏继承该基类的其他库。例如，某个时候可能有以下类：
+class Base {}
+class Derived: Base
+{
+   public void F() {}
+}
+稍后基类可能演变为添加了一个 void 方法 F()，如下所示：
+class Base 
+{
+   public void F() {}
+}
+class Derived: Base
+{
+   public void F() {}
+}
+因此，在 C# 中，基类和派生类都可以自由演变，并能够维持二进制兼容性。

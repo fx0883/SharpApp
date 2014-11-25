@@ -1,0 +1,77 @@
+手动内存管理要求开发人员管理内存块的分配和回收。手动内存管理可能既耗时又麻烦。在 C# 中提供了自动内存管理，使开发人员从这个繁重的任务中解脱出来。在绝大多数情况下，自动内存管理可以提高代码质量和开发人员的工作效率，并且不会对表达能力或性能造成负面影响。
+示例
+using System;
+public class Stack
+{
+   private Node first = null;
+   public bool Empty {
+      get {
+         return (first == null);
+      }
+   }
+   public object Pop() {
+      if (first == null) 
+         throw new Exception("Can't Pop from an empty Stack.");
+      else {
+         object temp = first.Value;
+         first = first.Next;
+         return temp;
+      }
+   }
+   public void Push(object o) {
+      first = new Node(o, first);
+   }
+   private class Node
+   {
+      public Node Next;
+      public object Value;
+      public Node(object value): this(value, null) {}
+      public Node(object value, Node next) {
+         Next = next;
+         Value = value;
+      }
+   }
+}
+显示了一个 Stack 类，它实际上是 Node 实例的一个链接表。Node 实例是在 Push 方法中创建的，当不再需要它们时会对其进行垃圾回收。当任何代码都不再可能访问某个 Node 实例时，该实例就成为垃圾回收的对象。例如，当从 Stack 中移除某项时，相关的 Node 实例就符合了垃圾回收条件，等待被回收。
+示例
+class Test
+{
+   static void Main() {
+      Stack s = new Stack();
+      for (int i = 0; i < 10; i++)
+         s.Push(i);
+      s = null;
+   }
+}
+显示了使用 Stack 类的代码。该代码创建了一个 Stack 类，并用 10 个元素初始化该类，然后给它赋值 null。给变量 s 赋了 null 值后，Stack 及关联的 10 个 Node 实例变得符合垃圾回收条件。垃圾回收器可以立即清除上述实例，但并没要求它一定做到立即清除。
+为 C# 服务的基础垃圾回收器可以通过在内存中移动对象来工作，而这种移动对于大多数 C# 开发人员是不可见的。对于那些通常满足于自动内存管理、但有时又需要精确控制或细微性能调整的开发人员，C# 提供了编写“不安全”代码的能力。这类代码可以直接处理指针类型和对象地址。但是，C# 要求程序员固定对象，暂时阻止垃圾回收器移动它们。
+从开发人员和用户的角度，这种“不安全”代码功能实际上是一种“安全”的功能。在代码中必须用修饰符 unsafe 清楚地标记出不安全代码，以便开发人员不可能不经意地使用不安全语言功能，并且编译器和执行引擎协同工作，确保不安全代码无法假冒安全代码。这些限制将不安全代码的使用仅限于代码受到信任的情况。
+示例
+using System;
+class Test
+{
+   static void WriteLocations(byte[] arr) {
+      unsafe {
+         fixed (byte* pArray = arr) {
+            byte* pElem = pArray;
+            for (int i = 0; i < arr.Length; i++) {
+               byte value = *pElem;
+               Console.WriteLine("arr[{0}] at 0x{1:X} is {2}",
+                  i, (uint)pElem, value);
+               pElem++;
+            }
+         }
+      }
+   }
+   static void Main() {
+      byte[] arr = new byte[] {1, 2, 3, 4, 5};
+      WriteLocations(arr);
+   }
+}
+显示了一个名为 WriteLocations 的方法。它含有一个不安全块，该块固定了一个数组实例，然后使用指针操作实现逐个地访问该数组的元素。每个数组元素的索引、值和位置被写入控制台。下面是一个可能的输出示例：
+arr[0] at 0x8E0360 is 1
+arr[1] at 0x8E0361 is 2
+arr[2] at 0x8E0362 is 3
+arr[3] at 0x8E0363 is 4
+arr[4] at 0x8E0364 is 5
+当然，确切的内存位置可能因应用程序的不同执行而异。

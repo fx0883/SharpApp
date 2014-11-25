@@ -1,0 +1,22 @@
+Option 对象
+Option 对象代表 HTML 表单中下拉列表中的一个选项。
+在 HTML 表单中 <option> 标签每出现一次，一个 Option 对象就会被创建。
+您可通过表单的 elements[] 数组访问一个 Option 对象，或者通过使用 document.getElementById()。
+IE: Internet Explorer, F: Firefox, O: Opera, W3C: W3C 标准.
+Option 对象的属性
+属性 	描述 	IE 	F 	O 	W3C
+defaultSelected 	返回 selected 属性的默认值。 	4 	1 	9 	Yes
+disabled 	设置或返回选项是否应被禁用。 	4 	1 	9 	Yes
+form 	返回对包含该元素的 <form> 元素的引用。 	4 	1 	9 	Yes
+id 	设置或返回选项的 id。 	4 	1 	9 	Yes
+index 	返回下拉列表中某个选项的索引位置。 	4 	1 	9 	Yes
+label 	设置或返回选项的标记 （仅用于选项组）。 	6 	  	  	Yes
+selected 	设置或返回 selected 属性的值。 	4 	1 	9 	Yes
+text 	设置或返回某个选项的纯文本值。 	4 	1 	9 	Yes
+value 	设置或返回被送往服务器的值。 	4 	1 	9 	Yes
+标准属性
+属性 	描述 	IE 	F 	O 	W3C
+className 	设置或返回元素的 class 属性。 	5 	1 	9 	Yes
+dir 	设置或返回文本的方向。 	5 	1 	9 	Yes
+lang 	设置或返回元素的语言代码。 	5 	1 	9 	Yes
+title 	设置或返回元素的 title 属性。 	5 	1 	9 	Yes

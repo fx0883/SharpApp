@@ -1,0 +1,10 @@
+Body 对象
+Body 对象代表文档的主体 (HTML body) 。
+IE: Internet Explorer, F: Firefox, O: Opera, W3C: W3C 标准.
+Body 对象的属性
+属性 	描述 	IE 	F 	O 	W3C
+className 	设置或返回元素的 class 属性。 	5 	1 	9 	Yes
+dir 	设置或返回文本的方向。 	5 	1 	9 	Yes
+id 	设置或返回 body 的 id。 	5 	1 	9 	Yes
+lang 	设置或返回元素的语言代码。 	5 	1 	9 	Yes
+title 	设置或返回元素的咨询性的标题。 	5 	1 	9 	Yes

@@ -1,0 +1,167 @@
+Lua像C和PASCAL几乎支持所有的传统语句：赋值语句、控制结构语句、函数调用等，同时也支持非传统的多变量赋值、局部变量声明。
+ 4.1 赋值语句
+赋值是改变一个变量的值和改变表域的最基本的方法。
+a = "hello" .. "world"
+t.n = t.n + 1
+Lua可以对多个变量同时赋值，变量列表和值列表的各个元素用逗号分开，赋值语句右边的值会依次赋给左边的变量。
+a, b = 10, 2*x       <-->       a=10; b=2*x
+遇到赋值语句Lua会先计算右边所有的值然后再执行赋值操作，所以我们可以这样进行交换变量的值：
+x, y = y, x                     -- swap 'x' for 'y'
+a[i], a[j] = a[j], a[i]         -- swap 'a[i]' for 'a[i]'
+当变量个数和值的个数不一致时，Lua会一直以变量个数为基础采取以下策略：
+a. 变量个数 > 值的个数             按变量个数补足nil
+b. 变量个数 < 值的个数             多余的值会被忽略
+例如：
+a, b, c = 0, 1
+print(a,b,c)             --> 0   1   nil
+ 
+a, b = a+1, b+1, b+2     -- value of b+2 is ignored
+print(a,b)               --> 1   2
+ 
+a, b, c = 0
+print(a,b,c)             --> 0   nil   nil
+上面最后一个例子是一个常见的错误情况，注意：如果要对多个变量赋值必须依次对每个变量赋值。
+a, b, c = 0, 0, 0
+print(a,b,c)             --> 0   0   0
+多值赋值经常用来交换变量，或将函数调用返回给变量：
+a, b = f()
+f()返回两个值，第一个赋给a，第二个赋给b。
+ 4.2 局部变量与代码块（block）
+使用local创建一个局部变量，与全局变量不同，局部变量只在被声明的那个代码块内有效。代码块：指一个控制结构内，一个函数体，或者一个chunk（变量被声明的那个文件或者文本串）。
+x = 10
+local i = 1              -- local to the chunk
+ 
+while i<=x do
+    local x = i*2        -- local to the while body
+    print(x)             --> 2, 4, 6, 8, ...
+    i = i + 1
+end
+ 
+if i > 20 then
+    local x              -- local to the "then" body
+    x = 20
+    print(x + 2)
+else
+    print(x)             --> 10  (the global one)
+end
+ 
+print(x)                 --> 10  (the global one)
+注意，如果在交互模式下上面的例子可能不能输出期望的结果，因为第二句local i=1是一个完整的chunk，在交互模式下执行完这一句后，Lua将开始一个新的chunk，这样第二句的i已经超出了他的有效范围。可以将这段代码放在do..end（相当于c/c++的{}）块中。
+应该尽可能的使用局部变量，有两个好处：
+1. 避免命名冲突
+2. 访问局部变量的速度比全局变量更快.
+我们给block划定一个明确的界限：do..end内的部分。当你想更好的控制局部变量的作用范围的时候这是很有用的。
+do
+    local a2 = 2*a
+    local d = sqrt(b^2 - 4*a*c)
+    x1 = (-b + d)/a2
+    x2 = (-b - d)/a2
+end            -- scope of 'a2' and 'd' ends here
+ 
+print(x1, x2)
+ 4.3 控制结构语句
+控制结构的条件表达式结果可以是任何值，Lua认为false和nil为假，其他值为真。
+if语句，有三种形式：
+if conditions then
+    then-part
+end;
+ 
+if conditions then
+    then-part
+else
+    else-part
+end;
+ 
+if conditions then
+    then-part
+elseif conditions then
+    elseif-part
+..            --->多个elseif
+else
+    else-part
+end;
+while语句：
+while condition do
+    statements;
+end;
+repeat-until语句：
+repeat
+    statements;
+until conditions;
+for语句有两大类：
+第一，数值for循环：
+for var=exp1,exp2,exp3 do
+    loop-part
+end
+for将用exp3作为step从exp1（初始值）到exp2（终止值），执行loop-part。其中exp3可以省略，默认step=1
+有几点需要注意：
+1. 三个表达式只会被计算一次，并且是在循环开始前。
+for i=1,f(x) do
+    print(i)
+end
+ 
+for i=10,1,-1 do
+    print(i)
+end
+第一个例子f(x)只会在循环前被调用一次。
+2. 控制变量var是局部变量自动被声明,并且只在循环内有效.
+for i=1,10 do
+    print(i)
+end
+max = i       -- probably wrong! 'i' here is global
+如果需要保留控制变量的值，需要在循环中将其保存
+-- find a value in a list
+local found = nil
+for i=1,a.n do
+    if a[i] == value then
+       found = i         -- save value of 'i'
+       break
+    end
+end
+print(found)
+3. 循环过程中不要改变控制变量的值，那样做的结果是不可预知的。如果要退出循环，使用break语句。
+ 
+第二，范型for循环：
+前面已经见过一个例子：
+-- print all values of array 'a'
+for i,v in ipairs(a) do print(v) end
+范型for遍历迭代子函数返回的每一个值。
+再看一个遍历表key的例子：
+-- print all keys of table 't'
+for k in pairs(t) do print(k) end
+范型for和数值for有两点相同：
+1. 控制变量是局部变量
+2. 不要修改控制变量的值
+再看一个例子，假定有一个表：
+days = {"Sunday", "Monday", "Tuesday", "Wednesday",
+              "Thursday", "Friday", "Saturday"}
+现在想把对应的名字转换成星期几，一个有效地解决问题的方式是构造一个反向表：
+revDays = {["Sunday"] = 1, ["Monday"] = 2,
+                     ["Tuesday"] = 3, ["Wednesday"] = 4,
+                     ["Thursday"] = 5, ["Friday"] = 6, 
+                     ["Saturday"] = 7}
+下面就可以很容易获取问题的答案了:
+x = "Tuesday"
+print(revDays[x])        --> 3
+我们不需要手工，可以自动构造反向表
+revDays = {}
+for i,v in ipairs(days) do
+    revDays[v] = i
+end
+如果你对范型for还有些不清楚在后面的章节我们会继续来学习。
+ 4.4 break和return语句
+break语句用来退出当前循环（for、repeat、while）。在循环外部不可以使用。
+return用来从函数返回结果，当一个函数自然结束时，结尾会有一个默认的return。（这种函数类似pascal的过程（procedure））
+Lua语法要求break和return只能出现在block的结尾一句（也就是说：作为chunk的最后一句，或者在end之前，或者else前，或者until前），例如：
+local i = 1
+while a[i] do
+    if a[i] == v then break end
+    i = i + 1
+end
+有时候为了调试或者其他目的需要在block的中间使用return或者break，可以显式的使用do..end来实现：
+function foo ()
+    return            --<< SYNTAX ERROR
+    -- 'return' is the last statement in the next block
+    do return end        -- OK
+    ...               -- statements not reached
+end

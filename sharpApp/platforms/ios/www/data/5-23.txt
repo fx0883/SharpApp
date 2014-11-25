@@ -1,0 +1,241 @@
+本教程展示如何创建自定义属性类，如何在代码中使用它们，以及如何通过反射查询它们。
+教程
+属性提供功能强大的方法以将声明信息与 C# 代码（类型、方法、属性等）相关联。与程序实体关联后，属性可在运行时查询，并可以以任意多种方式使用。
+属性的用法示例包括：
+    将帮助文档与程序实体关联（通过 Help 属性）。
+    将值编辑器关联到 GUI 框架中的特定类型（通过 ValueEditor 属性）。 
+除一个完整的示例外，本教程还包括以下主题：
+    声明属性类
+    第一件需要做的事情是声明属性。
+    使用属性类
+    创建属性后，随即将属性与特定的程序元素关联。
+    通过反射访问属性
+    属性与程序元素关联后，即可使用反射查询属性存在及其值。 
+声明属性类
+在 C# 中声明属性很简单：它采取从 System.Attribute 继承的类声明的形式，并已用 AttributeUsage 属性标记，如下所示：
+using System;
+[AttributeUsage(AttributeTargets.All)]
+public class HelpAttribute : System.Attribute 
+{
+   public readonly string Url;
+   public string Topic               // Topic is a named parameter
+   {
+      get 
+      { 
+         return topic; 
+      }
+      set 
+      { 
+        topic = value; 
+      }
+   }
+   public HelpAttribute(string url)  // url is a positional parameter
+   {
+      this.Url = url;
+   }
+   private string topic;
+}
+代码讨论
+    属性 AttributeUsage 指定该属性可以应用于的语言元素。
+    属性类是从 System.Attribute 派生的公共类，至少有一个公共构造函数。
+    属性类有两种类型的参数：
+        “定位参数”，每次使用属性时都必须指定这些参数。定位参数被指定为属性类的构造函数参数。在上面的示例中，url 便是一个定位参数。
+        “命名参数”，可选。如果使用属性时指定了命名参数，则必须使用参数的名称。通过包含非静态字段或属性来定义命名参数。在上面的示例中，Topic 便是一个命名参数。 
+    属性参数限制为下列类型的常数值：
+        简单类型（bool、byte、char、short、int、long、float 和 double）
+        string
+        System.Type
+        enums
+        对象（对象类型的属性参数的参数必须是属于上述类型之一的常数值。）
+        以上任意类型的一维数组 
+AttributeUsage 属性的参数
+属性 AttributeUsage 提供声明属性的基础机制。
+AttributeUsage 具有一个定位参数：
+    AllowOn 指定可以将属性赋给的程序元素（类、方法、属性、参数等）。该参数的有效值可以在 .NET Framework 中的 System.Attributes.AttributeTargets 枚举中找到。该参数的默认值是所有程序元素 (AttributeElements.All)。 
+AttributeUsage 有一个命名参数：
+    AllowMultiple，一个布尔值，指示是否可以为一个程序元素指定多个属性。该参数的默认值为 false。 
+使用属性类
+以下是使用上一节中声明的属性的简单示例：
+[HelpAttribute("http://localhost/MyClassInfo")]
+class MyClass 
+{
+}
+本示例中，HelpAttribute 属性与 MyClass 关联。
+    注意   根据约定，所有属性名称都以单词“Attribute”结束，以便将它们与 .NET Framework 中的其他项区分。但是，在代码中使用属性时不需要指定属性后缀。例如，可以如下指定 HelpAttribute：
+    [Help("http://localhost/MyClassInfo")] // [Help] == [HelpAttribute]
+    class MyClass 
+    {
+    }
+通过反射访问属性
+属性与程序元素关联后，可以使用反射查询属性存在及其值。查询属性的主要反射方法包含在 System.Reflection.MemberInfo 类（GetCustomAttributes 方法族）中。下面的示例演示使用反射获取对属性的访问的基本方法：
+class MainClass 
+{
+   public static void Main() 
+   {
+      System.Reflection.MemberInfo info = typeof(MyClass);
+      object[] attributes = info.GetCustomAttributes(true);
+      for (int i = 0; i < attributes.Length; i ++)
+      {
+         System.Console.WriteLine(attributes[i]);
+      }
+   } 
+} 
+示例
+下面是集合所有部分的完整示例。
+// AttributesTutorial.cs
+// This example shows the use of class and method attributes.
+using System;
+using System.Reflection;
+using System.Collections;
+// The IsTested class is a user-defined custom attribute class.
+// It can be applied to any declaration including
+//  - types (struct, class, enum, delegate)
+//  - members (methods, fields, events, properties, indexers)
+// It is used with no arguments.
+public class IsTestedAttribute : Attribute
+{
+    public override string ToString()
+    {
+        return "Is Tested";
+    }
+}
+// The AuthorAttribute class is a user-defined attribute class.
+// It can be applied to classes and struct declarations only.
+// It takes one unnamed string argument (the author's name).
+// It has one optional named argument Version, which is of type int.
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
+public class AuthorAttribute : Attribute
+{
+    // This constructor specifies the unnamed arguments to the attribute class.
+    public AuthorAttribute(string name)
+    {
+        this.name = name;
+        this.version = 0;
+    }
+    // This property is readonly (it has no set accessor)
+    // so it cannot be used as a named argument to this attribute.
+    public string Name 
+    {
+        get 
+        {
+            return name;
+        }
+    }
+    // This property is read-write (it has a set accessor)
+    // so it can be used as a named argument when using this
+    // class as an attribute class.
+    public int Version
+    {
+        get 
+        {
+            return version;
+        }
+        set 
+        {
+            version = value;
+        }
+    }
+    public override string ToString()
+    {
+        string value = "Author : " + Name;
+        if (version != 0)
+        {
+            value += " Version : " + Version.ToString();
+        }
+        return value;
+    }
+    private string name;
+    private int version;
+}
+// Here you attach the AuthorAttribute user-defined custom attribute to 
+// the Account class. The unnamed string argument is passed to the 
+// AuthorAttribute class's constructor when creating the attributes.
+[Author("Joe Programmer")]
+class Account
+{
+    // Attach the IsTestedAttribute custom attribute to this method.
+    [IsTested]
+    public void AddOrder(Order orderToAdd)
+    {
+        orders.Add(orderToAdd);
+    }
+    private ArrayList orders = new ArrayList();
+}
+// Attach the AuthorAttribute and IsTestedAttribute custom attributes 
+// to this class.
+// Note the use of the 'Version' named argument to the AuthorAttribute.
+[Author("Jane Programmer", Version = 2), IsTested()]
+class Order
+{
+    // add stuff here ...
+}
+class MainClass
+{
+   private static bool IsMemberTested(MemberInfo member)
+   {
+        foreach (object attribute in member.GetCustomAttributes(true))
+        {
+            if (attribute is IsTestedAttribute)
+            {
+               return true;
+            }
+        }
+      return false;
+   }
+    private static void DumpAttributes(MemberInfo member)
+    {
+        Console.WriteLine("Attributes for : " + member.Name);
+        foreach (object attribute in member.GetCustomAttributes(true))
+        {
+            Console.WriteLine(attribute);
+        }
+    }
+    public static void Main()
+    {
+        // display attributes for Account class
+        DumpAttributes(typeof(Account));
+        // display list of tested members
+        foreach (MethodInfo method in (typeof(Account)).GetMethods())
+        {
+            if (IsMemberTested(method))
+            {
+               Console.WriteLine("Member {0} is tested!", method.Name);
+            }
+            else
+            {
+               Console.WriteLine("Member {0} is NOT tested!", method.Name);
+            }
+        }
+        Console.WriteLine();
+        // display attributes for Order class
+        DumpAttributes(typeof(Order));
+        // display attributes for methods on the Order class
+        foreach (MethodInfo method in (typeof(Order)).GetMethods())
+        {
+           if (IsMemberTested(method))
+           {
+               Console.WriteLine("Member {0} is tested!", method.Name);
+           }
+           else
+           {
+               Console.WriteLine("Member {0} is NOT tested!", method.Name);
+           }
+        }
+        Console.WriteLine();
+    }
+}
+输出
+Attributes for : Account
+Author : Joe Programmer
+Member GetHashCode is NOT tested!
+Member Equals is NOT tested!
+Member ToString is NOT tested!
+Member AddOrder is tested!
+Member GetType is NOT tested!
+Attributes for : Order
+Author : Jane Programmer Version : 2
+Is Tested
+Member GetHashCode is NOT tested!
+Member Equals is NOT tested!
+Member ToString is NOT tested!
+Member GetType is NOT tested!

@@ -1,0 +1,10 @@
+Meta 对象
+Meta 对象代表 HTML 的 一个 <meta> 元素。
+<meta> 元素可提供有关某个 HTML 元素的元信息 (meta-information)，比如描述、针对搜索引擎的关键词以及刷新频率。
+IE: Internet Explorer, F: Firefox, O: Opera, W3C: W3C 标准.
+Meta 对象属性
+属性 	描述 	IE 	F 	O 	W3C
+content 	设置或返回 <meta> 元素的 content 属性的值。 	5 	1 	9 	Yes
+httpEquiv 	把 content 属性连接到一个 HTTP 头部。 	5 	1 	9 	Yes
+name 	把 content 属性连接到某个名称。 	5 	1 	9 	Yes
+scheme 	设置或返回用于解释 content 属性的值的格式。 	6 	1 	9 	Yes

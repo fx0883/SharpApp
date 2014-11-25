@@ -1,0 +1,208 @@
+本教程演示委托类型。它说明如何将委托映射到静态方法和实例方法，以及如何组合委托（多路广播）。
+教程
+C# 中的委托类似于 C 或 C++ 中的函数指针。使用委托使程序员可以将方法引用封装在委托对象内。然后可以将该委托对象传递给可调用所引用方法的代码，而不必在编译时知道将调用哪个方法。与 C 或 C++ 中的函数指针不同，委托是面向对象、类型安全的，并且是安全的。
+委托声明定义一种类型，它用一组特定的参数以及返回类型封装方法。对于静态方法，委托对象封装要调用的方法。对于实例方法，委托对象同时封装一个实例和该实例上的一个方法。如果您有一个委托对象和一组适当的参数，则可以用这些参数调用该委托。
+委托的一个有趣且有用的属性是，它不知道或不关心自己引用的对象的类。任何对象都可以；只是方法的参数类型和返回类型必须与委托的参数类型和返回类型相匹配。这使得委托完全适合“匿名”调用。
+    注意   委托是在调用方的安全权限下运行而不是声明方的权限下运行。
+此教程包括两个示例：
+    示例 1 展示如何声明、实例化和调用委托。
+    示例 2 展示如何组合两个委托。 
+此外，还讨论以下主题：
+    委托和事件
+    委托与接口 
+示例 1
+下面的示例阐释声明、实例化和使用委托。BookDB 类封装一个书店数据库，它维护一个书籍数据库。它公开 ProcessPaperbackBooks 方法，该方法在数据库中查找所有平装书，并为每本书调用一个委托。所使用的 delegate 类型称为 ProcessBookDelegate。Test 类使用该类输出平装书的书名和平均价格。
+委托的使用促进了书店数据库和客户代码之间功能的良好分隔。客户代码不知道书籍的存储方式和书店代码查找平装书的方式。书店代码也不知道找到平装书后将对平装书进行什么处理。
+// bookstore.cs
+using System;
+// A set of classes for handling a bookstore:
+namespace Bookstore 
+{
+   using System.Collections;
+   // Describes a book in the book list:
+   public struct Book
+   {
+      public string Title;        // Title of the book.
+      public string Author;       // Author of the book.
+      public decimal Price;       // Price of the book.
+      public bool Paperback;      // Is it paperback?
+      public Book(string title, string author, decimal price, bool paperBack)
+      {
+         Title = title;
+         Author = author;
+         Price = price;
+         Paperback = paperBack;
+      }
+   }
+   // Declare a delegate type for processing a book:
+   public delegate void ProcessBookDelegate(Book book);
+   // Maintains a book database.
+   public class BookDB
+   {
+      // List of all books in the database:
+      ArrayList list = new ArrayList();   
+      // Add a book to the database:
+      public void AddBook(string title, string author, decimal price, bool paperBack)
+      {
+         list.Add(new Book(title, author, price, paperBack));
+      }
+      // Call a passed-in delegate on each paperback book to process it: 
+      public void ProcessPaperbackBooks(ProcessBookDelegate processBook)
+      {
+         foreach (Book b in list) 
+         {
+            if (b.Paperback)
+            // Calling the delegate:
+               processBook(b);
+         }
+      }
+   }
+}
+// Using the Bookstore classes:
+namespace BookTestClient
+{
+   using Bookstore;
+   // Class to total and average prices of books:
+   class PriceTotaller
+   {
+      int countBooks = 0;
+      decimal priceBooks = 0.0m;
+      internal void AddBookToTotal(Book book)
+      {
+         countBooks += 1;
+         priceBooks += book.Price;
+      }
+      internal decimal AveragePrice()
+      {
+         return priceBooks / countBooks;
+      }
+   }
+   // Class to test the book database:
+   class Test
+   {
+      // Print the title of the book.
+      static void PrintTitle(Book b)
+      {
+         Console.WriteLine("   {0}", b.Title);
+      }
+      // Execution starts here.
+      static void Main()
+      {
+         BookDB bookDB = new BookDB();
+         // Initialize the database with some books:
+         AddBooks(bookDB);      
+         // Print all the titles of paperbacks:
+         Console.WriteLine("Paperback Book Titles:");
+         // Create a new delegate object associated with the static 
+         // method Test.PrintTitle:
+         bookDB.ProcessPaperbackBooks(new ProcessBookDelegate(PrintTitle));
+         // Get the average price of a paperback by using
+         // a PriceTotaller object:
+         PriceTotaller totaller = new PriceTotaller();
+         // Create a new delegate object associated with the nonstatic 
+         // method AddBookToTotal on the object totaller:
+         bookDB.ProcessPaperbackBooks(new ProcessBookDelegate(totaller.AddBookToTotal));
+         Console.WriteLine("Average Paperback Book Price: ${0:#.##}",
+            totaller.AveragePrice());
+      }
+      // Initialize the book database with some test books:
+      static void AddBooks(BookDB bookDB)
+      {
+         bookDB.AddBook("The C Programming Language", 
+            "Brian W. Kernighan and Dennis M. Ritchie", 19.95m, true);
+         bookDB.AddBook("The Unicode Standard 2.0", 
+            "The Unicode Consortium", 39.95m, true);
+         bookDB.AddBook("The MS-DOS Encyclopedia", 
+            "Ray Duncan", 129.95m, false);
+         bookDB.AddBook("Dogbert's Clues for the Clueless", 
+            "Scott Adams", 12.00m, true);
+      }
+   }
+}
+输出
+Paperback Book Titles:
+   The C Programming Language
+   The Unicode Standard 2.0
+   Dogbert's Clues for the Clueless
+Average Paperback Book Price: $23.97
+代码讨论
+    声明委托   以下语句：
+    public delegate void ProcessBookDelegate(Book book);
+    声明一个新的委托类型。每个委托类型都描述参数的数目和类型，以及它可以封装的方法的返回值类型。每当需要一组新的参数类型或新的返回值类型时，都必须声明一个新的委托类型。
+    实例化委托   声明了委托类型后，必须创建委托对象并使之与特定方法关联。与所有其他对象类似，新的委托对象用 new 表达式创建。但是当创建委托时，传递给 new 表达式的参数很特殊：它的编写类似于方法调用，但没有方法的参数。
+    下列语句：
+    bookDB.ProcessPaperbackBooks(new ProcessBookDelegate(PrintTitle));
+    创建与静态方法 Test.PrintTitle 关联的新的委托对象。下列语句：
+    bookDB.ProcessPaperbackBooks(new 
+       ProcessBookDelegate(totaller.AddBookToTotal));
+    创建与对象 totaller 上的非静态方法 AddBookToTotal 关联的新的委托对象。在两个例子中，新的委托对象都立即传递给 ProcessPaperbackBooks 方法。
+    请注意一旦创建了委托，它所关联到的方法便永不改变：委托对象不可改变。
+    调用委托   创建委托对象后，通常将委托对象传递给将调用该委托的其他代码。通过委托对象的名称（后面跟着要传递给委托的参数，括在括号内）调用委托对象。下面是委托调用的示例：
+    processBook(b);
+    在此示例中，可以通过使用 BeginInvoke 和 EndInvoke 方法同步或异步调用委托。 
+示例 2
+本示例演示组合委托。委托对象的一个有用属性是，它们可以“+”运算符来组合。组合的委托可调用组成它的那两个委托。只有相同类型的委托才可以组合。
+“-”运算符可用来从组合的委托移除组件委托。
+// compose.cs
+using System;
+delegate void MyDelegate(string s);
+class MyClass
+{
+    public static void Hello(string s)
+    {
+        Console.WriteLine("  Hello, {0}!", s);
+    }
+    public static void Goodbye(string s)
+    {
+        Console.WriteLine("  Goodbye, {0}!", s);
+    }
+    public static void Main()
+    {
+        MyDelegate a, b, c, d;
+        // Create the delegate object a that references 
+        // the method Hello:
+        a = new MyDelegate(Hello);
+        // Create the delegate object b that references 
+        // the method Goodbye:
+        b = new MyDelegate(Goodbye);
+        // The two delegates, a and b, are composed to form c: 
+        c = a + b;
+        // Remove a from the composed delegate, leaving d, 
+        // which calls only the method Goodbye:
+        d = c - a;
+        Console.WriteLine("Invoking delegate a:");
+        a("A");
+        Console.WriteLine("Invoking delegate b:");
+        b("B");
+        Console.WriteLine("Invoking delegate c:");
+        c("C");
+        Console.WriteLine("Invoking delegate d:");
+        d("D");
+    }
+}
+输出
+Invoking delegate a:
+  Hello, A!
+Invoking delegate b:
+  Goodbye, B!
+Invoking delegate c:
+  Hello, C!
+  Goodbye, C!
+Invoking delegate d:
+  Goodbye, D!
+委托和事件
+委托非常适合于用作事件（从一个组件就该组件中的更改通知“侦听器”）。有关将委托用于事件的更多信息，请参见事件教程。
+委托与接口
+委托和接口的类似之处是，它们都允许分隔规范和实现。多个独立的作者可以生成与一个接口规范兼容的多个实现。类似地，委托指定方法的签名，多个作者可以编写与委托规范兼容的多个方法。何时应使用接口，而何时应使用委托呢？
+委托在以下情况下很有用：
+    调用单个方法。
+    一个类可能希望有方法规范的多个实现。
+    希望允许使用静态方法实现规范。
+    希望类似事件的设计模式（有关更多信息，请参见事件教程）。
+    调用方不需要知道或获得在其上定义方法的对象。
+    实现的提供程序希望只对少数选择组件“分发”规范实现。
+    需要方便的组合。 
+接口在以下情况下很有用：
+    规范定义将调用的一组相关方法。
+    类通常只实现规范一次。
+    接口的调用方希望转换为接口类型或从接口类型转换，以获得其他接口或类。

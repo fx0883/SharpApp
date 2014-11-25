@@ -1,0 +1,190 @@
+模块提供了一种组织常量，类和方法的手段。你可以使用模块来提供一个名字空间以避免名字冲突，你也可以使用模块来提供mixin的功能。
+§8.1  名字空间
+当程序代码越来越多，工程越来越大，开发者不可避免的会将一些常用的代码以库或别的形式重用。一般情况下，我们可以用类来组织代码，但有时候使用类组织代码并不是十分合适。这样在一个大工程中，就有可能发生名字冲突。
+例如，开发者A在文件a.rb中写了如下代码，用来输出自己代码文件的版本信息，
+		def print_version
+		# …
+		end
+		
+同一个项目中的另一个开发者B在文件b.rb中用同样的方法来实现同样的功能，
+		def print_version
+		# …
+		end
+第三个开发者C需要使用a.rb和b.rb中的一些方法，这样，当他使用print_version方法时，就产生了名字冲突，到底他调用的是哪一个文件中的print_version方法呢？
+我们可以使用模块机制来解决这样的名字冲突。定义一个模块相当于定义了一个名字空间，名字空间内的元素在全局空间并不直接可见。
+	
+开发者A定义模块A_FILE，
+		module A_FILE
+			def print_version
+			# …
+			end
+		end
+开发者B定义模块A_FILE，
+		module B_FILE
+			def print_version
+			# …
+			end
+		end
+这样对于开发者C，可以这样使用print_version
+		require ‘A’
+		require ‘B’
+print_version
+print_version
+类和模块的区别是，模块不能生成实例，而类不能被include。
+§8.2  mixin
+Mix-in的意思是混合插入、糅合，就像在冰淇淋中混合多种配料可以做成美味的混合冰淇淋一样，在类中混合插入各种模块就可以添加相应的功能。模块还有另一个重要的作用，可以使用模块来实现多继承，可以在类中包含模块，这样模块中的所有方法和类中其他方法一样可以使用。
+Matz坚信滥用多重继承会导致继承关系的混乱，因此Ruby中不允许使用多重继承。同时为充分发挥继承功能的优势，Ruby支持两种继承关系：1.使用is-a语句的继承；2.使用Mix-in来共享并继承模块中的功能。
+	module Debug
+		Define print_info
+			print "Class: #{self.class.name} Object ID: #{self.id}"
+		end
+	end
+	class A
+		include Debug
+		#...
+	end
+	class B
+		include Debug
+		#...
+	end
+	obj1 = A.new
+	obj2 = B.new
+	obj1.print_info
+	obj2.print_info
+通过这样的手段我们可以实现多继承的功能，这样的模块我们称为mixin。
+	在Ruby中，Object，Class和Module是三个特殊的类。 
+	
+	Class是一个Module，而Module是一个Object，所以说Class是一个Object，因此，所有的数据都是Object。
+§8.3  使用mixin
+§8.3.1  Comparable
+Comparable mixin提供了比较的功能。要使用Comparable mixin必须提供<=>方法，<=>的返回值为-1，0，+1用来表示元素之间的小于，等于，大于的关系。
+class Person
+	include Comparable
+	attr :age
+	def <=>(aPerson)
+		@age <=> aPerson.age
+	end
+	def initialize(name, gender, age)
+		@name = name
+		@gender = gender
+		@age = age
+	end
+end
+aPerson = Person.new("Tom", "male", 18)
+bPerson = Person.new("Mike", "male", 10)
+cPerson = Person.new("Henry", "male", 40)
+puts aPerson > bPerson
+puts aPerson < bPerson
+puts aPerson >= bPerson
+puts aPerson <= bPerson
+puts aPerson == bPerson
+puts aPerson.between?(bPerson, cPerson)
+执行结果为:
+true
+false
+true
+false
+false
+true
+§8.3.2  Enumerable
+Enumerable mixin提供了遍历，查找和排序的功能。 要使用Enumerable mixin必须提供each方法，标准做法是在each方法内对每一个元素使用yield操作。如果使用了Enumerable mixin中的max，min，或sort，那么还必须提供<=>方法，用来实现元素之间的比较关系。
+以下是一个使用Enumerable mixin的例子，IntegerFinder是一个查找字符串中整数的类。
+class IntegerFinder
+		include Enumerable
+		def initialize(aString)
+			@string = aString
+		end
+		
+	def each
+			@string.scan(/[1-9]\d*/) { |integer| yield integer }
+		end
+end
+		
+aDigitFinder = IntegerFinder.new("This is 123, 234, 98 and 10")
+aDigitFinder.collect {|i| print i, " "}
+aArray = aDigitFinder.find_all {|i|  i.to_i > 50 }
+puts "\n", aArray.to_s
+执行结果为：
+	123 234 98 10 
+12323498
+Enumerable mixin中含有许多与集合遍历查找相关的方法，许多标准类也使用了Enumerable mixin，借助Enumerable mixin中的方法可以方便的实现一些强大的功能，请看以下一些例子：
+	
+#察看数组中的所有单词的长度是否大于4
+	%w{ ant bear cat}.all? {|word| word.length >= 4}   #=> false
+	
+	#返回range中所有不符合条件的元素
+(1..10).reject {|i|  i % 3 == 0 } #=> [1, 2, 4, 5, 7, 8, 10]
+#求5到10的和
+#inject方法第一次会把Range中的前两个元素作为参数传递给sum和n，
+#以后每次会把sum设置为块计算后的返回值。
+(5..10).inject {|sum, n| sum + n }             		#=> 45
+# 找出数组中最长的单词
+longest = %w{ cat sheep bear }.inject do |memo,word|
+    memo.length > word.length ? memo : word
+end
+longest                                         #=> "sheep"
+§8.3.3  Singleton
+	在设计模式中，Singleton技术通常称为单件，是一种常见的设计技术，它保证在系统的某个类在任一时刻最多只有一个实例在运行。你可以参见设计模式这本书获得有关单件技术更详细的信息。在Ruby中，使用Singleton Mix-in，你可以很容易的实现单件类。
+	在单件类中不能使用new方法，因为在单件类中new方法的属性是私有的。需要使用instance方法得到类的实例对象。
+require 'singleton'
+class SingletonClassTest
+		attr_accessor :data
+		include Singleton
+end
+# a = SingletonClassTest.new #错误，new方法为私有方法
+a = SingletonClassTest.instance
+b = SingletonClassTest.instance
+puts a.inspect
+puts b.inspect
+a.data = 8
+puts b.data
+执行结果为：
+#<SingletonClassTest:0x2ab9360>
+#<SingletonClassTest:0x2ab9360>
+8
+可以看到，a和b其实指向同一个对象。
+§8.4  Require, load和include
+在Ruby中，可以使用load和require来包含另一个文件。每次运行到load时，load后的文件会被载入并执行。
+4.times do |i|
+		File.open("temp.rb","w") do |f|
+			f.puts "def test"
+			f.puts "#{i}"
+			f.puts "end"
+		end
+		load "temp.rb"
+		puts test
+end
+执行结果为：
+0
+1
+2
+3
+在上面的小程序里load "temp.rb"执行了4次，每一次temp.rb文件都不同，所以test方法执行后的结果也不同。
+使用Load方法的这种特性可以实现一些强大的功能，例如：
+可以用来处理配置文件，在程序运行期间配置文件可以被动态改变。
+可以用来实现程序的无缝升级，在升级时你不需要重启程序，只要将所需要的代码重新load。
+Require和load不同，它只加载文件一次，即在第一次执行到require时载入，以后碰到require同一文件时自动忽略。已经被加载的文件保存在$”中。另外，require还可以用来加载二进制格式的库。Require可以使用绝对路径或相对路径，如果使用了相对路径，那么系统会在$:变量包含的目录中搜寻。Require和load的另一个不同是当包含文件是Ruby代码时，require可以不加后缀名。Require将当前所有加载的文件保存在$"变量中。
+注意，在当前版本中，$”是一个数组，保存着使用require已经加载过的文件。但如果require使用不同的路径去包含同一个文件，这个文件就有可能被加载多次。
+	File.open("temp.rb","w") do |f|
+		f.puts "def test"
+		f.puts "1"
+		f.puts "end"
+end
+require "temp"
+puts test
+File.open("temp.rb","w") do |f|
+		f.puts "def test"
+		f.puts "2"
+		f.puts "end"
+end
+require "./temp"
+puts test
+执行结果为：
+1
+2
+这样就违背了require只加载一次的初衷，一些人认为这是一个bug，这个问题在Ruby的后续版本中可能被修复。所以，不要使用不同的路径去加载同一个文件。
+require, load,include都是Kernel模块中的方法，他们的区别如下：
+require，load用于包含文件，include则用于包含的模块。
+require加载一次，load可加载多次。
+require加载Ruby代码文件时可以不加后缀名，load加载代码文件时必须加后缀名。
+require一般情况下用于加载库文件，而load用于加载配置文件。

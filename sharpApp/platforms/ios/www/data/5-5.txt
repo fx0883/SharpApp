@@ -1,0 +1,51 @@
+多维数组
+　　　　　int[,] numbers = new int[3, 2] { {1, 2}, {3, 4}, {5, 6} };
+　　　　　string[,] siblings = new string[2, 2] { {"Mike","Amy"}, {"Mary","Albert"} };
+　　　　可省略数组的大小，如下所示：
+　　　　　int[,] numbers = new int[,] { {1, 2}, {3, 4}, {5, 6} };
+　　　　　string[,] siblings = new string[,] { {"Mike","Amy"}, {"Mary","Albert"} };
+　　　　如果提供了初始值设定项，则还可以省略 new 运算符，如下所示：
+　　　　　int[,] numbers = { {1, 2}, {3, 4}, {5, 6} };
+　　　　　string[,] siblings = { {"Mike", "Amy"}, {"Mary", "Albert"} };
+交错的数组（数组的数组）
+　　　　可以像下例所示那样初始化交错的数组：
+　　　　　int[][] numbers = new int[2][] { new int[] {2,3,4}, new int[] {5,6,7,8,9} };
+　　　　可省略第一个数组的大小，如下所示：
+　　　　　int[][] numbers = new int[][] { new int[] {2,3,4}, new int[] {5,6,7,8,9} };
+　　　　－或－
+　　　　　int[][] numbers = { new int[] {2,3,4}, new int[] {5,6,7,8,9} };
+　　　　请注意，对于交错数组的元素没有初始化语法。
+访问数组成员
+　　　　访问数组成员可以直接进行，类似于在 C/C++ 中访问数组成员。例如，下面的代码创建一个名为 numbers 的数组，然后向该数组的第五个元素赋以 5：
+　　　　　int[] numbers = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
+　　　　　numbers[4] = 5;
+　　　　下面的代码声明一个多维数组，并向位于 [1, 1] 的成员赋以 5：
+　　　　　int[,] numbers = { {1, 2}, {3, 4}, {5, 6}, {7, 8}, {9, 10} };
+　　　　　numbers[1, 1] = 5;
+　　　　下面声明一个一维交错数组，它包含两个元素。第一个元素是两个整数的数组，第二个元素是三个整数的数组：
+　　　　　int[][] numbers = new int[][] { new int[] {1, 2}, new int[] {3, 4, 5}
+　　　　　};
+　　　　下面的语句向第一个数组的第一个元素赋以 58，向第二个数组的第二个元素赋以 667：
+　　　　　numbers[0][0] = 58;
+　　　　　numbers[1][1] = 667;
+数组是对象
+　　　　在 C# 中，数组实际上是对象。System.Array 是所有数组类型的抽象基类型。可以使用 System.Array 具有的属性以及其他类成员。这种用法的一个示例是使用“长度”(Length) 属性获取数组的长度。下面的代码将 numbers 数组的长度（为 5）赋给名为 LengthOfNumbers 的变量：
+　　　　　int[] numbers = {1, 2, 3, 4, 5};
+　　　　　int LengthOfNumbers = numbers.Length;
+　　　　System.Array 类提供许多有用的其他方法/属性，如用于排序、搜索和复制数组的方法。
+对数组使用 foreach
+　　　　C# 还提供 foreach 语句。该语句提供一种简单、明了的方法来循环访问数组的元素。例如，下面的代码创建一个名为 numbers 的数组，并用 foreach 语句循环访问该数组：
+　　　　　int[] numbers = {4, 5, 6, 1, 2, 3, -2, -1, 0};
+　　　　　foreach (int i in numbers)
+　　　　　{
+　　　　　　System.Console.WriteLine(i);
+　　　　　}
+　　　　由于有了多维数组，可以使用相同方法来循环访问元素，例如：
+　　　　　int[,] numbers = new int[3, 2] {{9, 99}, {3, 33}, {5, 55}};
+　　　　　foreach(int i in numbers)
+　　　　　{
+　　　　　　　Console.Write("{0} ", i);
+　　　　　}
+　　　　该示例的输出为：
+　　　　9 99 3 33 5 55
+　　　　不过，由于有了多维数组，使用嵌套 for 循环将使您可以更好地控制数组元素。

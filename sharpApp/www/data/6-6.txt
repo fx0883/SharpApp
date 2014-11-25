@@ -1,0 +1,153 @@
+C# 中的大多数语句都是直接从 C 和 C++ 借用的，但有一些值得注意的添加和修改。下表列出了可用的语句类型，并提供了每种类型的示例。
+语句 	示例
+语句列表和块语句 	
+static void Main() { 
+    F();
+    G();
+    { 
+        H();
+        I();
+    } 
+}
+标记语句和 goto 语句 	
+static void Main(string[] args) {
+    if (args.Length == 0)
+        goto done;
+    Console.WriteLine(args.Length);
+done:
+    Console.WriteLine("Done");
+}
+局部常数声明 	
+static void Main() {
+    const float pi = 3.14f;
+    const int r = 123;
+    Console.WriteLine(pi * r * r);
+}
+局部变量声明 	
+static void Main() {
+    int a;
+    int b = 2, c = 3;
+    a = 1;
+    Console.WriteLine(a + b + c);
+}
+表达式语句 	
+static int F(int a, int b) {
+    return a + b;
+}
+static void Main() {
+    F(1, 2);  // Expression statement
+}
+
+if 语句 	
+static void Main(string[] args) {
+    if (args.Length == 0)
+        Console.WriteLine("No args");
+    else
+        Console.WriteLine("Args");
+}
+switch 语句 	
+static void Main(string[] args) {
+    switch (args.Length) {
+        case 0:
+            Console.WriteLine("No args");
+            break;
+        case 1:
+            Console.WriteLine("One arg ");
+            break;
+        default:
+            int n = args.Length;
+            Console.WriteLine("{0} args", n);
+            break;
+    }
+}
+while 语句 	
+static void Main(string[] args) {
+    int i = 0;
+    while (i < args.Length) {
+        Console.WriteLine(args[i]);
+        i++;
+    }
+}
+do 语句 	
+static void Main() {
+    string s;
+    do { s = Console.ReadLine(); }
+    while (s != "Exit");
+}
+for 语句 	
+static void Main(string[] args) {
+    for (int i = 0; i < args.Length; i++)
+        Console.WriteLine(args[i]);
+}
+foreach 语句 	
+static void Main(string[] args) {
+    foreach (string s in args)
+        Console.WriteLine(s);
+}
+break 语句 	
+static void Main(string[] args) {
+    int i = 0;
+    while (true) {
+        if (i == args.Length)
+            break;
+        Console.WriteLine(args[i++]);
+    }
+}
+continue 语句 	
+static void Main(string[] args) {
+    int i = 0;
+    while (true) {
+       Console.WriteLine(args[i++]);
+       if (i < args.Length)
+            continue;
+       break;
+    }
+}
+return 语句 	
+static int F(int a, int b) {
+    return a + b;
+}
+static void Main() {
+    Console.WriteLine(F(1, 2));
+    return;
+}
+
+throw 语句和 try 语句 	
+static int F(int a, int b) {
+    if (b == 0)
+        throw new Exception("Divide by zero");
+    return a / b;
+}
+static void Main() {
+    try {
+        Console.WriteLine(F(5, 0));
+    }
+    catch(Exception e) {
+        Console.WriteLine("Error");
+    }
+}
+
+checked 和 unchecked 语句 	
+static void Main() {
+    int x = Int32.MaxValue;
+    Console.WriteLine(x + 1);      // Overflow
+    checked {
+        Console.WriteLine(x + 1);  // Exception
+    }     
+    unchecked {
+        Console.WriteLine(x + 1);  // Overflow
+    }
+}
+lock 语句 	
+static void Main() {
+    A a = ...;
+    lock(a) {
+        a.P = a.P + 1;
+    }
+}
+using 语句 	
+static void Main() {
+    using (Resource r = new Resource()) {
+        r.F();
+    }
+}

@@ -29,7 +29,9 @@
 #import "MainViewController.h"
 
 #import <Cordova/CDVPlugin.h>
-
+#import "ZipArchive.h"
+#define COREBUNDLENAME @"CoreBundle"
+#define ZIPFILENAME @"data"
 @implementation AppDelegate
 
 @synthesize window, viewController;
@@ -39,6 +41,14 @@
     /** If you need to do any extra app-specific initialization, you can do it here
      *  -jm
      **/
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
+    NSString *docDir = [paths objectAtIndex:0];
+    
+    NSLog(docDir);
+    
+    [self loadDicContextConfig];
+    
     NSHTTPCookieStorage* cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
 
     [cookieStorage setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
@@ -55,6 +65,57 @@
     self = [super init];
     return self;
 }
+
+
+#pragma mark -add by Fx
+-(void)loadDicContextConfig
+{
+    NSString *bundlePath = [[NSBundle mainBundle] pathForResource:COREBUNDLENAME ofType:@"bundle"];
+    NSBundle *bundle = [NSBundle bundleWithPath:bundlePath];
+    NSString *pzipPath = [bundle pathForResource:ZIPFILENAME ofType:@"zip"];
+    
+    if ([pzipPath length]>0) {
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
+        NSString *docDir = [paths objectAtIndex:0];
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        
+        NSString* zipPath =[docDir stringByAppendingPathComponent:@"data.zip"];
+        
+        if([fileManager fileExistsAtPath:zipPath]== NO){
+            NSError *error;
+            [fileManager copyItemAtPath:pzipPath toPath:zipPath error:&error];
+            
+            [self unzipFile:zipPath toDic:docDir];
+        }
+    }
+    
+    
+}
+
+-(void)unzipFile:(NSString*)filePath
+           toDic:(NSString*)docspath
+{
+    ZipArchive *za = [[ZipArchive alloc] init];
+    // 1. 在内存中解压缩文件
+    if ([za UnzipOpenFile: filePath]) {
+        // 2. 将解压缩的内容写到缓存目录中
+        BOOL ret = [za UnzipFileTo: docspath overWrite: YES];
+        if (NO == ret){} [za UnzipCloseFile];
+        
+        // 3. 使用解压缩后的文件
+//        NSString *imageFilePath = [docspath stringByAppendingPathComponent:@"newTudou.png"];
+//        NSData *imageData = [NSData dataWithContentsOfFile:imageFilePath options:0 error:nil];
+//        UIImage *img = [UIImage imageWithData:imageData];
+        // 4. 更新UI
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSFileManager *fileManager = [NSFileManager defaultManager];
+            //删除文件
+            [fileManager removeItemAtPath:filePath error:nil];
+        });
+    }
+}
+
+
 
 #pragma mark UIApplicationDelegate implementation
 

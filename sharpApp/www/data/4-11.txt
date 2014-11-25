@@ -1,0 +1,63 @@
+JsonSerializer 对于序列化和反序列化对象的集合有着强大的支持。
+11.1 Serializing
+为了序列化一个集合 - 一个泛型list， dictionary， 或者你自己自定义的集合 - 简单的调用序列化器把对象变成你想要的JSON，Json.NET将序列化集合并包含其所有的值。
+Product p1 = new Product
+  {
+    Name = "Product 1",
+    Price = 99.95m,
+    ExpiryDate = new DateTime(2000, 12, 29, 0, 0, 0, DateTimeKind.Utc),
+  };
+Product p2 = new Product
+{
+  Name = "Product 2",
+  Price = 12.50m,
+  ExpiryDate = new DateTime(2009, 7, 31, 0, 0, 0, DateTimeKind.Utc),
+};
+List<Product> products = new List<Product>();
+products.Add(p1);
+products.Add(p2);
+string json = JsonConvert.SerializeObject(products, Formatting.Indented);
+//[
+//  {
+//    "Name": "Product 1",
+//    "ExpiryDate": "\/Date(978048000000)\/",
+//    "Price": 99.95,
+//    "Sizes": null
+//  },
+//  {
+//    "Name": "Product 2",
+//    "ExpiryDate": "\/Date(1248998400000)\/",
+//    "Price": 12.50,
+//    "Sizes": null
+//  }
+//]
+11.2 Deserializing
+为了反序列化JSON到一个.NET集合，只要指定你要序列化成的集合类型即可。Json.NET支持大量集合类型。
+string json = @"[
+ {
+   ""Name"": ""Product 1"",
+   ""ExpiryDate"": ""\/Date(978048000000)\/"",
+   ""Price"": 99.95,
+   ""Sizes"": null
+ },
+ {
+   ""Name"": ""Product 2"",
+   ""ExpiryDate"": ""\/Date(1248998400000)\/"",
+   ""Price"": 12.50,
+   ""Sizes"": null
+ }
+]";
+List<Product> products = JsonConvert.DeserializeObject<List<Product>>(json);
+Console.WriteLine(products.Count);
+// 2
+Product p1 = products[0];
+Console.WriteLine(p1.Name);
+// Product 1
+Deserializing Dictionaries
+使用Json.NET你也可以反序列化一个JSON对象到一个.NET泛型dictionary。这个JSON对象的属性名和值将被添加到dictionary中。
+string json = @"{""key1"":""value1"",""key2"":""value2""}";
+Dictionary<string, string> values = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+Console.WriteLine(values.Count);
+// 2
+Console.WriteLine(values["key1"]);
+// value1

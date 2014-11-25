@@ -1,0 +1,302 @@
+协同程序（coroutine）与多线程情况下的线程比较类似：有自己的堆栈，自己的局部变量，有自己的指令指针（IP，instruction pointer），但与其它协同程序共享全局变量等很多信息。线程和协同程序的主要不同在于：在多处理器情况下，从概念上来讲多线程程序同时运行多个线程；而协同程序是通过协作来完成，在任一指定时刻只有一个协同程序在运行，并且这个正在运行的协同程序只在必要时才会被挂起。
+协同是非常强大的功能，但是用起来也很复杂。如果你是第一次阅读本章，某些例子可能会不大理解，不必担心，可先继续阅读后面的章节，再回头琢磨本章内容。
+ 9.1 协同的基础
+Lua的所有协同函数存放于coroutine table中。create函数用于创建新的协同程序，其只有一个参数：一个函数，即协同程序将要运行的代码。若一切顺利，返回值为thread类型，表示创建成功。通常情况下，create的参数是匿名函数：
+co = coroutine.create(function ()
+    print("hi")
+end)
+ 
+print(co)     --> thread: 0x8071d98
+协同有三个状态：挂起态（suspended）、运行态（running）、停止态（dead）。当我们创建协同程序成功时，其为挂起态，即此时协同程序并未运行。我们可用status函数检查协同的状态：
+print(coroutine.status(co))     --> suspended
+函数coroutine.resume使协同程序由挂起状态变为运行态：
+coroutine.resume(co)            --> hi
+本例中，协同程序打印出"hi"后，任务完成，便进入终止态：
+print(coroutine.status(co))     --> dead
+当目前为止，协同看起来只是一种复杂的调用函数的方式，真正的强大之处体现在yield函数，它可以将正在运行的代码挂起，看一个例子：
+co = coroutine.create(function ()
+    for i=1,10 do
+       print("co", i)
+       coroutine.yield()
+    end
+end)
+执行这个协同程序，程序将在第一个yield处被挂起：
+coroutine.resume(co)            --> co   1
+print(coroutine.status(co))     --> suspended
+从协同的观点看：使用函数yield可以使程序挂起，当我们激活被挂起的程序时，将从函数yield的位置继续执行程序，直到再次遇到yield或程序结束。
+coroutine.resume(co)     --> co   2
+coroutine.resume(co)     --> co   3
+...
+coroutine.resume(co)     --> co   10
+coroutine.resume(co)     -- prints nothing
+上面最后一次调用时，协同体已结束，因此协同程序处于终止态。如果我们仍然希望激活它，resume将返回false和错误信息。
+print(coroutine.resume(co))
+        --> false   cannot resume dead coroutine
+注意：resume运行在保护模式下，因此，如果协同程序内部存在错误，Lua并不会抛出错误，而是将错误返回给resume函数。
+Lua中协同的强大能力，还在于通过resume-yield来交换数据。
+第一个例子中只有resume，没有yield，resume把参数传递给协同的主程序。
+co = coroutine.create(function (a,b,c)
+    print("co", a,b,c)
+end)
+coroutine.resume(co, 1, 2, 3)      --> co  1  2  3
+第二个例子，数据由yield传给resume。true表明调用成功，true之后的部分，即是yield的参数。
+co = coroutine.create(function (a,b)
+    coroutine.yield(a + b, a - b)
+end)
+print(coroutine.resume(co, 20, 10))    --> true  30  10
+相应地，resume的参数，会被传递给yield。
+co = coroutine.create (function ()
+    print("co", coroutine.yield())
+end)
+coroutine.resume(co)
+coroutine.resume(co, 4, 5)      --> co  4  5
+最后一个例子，协同代码结束时的返回值，也会传给resume：
+co = coroutine.create(function ()
+    return 6, 7
+end)
+print(coroutine.resume(co))     --> true  6  7
+我们很少在一个协同程序中同时使用多个特性，但每一种都有用处。
+现在已大体了解了协同的基础内容，在我们继续学习之前，先澄清两个概念：Lua的协同称为不对称协同（asymmetric coroutines），指“挂起一个正在执行的协同函数”与“使一个被挂起的协同再次执行的函数”是不同的，有些语言提供对称协同（symmetric coroutines），即使用同一个函数负责“执行与挂起间的状态切换”。
+有人称不对称的协同为半协同，另一些人使用同样的术语表示真正的协同，严格意义上的协同不论在什么地方只要它不是在其他的辅助代码内部的时候都可以并且只能使执行挂起，不论什么时候在其控制栈内都不会有不可决定的调用。（However, other people use the same term semi-coroutine to denote a restricted implementation of coroutines, where a coroutine can only suspend its execution when it is not inside any auxiliary function, that is, when it has no pending calls in its control stack.）。只有半协同程序内部可以使用yield，python中的产生器（generator）就是这种类型的半协同。
+与对称的协同和不对称协同的区别不同的是，协同与产生器的区别更大。产生器相对比较简单，他不能完成真正的协同所能完成的一些任务。我们熟练使用不对称的协同之后，可以利用不对称的协同实现比较优越的对称协同。
+ 9.2 管道和过滤器
+协同最具代表性的例子是用来解决生产者-消费者问题。假定有一个函数不断地生产数据（比如从文件中读取），另一个函数不断的处理这些数据（比如写到另一文件中），函数如下：
+function producer ()
+    while true do
+       local x = io.read()      -- produce new value
+       send(x)                  -- send to consumer
+    end
+end
+ 
+function consumer ()
+    while true do
+       local x = receive()      -- receive from producer
+       io.write(x, "\n")        -- consume new value
+    end
+end
+（例子中生产者和消费者都在不停的循环，修改一下使得没有数据的时候他们停下来并不困难），问题在于如何使得receive和send协同工作。只是一个典型的谁拥有主循环的情况，生产者和消费者都处在活动状态，都有自己的主循环，都认为另一方是可调用的服务。对于这种特殊的情况，可以改变一个函数的结构解除循环，使其作为被动的接受。然而这种改变在某些特定的实际情况下可能并不简单。
+协同为解决这种问题提供了理想的方法，因为调用者与被调用者之间的resume-yield关系会不断颠倒。当一个协同调用yield时并不会进入一个新的函数，取而代之的是返回一个未决的resume的调用。相似的，调用resume时也不会开始一个新的函数而是返回yield的调用。这种性质正是我们所需要的，与使得send-receive协同工作的方式是一致的。receive唤醒生产者生产新值，send把产生的值送给消费者消费。
+function receive ()
+    local status, value = coroutine.resume(producer)
+    return value
+end
+ 
+function send (x)
+    coroutine.yield(x)
+end
+ 
+producer = coroutine.create( function ()
+    while true do
+       local x = io.read()      -- produce new value
+       send(x)
+    end
+end)
+这种设计下，开始时调用消费者，当消费者需要值时他唤起生产者生产值，生产者生产值后停止直到消费者再次请求。我们称这种设计为消费者驱动的设计。
+我们可以使用过滤器扩展这个设计，过滤器指在生产者与消费者之间，可以对数据进行某些转换处理。过滤器在同一时间既是生产者又是消费者，他请求生产者生产值并且转换格式后传给消费者，我们修改上面的代码加入过滤器（给每一行前面加上行号）。完整的代码如下：
+function receive (prod)
+    local status, value = coroutine.resume(prod)
+    return value
+end
+ 
+function send (x)
+    coroutine.yield(x)
+end
+ 
+function producer ()
+    return coroutine.create(function ()
+       while true do
+           local x = io.read()      -- produce new value
+           send(x)
+       end
+    end)
+end
+ 
+function filter (prod)
+    return coroutine.create(function ()
+       local line = 1
+       while true do
+           local x = receive(prod)  -- get new value
+           x = string.format("%5d %s", line, x)
+           send(x)       -- send it to consumer
+           line = line + 1
+       end
+    end)
+end
+ 
+function consumer (prod)
+    while true do
+       local x = receive(prod)  -- get new value
+       io.write(x, "\n")        -- consume new value
+    end
+end
+可以调用：
+p = producer()
+f = filter(p)
+consumer(f)
+或者：
+consumer(filter(producer()))
+看完上面这个例子你可能很自然的想到UNIX的管道，协同是一种非抢占式的多线程。管道的方式下，每一个任务在独立的进程中运行，而协同方式下，每个任务运行在独立的协同代码中。管道在读（consumer）与写（producer）之间提供了一个缓冲，因此两者相关的的速度没有什么限制，在上下文管道中这是非常重要的，因为在进程间的切换代价是很高的。协同模式下，任务间的切换代价较小，与函数调用相当，因此读写可以很好的协同处理。
+9.3 用作迭代器的协同
+我们可以将循环的迭代器看作生产者-消费者模式的特殊的例子。迭代函数产生值给循环体消费。所以可以使用协同来实现迭代器。协同的一个关键特征是它可以不断颠倒调用者与被调用者之间的关系，这样我们毫无顾虑的使用它实现一个迭代器，而不用保存迭代函数返回的状态。
+我们来完成一个打印一个数组元素的所有的排列来阐明这种应用。直接写这样一个迭代函数来完成这个任务并不容易，但是写一个生成所有排列的递归函数并不难。思路是这样的：将数组中的每一个元素放到最后，依次递归生成所有剩余元素的排列。代码如下：
+function permgen (a, n)
+    if n == 0 then
+       printResult(a)
+    else
+       for i=1,n do
+ 
+           -- put i-th element as the last one
+           a[n], a[i] = a[i], a[n]
+ 
+           -- generate all permutations of the other elements
+           permgen(a, n - 1)
+ 
+           -- restore i-th element
+           a[n], a[i] = a[i], a[n]
+ 
+       end
+    end
+end
+ 
+function printResult (a)
+    for i,v in ipairs(a) do
+       io.write(v, " ")
+    end
+    io.write("\n")
+end
+ 
+permgen ({1,2,3,4}, 4)
+有了上面的生成器后，下面我们将这个例子修改一下使其转换成一个迭代函数：
+1. 第一步printResult 改为 yield
+function permgen (a, n)
+    if n == 0 then
+       coroutine.yield(a)
+    else
+       ...
+2. 第二步，我们定义一个迭代工厂，修改生成器在生成器内创建迭代函数，并使生成器运行在一个协同程序内。迭代函数负责请求协同产生下一个可能的排列。
+function perm (a)
+    local n = table.getn(a)
+    local co = coroutine.create(function () permgen(a, n) end)
+    return function ()   -- iterator
+       local code, res = coroutine.resume(co)
+       return res
+    end
+end
+这样我们就可以使用for循环来打印出一个数组的所有排列情况了：
+for p in perm{"a", "b", "c"} do
+    printResult(p)
+end
+--> b c a
+--> c b a
+--> c a b
+--> a c b
+--> b a c
+--> a b c
+perm函数使用了Lua中常用的模式：将一个对协同的resume的调用封装在一个函数内部，这种方式在Lua非常常见，所以Lua专门为此专门提供了一个函数coroutine.wrap。与create相同的是，wrap创建一个协同程序；不同的是wrap不返回协同本身，而是返回一个函数，当这个函数被调用时将resume协同。wrap中resume协同的时候不会返回错误代码作为第一个返回结果，一旦有错误发生，将抛出错误。我们可以使用wrap重写perm：
+function perm (a)
+    local n = table.getn(a)
+    return coroutine.wrap(function () permgen(a, n) end)
+end
+一般情况下，coroutine.wrap比coroutine.create使用起来简单直观，前者更确切的提供了我们所需要的：一个可以resume协同的函数，然而缺少灵活性，没有办法知道wrap所创建的协同的状态，也没有办法检查错误的发生。
+9.4 非抢占式多线程
+如前面所见，Lua中的协同是一协作的多线程，每一个协同等同于一个线程，yield-resume可以实现在线程中切换。然而与真正的多线程不同的是，协同是非抢占式的。当一个协同正在运行时，不能在外部终止他。只能通过显示的调用yield挂起他的执行。对于某些应用来说这个不存在问题，但有些应用对此是不能忍受的。不存在抢占式调用的程序是容易编写的。不需要考虑同步带来的bugs，因为程序中的所有线程间的同步都是显示的。你仅仅需要在协同代码超出临界区时调用yield即可。
+对非抢占式多线程来说，不管什么时候只要有一个线程调用一个阻塞操作（blocking operation），整个程序在阻塞操作完成之前都将停止。对大部分应用程序而言，只是无法忍受的，这使得很多程序员离协同而去。下面我们将看到这个问题可以被有趣的解决。
+看一个多线程的例子：我们想通过http协议从远程主机上下在一些文件。我们使用Diego Nehab开发的LuaSocket库来完成。我们先看下在一个文件的实现，大概步骤是打开一个到远程主机的连接，发送下载文件的请求，开始下载文件，下载完毕后关闭连接。
+第一，加载LuaSocket库
+require "luasocket"
+第二，定义远程主机和需要下载的文件名
+host = "www.w3.org"
+file = "/TR/REC-html32.html"
+第三，打开一个TCP连接到远程主机的80端口（http服务的标准端口）
+c = assert(socket.connect(host, 80))
+上面这句返回一个连接对象，我们可以使用这个连接对象请求发送文件
+c:send("GET " .. file .. " HTTP/1.0\r\n\r\n")
+receive函数返回他送接收到的数据加上一个表示操作状态的字符串。当主机断开连接时，我们退出循环。
+第四，关闭连接
+c:close()
+现在我们知道了如何下载一个文件，下面我们来看看如何下载多个文件。一种方法是我们在一个时刻只下载一个文件，这种顺序下载的方式必须等前一个文件下载完成后一个文件才能开始下载。实际上是，当我们发送一个请求之后有很多时间是在等待数据的到达，也就是说大部分时间浪费在调用receive上。如果同时可以下载多个文件，效率将会有很大提高。当一个连接没有数据到达时，可以从另一个连接读取数据。很显然，协同为这种同时下载提供了很方便的支持，我们为每一个下载任务创建一个线程，当一个线程没有数据到达时，他将控制权交给一个分配器，由分配器唤起另外的线程读取数据。
+使用协同机制重写上面的代码，在一个函数内：
+function download (host, file)
+    local c = assert(socket.connect(host, 80))
+    local count = 0      -- counts number of bytes read
+    c:send("GET " .. file .. " HTTP/1.0\r\n\r\n")
+    while true do
+       local s, status = receive©
+       count = count + string.len(s)
+       if status == "closed" then break end
+    end
+    c:close()
+    print(file, count)
+end
+由于我们不关心文件的内容，上面的代码只是计算文件的大小而不是将文件内容输出。（当有多个线程下载多个文件时，输出会混杂在一起），在新的函数代码中，我们使用receive从远程连接接收数据，在顺序接收数据的方式下代码如下：
+function receive (connection)
+    return connection:receive(2^10)
+end
+在同步接受数据的方式下，函数接收数据时不能被阻塞，而是在没有数据可取时yield，代码如下：
+function receive (connection)
+    connection:timeout(0)    -- do not block
+    local s, status = connection:receive(2^10)
+    if status == "timeout" then
+       coroutine.yield(connection)
+    end
+    return s, status
+end
+调用函数timeout(0)使得对连接的任何操作都不会阻塞。当操作返回的状态为timeout时意味着操作未完成就返回了。在这种情况下，线程yield。非false的数值作为yield的参数告诉分配器线程仍在执行它的任务。（后面我们将看到分配器需要timeout连接的情况），注意:即使在timeout模式下，连接依然返回他接受到直到timeout为止，因此receive会一直返回s给她的调用者。
+下面的函数保证每一个下载运行在自己独立的线程内：
+threads = {}      -- list of all live threads
+function get (host, file)
+    -- create coroutine
+    local co = coroutine.create(function ()
+       download(host, file)
+    end)
+    -- insert it in the list
+    table.insert(threads, co)
+end
+代码中table中为分配器保存了所有活动的线程。
+分配器代码是很简单的，它是一个循环，逐个调用每一个线程。并且从线程列表中移除已经完成任务的线程。当没有线程可以运行时退出循环。
+function dispatcher ()
+    while true do
+       local n = table.getn(threads)
+       if n == 0 then break end    -- no more threads to run
+       for i=1,n do
+           local status, res = coroutine.resume(threads[i])
+           if not res then   -- thread finished its task?
+              table.remove(threads, i)
+              break
+           end
+       end
+    end
+end
+最后，在主程序中创建需要的线程调用分配器，例如：从W3C站点上下载4个文件：
+host = "www.w3c.org"
+ 
+get(host, "/TR/html401/html40.txt")
+get(host, "/TR/2002/REC-xhtml1-20020801/xhtml1.pdf")
+get(host, "/TR/REC-html32.html")
+get(host,
+    "/TR/2000/REC-DOM-Level-2-Core-20001113/DOM2-Core.txt")
+ 
+dispatcher()      -- main loop
+使用协同方式下，我的机器花了6s下载完这几个文件；顺序方式下用了15s，大概2倍的时间。
+尽管效率提高了，但距离理想的实现还相差甚远，当至少有一个线程有数据可读取的时候，这段代码可以很好的运行。否则，分配器将进入忙等待状态，从一个线程到另一个线程不停的循环判断是否有数据可获取。结果协同实现的代码比顺序读取将花费30倍的CPU时间。
+为了避免这种情况出现，我们可以使用LuaSocket库中的select函数。当程序在一组socket中不断的循环等待状态改变时，它可以使程序被阻塞。我们只需要修改分配器，使用select函数修改后的代码如下：
+function dispatcher ()
+    while true do
+       local n = table.getn(threads)
+       if n == 0 then break end    -- no more threads to run
+       local connections = {}
+       for i=1,n do
+           local status, res = coroutine.resume(threads[i])
+           if not res then   -- thread finished its task?
+              table.remove(threads, i)
+              break
+           else   -- timeout
+              table.insert(connections, res)
+           end
+       end
+       if table.getn(connections) == n then
+           socket.select(connections)
+       end
+    end
+end
+在内层的循环分配器收集连接表中timeout地连接，注意：receive将连接传递给yield，因此resume返回他们。当所有的连接都timeout分配器调用select等待任一连接状态的改变。最终的实现效率和上一个协同实现的方式相当，另外，他不会发生忙等待，比起顺序实现的方式消耗CPU的时间仅仅多一点点。

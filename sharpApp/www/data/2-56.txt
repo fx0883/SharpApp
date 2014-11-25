@@ -1,0 +1,26 @@
+Area 对象
+Area 对象代表图像映射的一个区域（图像映射指的是带有可点击区域的图像）
+在 HTML 文档中 <area> 标签每出现一次，就会创建一个 Area 对象。
+IE: Internet Explorer, F: Firefox, O: Opera, W3C: W3C 标准.
+Area 对象的属性
+属性 	描述 	IE 	F 	O 	W3C
+accessKey 	设置或返回访问某个区域的快捷键。 	5 	1 	No 	Yes
+alt 	设置或返回当浏览器无法显示某个区域时的替换文字。 	5 	1 	9 	Yes
+coords 	设置或返回图像映射中可点击区域的坐标。 	5 	1 	9 	Yes
+hash 	设置或返回某个区域中 URL 的锚部分。 	4 	1 	No 	No
+host 	设置或返回某个区域中 URL 的主机名和端口。 	4 	1 	No 	No
+href 	设置或返回图像映射中链接的 URL。 	4 	1 	9 	Yes
+id 	设置或返回某个区域的 id。 	4 	1 	9 	Yes
+noHref 	设置或返回某个区域是否应是活动的还是非活动的。 	5 	1 	9 	Yes
+pathname 	设置或返回某个区域中的 URL 的路径名。 	4 	1 	9 	No
+protocol 	设置或返回某个区域中的 URL 的协议。 	4 	1 	9 	No
+search 	设置或返回某个区域中 URL 的查询字符串部分。 	4 	1 	9 	No
+shape 	设置或返回图像映射中某个区域的形状。 	5 	1 	9 	Yes
+tabIndex 	设置或返回某个区域的 tab 键控制次序。 	5 	1 	9 	Yes
+target 	设置或返回在何处打开区域中的 link-URL。 	4 	1 	9 	Yes
+标准属性
+属性 	描述 	IE 	F 	O 	W3C
+className 	设置或返回元素的 class 属性。 	5 	1 	9 	Yes
+dir 	设置或返回文本的方向。 	5 	1 	9 	Yes
+lang 	设置或返回元素的语言代码。 	5 	1 	9 	Yes
+title 	设置或返回元素的 title。 	5 	1 	9 	Yes

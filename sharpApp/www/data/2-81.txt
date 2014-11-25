@@ -1,0 +1,159 @@
+Style 对象
+Style 对象代表一个单独的样式声明。可从应用样式的文档或元素访问 Style 对象。
+使用 Style 对象属性的语法：
+document.getElementById("id").style.property="值"
+Style 对象的属性：
+    背景
+    边框和边距
+    布局
+    列表
+    杂项
+    定位
+    打印
+    滚动条
+    表格
+    文本
+    规范
+IE: Internet Explorer, M: 仅适用于 Mac IE, W: 仅适用于 Windows IE, F: Firefox, O: Opera
+W3C: 万维网联盟 World Wide Web Consortium (Internet 标准).
+Background 属性
+属性 	描述 	IE 	F 	O 	W3C
+background 	在一行中设置所有的背景属性 	4 	1 	9 	Yes
+backgroundAttachment 	设置背景图像是否固定或随页面滚动 	4 	1 	9 	Yes
+backgroundColor 	设置元素的背景颜色 	4 	1 	9 	Yes
+backgroundImage 	设置元素的背景图像 	4 	1 	9 	Yes
+backgroundPosition 	设置背景图像的起始位置 	4 	No 	No 	Yes
+backgroundPositionX 	设置backgroundPosition属性的X坐标 	4 	No 	No 	No
+backgroundPositionY 	设置backgroundPosition属性的Y坐标 	4 	No 	No 	No
+backgroundRepeat 	设置是否及如何重复背景图像 	4 	1 	9 	Yes
+Border 和 Margin 属性
+属性 	描述 	IE 	F 	O 	W3C
+border 	在一行设置四个边框的所有属性 	4 	1 	9 	Yes
+borderBottom 	在一行设置底边框的所有属性 	4 	1 	9 	Yes
+borderBottomColor 	设置底边框的颜色 	4 	1 	9 	Yes
+borderBottomStyle 	设置底边框的样式 	4 	1 	9 	Yes
+borderBottomWidth 	设置底边框的宽度 	4 	1 	9 	Yes
+borderColor 	设置所有四个边框的颜色 (可设置四种颜色) 	4 	1 	9 	Yes
+borderLeft 	在一行设置左边框的所有属性 	4 	1 	9 	Yes
+borderLeftColor 	设置左边框的颜色 	4 	1 	9 	Yes
+borderLeftStyle 	设置左边框的样式 	4 	1 	9 	Yes
+borderLeftWidth 	设置左边框的宽度 	4 	1 	9 	Yes
+borderRight 	在一行设置右边框的所有属性 	4 	1 	9 	Yes
+borderRightColor 	设置右边框的颜色 	4 	1 	9 	Yes
+borderRightStyle 	设置右边框的样式 	4 	1 	9 	Yes
+borderRightWidth 	设置右边框的宽度 	4 	1 	9 	Yes
+borderStyle 	设置所有四个边框的样式 (可设置四种样式) 	4 	1 	9 	Yes
+borderTop 	在一行设置顶边框的所有属性 	4 	1 	9 	Yes
+borderTopColor 	设置顶边框的颜色 	4 	1 	9 	Yes
+borderTopStyle 	设置顶边框的样式 	4 	1 	9 	Yes
+borderTopWidth 	设置顶边框的宽度 	4 	1 	9 	Yes
+borderWidth 	设置所有四条边框的宽度 (可设置四种宽度) 	4 	1 	9 	Yes
+margin 	设置元素的边距 (可设置四个值) 	4 	1 	9 	Yes
+marginBottom 	设置元素的底边距 	4 	1 	9 	Yes
+marginLeft 	设置元素的左边距 	4 	1 	9 	Yes
+marginRight 	设置元素的右边据 	4 	1 	9 	Yes
+marginTop 	设置元素的顶边距 	4 	1 	9 	Yes
+outline 	在一行设置所有的outline属性 	5M 	1 	9 	Yes
+outlineColor 	设置围绕元素的轮廓颜色 	5M 	1 	9 	Yes
+outlineStyle 	设置围绕元素的轮廓样式 	5M 	1 	9 	Yes
+outlineWidth 	设置围绕元素的轮廓宽度 	5M 	1 	9 	Yes
+padding 	设置元素的填充 (可设置四个值) 	4 	1 	9 	Yes
+paddingBottom 	设置元素的下填充 	4 	1 	9 	Yes
+paddingLeft 	设置元素的左填充 	4 	1 	9 	Yes
+paddingRight 	设置元素的右填充 	4 	1 	9 	Yes
+paddingTop 	设置元素的顶填充 	4 	1 	9 	Yes
+Layout 属性
+属性 	描述 	IE 	F 	O 	W3C
+clear 	设置在元素的哪边不允许其他的浮动元素 	4 	1 	9 	Yes
+clip 	设置元素的形状 	4 	1 	9 	Yes
+content 	设置元信息 	5M 	1 	  	Yes
+counterIncrement 	设置其后是正数的计数器名称的列表。其中整数指示每当元素出现时计数器的增量。默认是1。 	5M 	1 	  	Yes
+counterReset 	设置其后是正数的计数器名称的列表。其中整数指示每当元素出现时计数器被设置的值。默认是0。 	5M 	1 	  	Yes
+cssFloat 	设置图像或文本将出现（浮动）在另一元素中的何处。 	5M 	1 	9 	Yes
+cursor 	设置显示的指针类型 	4 	1 	9 	Yes
+direction 	设置元素的文本方向 	5 	1 	9 	Yes
+display 	设置元素如何被显示 	4 	1 	9 	Yes
+height 	设置元素的高度 	4 	1 	9 	Yes
+markerOffset 	设置marker box的principal box距离其最近的边框边缘的距离 	5M 	1 	  	Yes
+marks 	设置是否cross marks或crop marks应仅仅被呈现于page box边缘之外 	5M 	1 	  	Yes
+maxHeight 	设置元素的最大高度 	5M 	1 	9 	Yes
+maxWidth 	设置元素的最大宽度 	5M 	1 	9 	Yes
+minHeight 	设置元素的最小高度 	5M 	1 	9 	Yes
+minWidth 	设置元素的最小宽度 	5M 	1 	9 	Yes
+overflow 	规定如何处理不适合元素盒的内容 	4 	1 	9 	Yes
+verticalAlign 	设置对元素中的内容进行垂直排列 	4 	1 	No 	Yes
+visibility 	设置元素是否可见 	4 	1 	9 	Yes
+width 	设置元素的宽度 	4 	1 	9 	Yes
+List 属性
+属性 	描述 	IE 	F 	O 	W3C
+listStyle 	在一行设置列表的所有属性 	4 	1 	9 	Yes
+listStyleImage 	把图像设置为列表项标记 	4 	1 	No 	Yes
+listStylePosition 	改变列表项标记的位置 	4 	1 	9 	Yes
+listStyleType 	设置列表项标记的类型 	4 	1 	9 	Yes
+Positioning 属性
+属性 	描述 	IE 	F 	O 	W3C
+bottom 	设置元素的底边缘距离父元素底边缘的之上或之下的距离 	5 	1 	9 	Yes
+left 	置元素的左边缘距离父元素左边缘的左边或右边的距离 	4 	1 	9 	Yes
+position 	把元素放置在static, relative, absolute 或 fixed 的位置 	4 	1 	9 	Yes
+right 	置元素的右边缘距离父元素右边缘的左边或右边的距离 	5 	1 	9 	Yes
+top 	设置元素的顶边缘距离父元素顶边缘的之上或之下的距离 	4 	1 	9 	Yes
+zIndex 	设置元素的堆叠次序 	4 	1 	9 	Yes
+Printing 属性
+属性 	描述 	IE 	F 	O 	W3C
+orphans 	设置段落留到页面底部的最小行数 	5M 	1 	9 	Yes
+page 	设置显示某元素时使用的页面类型 	5M 	1 	9 	Yes
+pageBreakAfter 	设置某元素之后的分页行为 	4 	1 	9 	Yes
+pageBreakBefore 	设置某元素之前的分页行为 	4 	1 	9 	Yes
+pageBreakInside 	设置某元素内部的分页行为 	5M 	1 	9 	Yes
+size 	设置页面的方向和尺寸 	  	1 	9 	Yes
+widows 	设置段落必须留到页面顶部的最小行数 	5M 	1 	9 	Yes
+Scrollbar 属性 (IE-only)
+属性 	描述 	IE 	F 	O 	W3C
+scrollbar3dLightColor 	设置箭头和滚动条左侧和顶边的颜色 	5W 	No 	No 	No
+scrollbarArrowColor 	设置滚动条上的箭头颜色 	5W 	No 	No 	No
+scrollbarBaseColor 	设置滚动条的底色 	5W 	No 	No 	No
+scrollbarDarkShadowColor 	设置箭头和滚动条右侧和底边的颜色 	5W 	No 	No 	No
+scrollbarFaceColor 	设置滚动条的表色 	5W 	No 	No 	No
+scrollbarHighlightColor 	设置箭头和滚动条左侧和顶边的颜色，以及滚动条的背景 	5W 	No 	No 	No
+scrollbarShadowColor 	设置箭头和滚动条右侧和底边的颜色 	5W 	No 	No 	No
+scrollbarTrackColor 	设置滚动条的背景色 	5W 	No 	No 	No
+Table 属性
+属性 	描述 	IE 	F 	O 	W3C
+borderCollapse 	设置表格边框是否合并为单边框，或者像在标准的HTML中那样分离。 	5 	1 	9 	Yes
+borderSpacing 	设置分隔单元格边框的距离 	5M 	1 	9 	Yes
+captionSide 	设置表格标题的位置 	5M 	No 	No 	Yes
+emptyCells 	设置是否显示表格中的空单元格 	5M 	1 	9 	Yes
+tableLayout 	设置用来显示表格单元格、行以及列的算法 	5 	No 	No 	Yes
+Text 属性
+属性 	描述 	IE 	F 	O 	W3C
+color 	设置文本的颜色 	4 	1 	9 	Yes
+font 	在一行设置所有的字体属性 	4 	1 	9 	Yes
+fontFamily 	设置元素的字体系列。 	4 	1 	9 	Yes
+fontSize 	设置元素的字体大小。 	4 	1 	9 	Yes
+fontSizeAdjust 	设置/调整文本的尺寸 	5M 	1 	No 	Yes
+fontStretch 	设置如何紧缩或伸展字体 	5M 	No 	No 	Yes
+fontStyle 	设置元素的字体样式 	4 	1 	9 	Yes
+fontVariant 	用小型大写字母字体来显示文本 	4 	1 	9 	Yes
+fontWeight 	设置字体的粗细 	4 	1 	9 	Yes
+letterSpacing 	设置字符间距 	4 	1 	9 	Yes
+lineHeight 	设置行间距 	4 	1 	9 	Yes
+quotes 	设置在文本中使用哪种引号 	5M 	1 	  	Yes
+textAlign 	排列文本 	4 	1 	9 	Yes
+textDecoration 	设置文本的修饰 	4 	1 	9 	Yes
+textIndent 	缩紧首行的文本 	4 	1 	9 	Yes
+textShadow 	设置文本的阴影效果 	5M 	1 	  	Yes
+textTransform 	对文本设置大写效果 	4 	1 	9 	Yes
+unicodeBidi 	  	5 	1 	  	Yes
+whiteSpace 	设置如何设置文本中的折行和空白符 	4 	1 	9 	Yes
+wordSpacing 	设置文本中的词间距 	6 	1 	9 	Yes
+标准属性
+属性 	描述 	IE 	F 	O 	W3C
+dir 	设置或返回文本的方向 	5 	1 	9 	Yes
+lang 	设置或返回元素的语言代码 	5 	1 	9 	Yes
+title 	设置或返回元素的咨询性的标题 	5 	1 	9 	Yes
+cssText 属性
+它是一组样式属性及其值的文本表示。这个文本格式化为一个 CSS 样式表，去掉了包围属性和值的元素选择器的花括号。
+将这一属性设置为非法的值将会抛出一个代码为 SYNTAX_ERR 的 DOMException 异常。当 CSS2Properties 对象是只读的时候，试图设置这一属性将会抛出一个代码为 NO_MODIFICATION_ALLOWED_ERR 的 DOMException 异常。
+关于 CSS2Properties 对象
+CSS2Properties 对象表示一组 CSS 样式属性及其值。它为 CSS 规范定义的每一个 CSS 属性都定义一个 JavaScript 属性。
+一个 HTMLElement 的 style 属性是一个可读可写的 CSS2Properties 对象，就好像 CSSRule 对象的 style 属性一样。不过，Window.getComputedStyle() 的返回值是一个 CSS2Properties 对象，其属性是只读的。

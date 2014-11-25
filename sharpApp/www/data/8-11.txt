@@ -1,0 +1,86 @@
+I/O是Input/Output的缩写， 类IO是所有IO处理的基类，定义了I/O操作的接口。I/O流可以是单向也可以是双向。
+	IO类实用Unix文件描述符的概念，使用整数代表打开的文件。0代表标准输入，1代表标准输出，2代表标准错误。
+	IO端口可以以多种模式打开，以下表中列出了所有模式：
+模式	含义
+r	只读，从文件头开始（默认模式）
+r+	读写，从文件头开始
+w	只写，文件不存在则创建文件，文件存在则清空内容
+w+	读写，文件不存在则创建文件，文件存在则清空内容
+a	只写，文件不存在则创建文件，文件存在则在尾部添加
+a+	读写，文件不存在则创建文件，文件存在则在尾部添加
+b	(只用于DOS/Windows)二进制文件，可以和上述模式一同出现
+§11.1 使用Kernel模块处理I/O操作
+在Ruby中你可以使用多种方法操作I/O。在Kernel模块中已经实现了一系列I/O相关的方法gets, open, print, printf, putc, puts, readline, readlines, 和test方法,使用他们可以方便快捷的写出程序。
+§11.2文件处理
+我们使用File类来操作文件，可以通过File.new来创建一个File类的实例并打开这个文件。
+	file = File.new("testfile", "r")
+	# ... process the file
+	file.close
+testfile是想要操作的文件名，”r”说明了文件的操作模式为读取。可以使用”w”表示写入，”rw”表示读写。
+最后记得关闭打开的文件，确保所有被缓冲的数据被写入文件，所有相关的资源被释放。
+我们也可以使用File.open来打开文件，open和new的不同是open可以使用其后的代码块而new方法则返回一个File类的实例。
+File.open("testfile", "r") do |file|
+# ... process the file
+end
+open操作的另一个优点是处理了异常，如果处理一个文件发生错误抛出了
+异常的话，那么open操作会自动关闭这个文件，下面是open操作的大致实现：
+class File
+	def File.open(*args)
+	result = f = File.new(*args)
+	if block_given?
+	begin
+	result = yield f
+	ensure
+	f.close
+	end
+	end
+	return result
+	end
+end
+	对于文件的路径，Ruby会在不同的操作系统间作转换。例如，在Windows下，/ruby/sample/test.rb会被转化为\ruby\sample\test.rb。当你使用字符串表示一个Windows下的文件时，请记住使用反斜线先转义：
+	“c:\\ruby\\sample\\test.rb”
+你也可以使用File::SEPARATOR表示不同系操作统的路径分割符。
+§11.3 StringIO
+StringIO是与IO相同接口的字符串类。StringIO操作像其它的I/O对象，但StringIO是对字符串进行读和写。如果打开一个StringIO对象用于读，需要提供给它源字符串，然后在StringIO对象上进行所有读操作并返回操作结果。同样，当对一个StringIO对象执行写操作时，需要传递给它一个要被填充的目的字符串。
+#创建一个StringIO对象
+io = StringIO.new("abc")
+io.getc
+#从io中读取一个字符，返回ASCII码
+p io.getc  =>98
+#当前的位置
+p io.pos   => 2
+p io.size	=> 3
+io << "bar"
+p io.size	=> 5
+io.rewind
+p io.gets  => "abbar"
+
+require 'stringio'
+ip = StringIO.new("This\nis\na\ndog!")
+op = StringIO.new("", "w")
+ip.each_line do |line|
+	op.print "...", line
+end
+print op.string
+输出结果为：
+...This
+...is
+...a
+...dog!
+§11.4 Socket
+	使用Ruby处理网络十分灵活，Ruby提供了一系列的库来支持TCP，UDP，HTTP，SOCKS，Unix套接字和各种各样的网络协议。所有的Socket的都是IO直接或间接的子类。
+(to-do 图)
+require 'socket'
+socket = UDPSocket.new
+socket.bind("127.0.0.1", 12345)
+loop do
+		msg, sender = socket.recvfrom(100)
+		host = sender[3]
+		puts "#{Time.now}: #{host} '#{msg}'"
+end
+
+require 'socket'
+log = UDPSocket.new
+log.connect("127.0.0.1", 12121)
+log.print "Up and Running!"
+log.print "Done!"

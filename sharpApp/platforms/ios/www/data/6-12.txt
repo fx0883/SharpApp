@@ -1,0 +1,48 @@
+除了依赖于几个系统提供的类（如 System.Console），到目前为止介绍的程序都是独立存在的。但更常见的情况是：实际的应用程序由若干不同的部分组成，每个部分分别进行编译。例如，企业级应用程序可能依赖于若干不同的组件，其中包括某些内部开发的组件和某些从独立软件供应商处购买的组件。
+命名空间和程序集有助于开发基于组件的系统。命名空间提供一个逻辑组织体系。命名空间既用作程序的“内部”组织体系，也用作“外部”组织体系（一种表示向其他程序公开程序元素的途径）。
+程序集用于物理打包和部署。程序集可以包含类型、用于实现这些类型的可执行代码以及对其他程序集的引用。
+有两种主要的程序集：应用程序和库。应用程序有一个主入口点，通常具有 .exe 文件扩展名；而库没有主入口点，通常具有 .dll 文件扩展名。
+为了说明命名空间和程序集的使用，本节再次以前面介绍的“hello, world”程序为例，并将它分为两个部分：提供消息的类库和显示消息的控制台应用程序。
+这个类库仅含一个名为 HelloMessage 的类。示例
+// HelloLibrary.cs
+namespace Microsoft.CSharp.Introduction
+{
+   public class HelloMessage
+   {
+      public string Message {
+         get {
+            return "hello, world";
+         }
+      }
+   }
+}
+显示了名为 Microsoft.CSharp.Introduction 的命名空间中的 HelloMessage 类。HelloMessage 类提供一个名为 Message 的只读属性。命名空间可以嵌套，而声明
+namespace Microsoft.CSharp.Introduction
+{...}
+仅是若干层命名空间嵌套的简写形式。若不简化，则应该像下面这样声明：
+namespace Microsoft
+{
+   namespace CSharp
+   {
+      namespace Introduction
+      {...}
+   }
+} 
+将“hello, world”组件化的下一个步骤是编写使用 HelloMessage 类的控制台应用程序。可以使用此类的完全限定名 Microsoft.CSharp.Introduction.HelloMessage，但该名称太长，使用起来不方便。一种更方便的方法是使用“using 命名空间指令”，这样，使用相应的命名空间中的所有类型时就不必加限定名称。示例
+// HelloApp.cs
+using Microsoft.CSharp.Introduction;
+class HelloApp
+{
+   static void Main() {
+      HelloMessage m = new HelloMessage();
+      System.Console.WriteLine(m.Message);
+   }
+}
+显示了一个引用 Microsoft.CSharp.Introduction 命名空间的 using 命名空间指令。这样，HelloMessage 就成为 Microsoft.CSharp.Introduction.HelloMessage 的简写形式。
+C# 还允许定义和使用别名。using 别名指令定义类型的别名。当两个类库之间发生名称冲突时，或者当使用大得多的命名空间中的少数类型时，这类别名很有用。示例
+using MessageSource = Microsoft.CSharp.Introduction.HelloMessage;
+显示了一个 using 别名指令，该指令将 MessageSource 定义为 HelloMessage 类的别名。
+我们已编写的代码可以编译为包含类 HelloMessage 的类库和包含类 HelloApp 的应用程序。此编译步骤的细节可能因使用的编译器或工具而异。使用 Visual Studio .NET 中提供的命令行编译器时，用如下所列的命令：
+csc /target:library HelloLibrary.cs 
+csc /reference:HelloLibrary.dll HelloApp.cs
+它产生一个名为 HelloLibrary.dll 的类库和一个名为 HelloApp.exe 的应用程序。

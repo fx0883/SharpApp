@@ -1,0 +1,61 @@
+本节给出的标识符规则完全符合 Unicode 标准附件 15 推荐的规则，但以下情况除外：允许将下划线用作初始字符（这是 C 编程语言的传统），允许在标识符中使用 Unicode 转义序列，以及允许“@”字符作为前缀以使关键字能够用作标识符。
+identifier:（标识符：）
+    available-identifier（可用的标识符）
+    @   identifier-or-keyword（@   标识符或关键字） 
+available-identifier:（可用的标识符：）
+    不是“关键字”的“标识符或关键字” 
+identifier-or-keyword:（标识符或关键字：）
+    identifier-start-character   identifier-part-charactersopt（标识符开始字符   标识符部分字符可选） 
+identifier-start-character:（标识符开始字符：）
+    letter-character（字母字符）
+    _（下划线字符 U+005F） 
+identifier-part-characters:（标识符部分字符：）
+    identifier-part-character（标识符部分字符）
+    identifier-part-characters   identifier-part-character（标识符部分字符   标识符部分字符） 
+identifier-part-character:（标识符部分字符：）
+    letter-character（字母字符）
+    decimal-digit-character（十进制数字字符）
+    connecting-character（连接字符）
+    combining-character（组合字符）
+    formatting-character（格式设置字符） 
+letter-character:（字母字符：）
+    类 Lu、Ll、Lt、Lm、Lo 或 Nl 的 Unicode 字符
+    表示类 Lu、Ll、Lt、Lm、Lo 或 Nl 的字符的 unicode 转义序列 
+combining-character:（组合字符：）
+    类 Mn 或 Mc 的 Unicode 字符
+    表示类 Mn 或 Mc 的字符的 unicode 转义序列 
+decimal-digit-character:（十进制数字字符：）
+    类 Nd 的 Unicode 字符
+    表示类 Nd 的字符的 unicode 转义序列 
+connecting-character:（连接字符：）
+    类 Pc 的 Unicode 字符
+    表示类 Pc 的字符的 unicode 转义序列 
+formatting-character:（格式设置字符：）
+    类 Cf 的 Unicode 字符
+    表示类 Cf 的字符的 unicode 转义序列 
+有关上面提到的 Unicode 字符类的信息，请参见《Unicode 标准 3.0 版》的第 4.5 节。
+有效标识符的例子包括“identifier1”、“_identifier2”和“@if”。
+符合规范的程序中的标识符必须符合由“Unicode 标准化格式 C”（按“Unicode 标准附录 15”中的定义）定义的规范格式。当遇到非“标准化格式 C”格式的标识符时，怎样处理它可由 C# 的具体实现确定，但是不要求诊断。
+使用前缀“@”可以将关键字用作标识符，这在与其他编程语言建立接口时很有用。字符 @ 并不是标识符的实际组成部分，因此在其他语言中可能将此标识符视为不带前缀的正常标识符。带 @ 前缀的标识符称作逐字标识符。允许将 @ 前缀用于非关键字的标识符，但是（从代码书写样式的意义上）强烈建议不要这样做。
+示例：
+class @class
+{
+   public static void @static(bool @bool) {
+      if (@bool)
+         System.Console.WriteLine("true");
+      else
+         System.Console.WriteLine("false");
+   }   
+}
+class Class1
+{
+   static void M() {
+      cl\u0061ss.st\u0061tic(true);
+   }
+}
+定义一个名为“class”的类，该类具有一个名为“static”的静态方法，此方法带一个名为“bool”的参数。请注意，由于在关键字中不允许使用 Unicode 转义符，因此标记“cl\u0061ss”是标识符，与“@class”标识符相同。
+两个标识符如果在按顺序实施了下列转换后相同，则被视为相同：
+    如果使用了前缀“@”，移除它。
+    将每个“unicode 转义序列”转换为它的对应 Unicode 字符。
+    移除所有“格式化字符”。 
+包含两个连续下划线字符 (U+005F) 的标识符被保留供具体实现使用。例如，一个实现可以设置它自己的以两个下划线开头的扩展关键字。

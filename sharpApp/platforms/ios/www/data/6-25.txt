@@ -1,0 +1,5 @@
+有两种布尔值：true 和 false。
+boolean-literal:（布尔值：）
+    true
+    false 
+布尔值的类型为 bool。

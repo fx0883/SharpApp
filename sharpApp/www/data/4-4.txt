@@ -1,0 +1,51 @@
+Json.NET序列化器可以序列化各种类型的.NET对象。这个向导主要着墨在高层和更多细节上如何工作。
+4.1 综述
+在高层上，Json.NET序列器将把.NET原始值转换成JSON原始值，.NET数组和集合转成JSON数组和可以用JSON对象表达的任何东西。
+Json.NET在反序列化一个值的时候遇到错误的JSON就会抛出一个错误。例如，如果序列化器遇到一个JSON属性，是一个值数组但匹配的.NET属性类型却不是一个集合，那么将会抛出一个错误，反之亦然。
+复杂类型
+.NET	JSON
+IList, IEnumerable, IList<T>, Array	Array
+IDictionary, IDictionary<TKey, TValue>	Object
+Object (more detail below)	Object
+原始类型
+.NET	JSON
+String	String
+ByteSByteUInt16Int16UInt32Int32UInt64Int64	Integer
+FloatDoubleDecimal	Float
+Enum	Integer (也可用 StringEnumConverter变字串)
+DateTime	String (Serializing Dates in JSON)
+Byte[]	String (base 64 encoded)
+Type	String (类型名)
+Guid	String
+TypeConverter(可变成字符串)	String
+4.2 各类型序列化详解
+Objects
+不属于下面列出的任何分类的.NET类型（换句话说，不是list、dictionary、dynamic、ISerializable实现等等）都被序列化为JSON objects。
+默认情况下，类型被以opt-out模式序列化。这意味着所有public field和property（getter）将自动被序列化成JSON，而不是去序列化那些使用JsonIgnoreAttribute来剔除的成员。为了序列化private 成员，JsonPropertyAttribute 应该被放在private field和property上，或者修改DefaultMembersSearchFlags 来更改所有类型的成员如何被序列化。
+类型也可以用opt-in模式来序列化。只有拥有JsonPropertyAttribute 或DataMemberAttribute 的成员才会被序列化。一个对象的Opt-in模式可以用JsonObjectAttribute 放在类上来指定。
+IEnumerable, Lists and Arrays
+.NET list（继承自IEnumerable的类型）和.NET数组，被转换成JSON数组。因为JSON数组只支持一系列元素值，而不支持.NET集合对象的属性，任何额外的声明在.NET集合上的property和field并不会被序列化。 
+如果确实不需要JSON数组，那么可以把JsonObjectAttribute 放在一个实现了IEnumerable 接口的.NET类型上，来强迫这个类型被序列化为一个JSON object（而不是JSON数组）。
+ 注意如果TypeNameHandling 或PreserveReferencesHandling 对JSON数组序列化启用的话，那么JSON数组被打包在一个包含对象里。这个对象将有type name/reference属性，和一个$value属性用来包含集合数据。
+当反序列化时，如果一个成员是例如IList<T>接口类型，那么它将会被反序列化为List<T>。
+Read more about serializing collections here: Serializing Collections
+Dictionarys and Hashtables
+.NET Dictionary（继承自IDictionary）被转换为JSON对象。注意，在序列化的时候只有Dictionary的name/value对会被写入到JSON对象中，反序列化时JSON对象的属性将会被添加为Dictionary的name/value对。.NET dictionary 额外的成员在序列化期间是被忽略的。
+当反序列化时，如果一个成员是比如IDictionary<TKey, TValue>接口类型，那么它将会被反序列化为Dictionary<TKey, TValue>。
+Read more about serializing collections here: Serializing Collections
+Untyped Objects
+一个未指定类型的的class的.NET属性照例被序列化。当未指定类型的属性被反序列化的时候，序列化器没办法直到创建什么类型（除非类型名处理被启动，并且JSON中包含类型名）。
+为了这些未指定类型属性，Json.NET序列化器将读取JSON到LINQtoJSON 对象中，然后设置他们为property。JObject将会被创建为JSON对象，JArray将被创建为JSON数组，JValue被创建JSON原始值。
+Dynamic
+在.NET(.NET4.0)中有两种dynamic 类型的用法。第一种是.NET property为动态类型。dynamic property行为就像被声明为object property，任何值都可以被赋予其上，但是不同在于其属性和方法的调用，无需提前对dynamic property转换类型。在Json.NET中，dynamic property被序列化和反序列化，完全和untyped object一致：因为动态不是一个明确的类型，Json.NET采用后备的反序列化方法，即把JSON变成 JSONtoObject对象。
+第二种用法是实现 IDynamicMetaObjectProvider 接口的类。这个接口让它的实现可以创建动态对象，并拦截对其属性和方法的调用。 ExpandoObject 是一个关于动态对象的很好例子。
+动态对象被序列化为JSON object。DynamicMetaObject.GetDynamicMemberNames返回的每个成员名被写入属性。
+当反序列化动态对象时，序列化器首先试图设置JSON属性值到一个普通的.NET成员（机器名）。如果没有找到这个属性名的.NET成员，那么序列化器将调用SetMember 在动态对象上。因为动态对象的动态成员上没有类型信息，所以值之后会被赋予LINQtoJSON对象。
+ISerializable
+实现了ISerializable 的类型被序列化为JSON对象。序列化时，只有从ISerializable.GetObjectData返回的值会被使用；这个类型上的实际成员会被忽略。当反序列化时，携带SerializationInfo 和 StreamingContext 的构造器会被调用，传入JSON 对象的值。
+如果不希望这个行为，可以把JsonObjectAttribute 放在一个实现ISerializable 的.NET类型，以强制其被序列化作为一个普通的JSON对象。
+LINQ to JSON
+当Json.NET序列化器遇到LINQ to JSON类型（例如：JObject，JArray）时， 会自动序列化和反序列化到他们对等的JSON。
+JsonConverter
+可以被JsonConverter 改变的序列化值（换言之：这个类型的CanConvert 返回true）是完全被JsonConverter覆盖的。看是否一个值可以被JsonSerializer 转换，优先于其他所有的检测。
+JsonConverter们可以被定义并且在许多地方指定：在一个成员的attribute里，在一个类的attribute 里，以及添加到JsonSerializer的converter集合中。使用哪一个JsonConverter 的优先级：首先成员上有attribute 所定义，然后JsonConverter 被一个类上的属性所定义，最后其他传入到JsonSerializer的转换器。

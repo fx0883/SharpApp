@@ -11,3 +11,1058 @@ https://developer.apple.com/icloud/documentation/data-storage/
 
 2014-11-21 13:55:39.072 SharpApp[2384:122126] Resetting plugins due to page load.
 2014-11-21 13:55:39.369 SharpApp[2384:122126] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/6A0763FD-2189-4C1E-8A06-8DE77729DF21/SharpApp.app/www/index.html
+2014-11-24 10:40:09.796 SharpApp[1284:33774] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/1A8BDDA0-2003-4D6E-B5CB-419D661EA46C/Library/Cookies/Cookies.binarycookies
+2014-11-24 10:40:09.900 SharpApp[1284:33774] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 10:40:09.901 SharpApp[1284:33774] Multi-tasking -> Device: YES, App: YES
+2014-11-24 10:40:09.926 SharpApp[1284:33774] Unlimited access to network resources
+2014-11-24 10:40:09.931 SharpApp[1284:33774] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 10:40:10.468 SharpApp[1284:33774] Resetting plugins due to page load.
+2014-11-24 10:40:10.851 SharpApp[1284:33774] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/AF8F0870-E0E4-478C-A403-192B8B35F198/SharpApp.app/www/index.html
+2014-11-24 11:12:53.038 SharpApp[1884:47406] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/1AF60516-C99A-472E-87B4-34F871D7A6AD/Library/Cookies/Cookies.binarycookies
+2014-11-24 11:12:53.135 SharpApp[1884:47406] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 11:12:53.136 SharpApp[1884:47406] Multi-tasking -> Device: YES, App: YES
+2014-11-24 11:12:53.141 SharpApp[1884:47406] Unlimited access to network resources
+2014-11-24 11:12:53.144 SharpApp[1884:47406] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 11:12:53.544 SharpApp[1884:47406] Resetting plugins due to page load.
+2014-11-24 11:12:53.873 SharpApp[1884:47406] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/8642ED6C-1A2A-41FF-872E-5272B957AA1F/SharpApp.app/www/index.html
+2014-11-24 11:18:08.447 SharpApp[2400:49969] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/698A7632-F86C-4898-B3AC-99458ADF1AF1/Library/Cookies/Cookies.binarycookies
+2014-11-24 11:18:08.547 SharpApp[2400:49969] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 11:18:08.548 SharpApp[2400:49969] Multi-tasking -> Device: YES, App: YES
+2014-11-24 11:18:08.556 SharpApp[2400:49969] Unlimited access to network resources
+2014-11-24 11:18:08.559 SharpApp[2400:49969] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 11:18:09.057 SharpApp[2400:49969] Resetting plugins due to page load.
+2014-11-24 11:18:09.786 SharpApp[2400:49969] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/8E95BA0D-0154-41D1-9462-4E06DB5F2D5F/SharpApp.app/www/index.html
+2014-11-24 11:22:50.058 SharpApp[2864:52579] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/8BDDB092-952E-40C9-878A-26696F40C48C/Library/Cookies/Cookies.binarycookies
+2014-11-24 11:22:50.159 SharpApp[2864:52579] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 11:22:50.160 SharpApp[2864:52579] Multi-tasking -> Device: YES, App: YES
+2014-11-24 11:22:50.165 SharpApp[2864:52579] Unlimited access to network resources
+2014-11-24 11:22:50.169 SharpApp[2864:52579] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 11:22:50.490 SharpApp[2864:52579] Resetting plugins due to page load.
+2014-11-24 11:22:50.776 SharpApp[2864:52579] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/1513345D-D3C4-4BD3-97C6-391E9E4F4F2D/SharpApp.app/www/index.html
+2014-11-24 11:26:16.420 SharpApp[3348:54763] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/10C732D6-B333-4B6B-867F-AC6567E4A6EC/Library/Cookies/Cookies.binarycookies
+2014-11-24 11:26:16.517 SharpApp[3348:54763] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 11:26:16.517 SharpApp[3348:54763] Multi-tasking -> Device: YES, App: YES
+2014-11-24 11:26:16.523 SharpApp[3348:54763] Unlimited access to network resources
+2014-11-24 11:26:16.525 SharpApp[3348:54763] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 11:26:16.788 SharpApp[3348:54763] Resetting plugins due to page load.
+2014-11-24 11:26:17.114 SharpApp[3348:54763] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/75552A47-F3F4-431E-9D4F-8D54CC1D33FC/SharpApp.app/www/index.html
+2014-11-24 11:28:35.837 SharpApp[3811:56235] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/DDAF793E-0535-4F68-A1CA-5489E0CA5197/Library/Cookies/Cookies.binarycookies
+2014-11-24 11:28:35.925 SharpApp[3811:56235] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 11:28:35.926 SharpApp[3811:56235] Multi-tasking -> Device: YES, App: YES
+2014-11-24 11:28:35.931 SharpApp[3811:56235] Unlimited access to network resources
+2014-11-24 11:28:35.935 SharpApp[3811:56235] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 11:28:36.222 SharpApp[3811:56235] Resetting plugins due to page load.
+2014-11-24 11:28:36.498 SharpApp[3811:56235] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/AA74BD12-7033-4787-B467-3D8765CC3AE5/SharpApp.app/www/index.html
+2014-11-24 11:48:16.821 SharpApp[4306:66874] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/51D0346D-6E81-419B-A468-E795F9847337/Library/Cookies/Cookies.binarycookies
+2014-11-24 11:48:16.919 SharpApp[4306:66874] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 11:48:16.919 SharpApp[4306:66874] Multi-tasking -> Device: YES, App: YES
+2014-11-24 11:48:16.925 SharpApp[4306:66874] Unlimited access to network resources
+2014-11-24 11:48:16.927 SharpApp[4306:66874] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 11:48:17.240 SharpApp[4306:66874] Resetting plugins due to page load.
+2014-11-24 11:48:17.630 SharpApp[4306:66874] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/A1B10D56-0BC2-4073-A072-3B4489C09A9C/SharpApp.app/www/index.html
+2014-11-24 11:49:49.985 SharpApp[4768:67989] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/1D6D9A22-A263-4A71-9171-F604CA9B3EAF/Library/Cookies/Cookies.binarycookies
+2014-11-24 11:49:50.104 SharpApp[4768:67989] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 11:49:50.104 SharpApp[4768:67989] Multi-tasking -> Device: YES, App: YES
+2014-11-24 11:49:50.112 SharpApp[4768:67989] Unlimited access to network resources
+2014-11-24 11:49:50.116 SharpApp[4768:67989] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 11:49:50.412 SharpApp[4768:67989] Resetting plugins due to page load.
+2014-11-24 11:49:50.735 SharpApp[4768:67989] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/EC2E161C-412D-42FC-A8B0-B8CBF4A5460C/SharpApp.app/www/index.html
+2014-11-24 11:51:47.251 SharpApp[5235:69395] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/021D2234-1417-4D62-B85C-49891A02A490/Library/Cookies/Cookies.binarycookies
+2014-11-24 11:51:47.372 SharpApp[5235:69395] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 11:51:47.373 SharpApp[5235:69395] Multi-tasking -> Device: YES, App: YES
+2014-11-24 11:51:47.383 SharpApp[5235:69395] Unlimited access to network resources
+2014-11-24 11:51:47.385 SharpApp[5235:69395] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 11:51:48.271 SharpApp[5235:69395] Resetting plugins due to page load.
+2014-11-24 11:51:48.544 SharpApp[5235:69395] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/C7B6B6F4-03FF-459A-84EB-C135A20F0D16/SharpApp.app/www/index.html
+2014-11-24 11:52:29.792 SharpApp[5696:70371] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/C64F1B9C-372F-4837-B20A-DD939F727BF4/Library/Cookies/Cookies.binarycookies
+2014-11-24 11:52:29.908 SharpApp[5696:70371] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 11:52:29.909 SharpApp[5696:70371] Multi-tasking -> Device: YES, App: YES
+2014-11-24 11:52:29.917 SharpApp[5696:70371] Unlimited access to network resources
+2014-11-24 11:52:29.920 SharpApp[5696:70371] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 11:52:30.241 SharpApp[5696:70371] Resetting plugins due to page load.
+2014-11-24 11:52:30.535 SharpApp[5696:70371] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/D0A17D85-0920-45B2-A3CE-5BF55780BD2C/SharpApp.app/www/index.html
+2014-11-24 11:53:03.656 SharpApp[6155:71223] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/CB46734F-0727-441E-BBEE-841338726211/Library/Cookies/Cookies.binarycookies
+2014-11-24 11:53:03.773 SharpApp[6155:71223] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 11:53:03.774 SharpApp[6155:71223] Multi-tasking -> Device: YES, App: YES
+2014-11-24 11:53:03.782 SharpApp[6155:71223] Unlimited access to network resources
+2014-11-24 11:53:03.785 SharpApp[6155:71223] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 11:53:04.062 SharpApp[6155:71223] Resetting plugins due to page load.
+2014-11-24 11:53:04.379 SharpApp[6155:71223] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/9004C675-D5C8-4B6F-B497-AB2BB0A9CFA9/SharpApp.app/www/index.html
+2014-11-24 11:53:57.887 SharpApp[6665:72697] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/02D9675A-D59F-4F6B-B933-9CD549216E35/Library/Cookies/Cookies.binarycookies
+2014-11-24 11:53:57.992 SharpApp[6665:72697] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 11:53:57.992 SharpApp[6665:72697] Multi-tasking -> Device: YES, App: YES
+2014-11-24 11:53:58.000 SharpApp[6665:72697] Unlimited access to network resources
+2014-11-24 11:53:58.004 SharpApp[6665:72697] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 11:53:58.318 SharpApp[6665:72697] Resetting plugins due to page load.
+2014-11-24 11:53:58.622 SharpApp[6665:72697] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/D215012D-0ECD-47FD-9E21-2B08C591F3EC/SharpApp.app/www/index.html
+2014-11-24 11:54:55.950 SharpApp[7174:74154] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/E09B5164-30B3-4316-99C5-ACCAF56F3722/Library/Cookies/Cookies.binarycookies
+2014-11-24 11:54:56.056 SharpApp[7174:74154] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 11:54:56.057 SharpApp[7174:74154] Multi-tasking -> Device: YES, App: YES
+2014-11-24 11:54:56.065 SharpApp[7174:74154] Unlimited access to network resources
+2014-11-24 11:54:56.068 SharpApp[7174:74154] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 11:54:56.391 SharpApp[7174:74154] Resetting plugins due to page load.
+2014-11-24 11:54:56.764 SharpApp[7174:74154] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/0A93C2E4-9850-4544-9CA1-D6D29EA5F489/SharpApp.app/www/index.html
+2014-11-24 11:56:04.462 SharpApp[7648:75356] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/6829049D-B441-4AEC-B335-06B6DE5AD625/Library/Cookies/Cookies.binarycookies
+2014-11-24 11:56:04.563 SharpApp[7648:75356] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 11:56:04.564 SharpApp[7648:75356] Multi-tasking -> Device: YES, App: YES
+2014-11-24 11:56:04.568 SharpApp[7648:75356] Unlimited access to network resources
+2014-11-24 11:56:04.572 SharpApp[7648:75356] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 11:56:04.867 SharpApp[7648:75356] Resetting plugins due to page load.
+2014-11-24 11:56:05.168 SharpApp[7648:75356] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/8B9F6159-2137-4E49-ABCA-D6A8FFCDB366/SharpApp.app/www/index.html
+2014-11-24 11:57:06.994 SharpApp[8110:76437] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/328CF1E8-DE1F-4317-A739-B447361983E7/Library/Cookies/Cookies.binarycookies
+2014-11-24 11:57:07.111 SharpApp[8110:76437] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 11:57:07.112 SharpApp[8110:76437] Multi-tasking -> Device: YES, App: YES
+2014-11-24 11:57:07.120 SharpApp[8110:76437] Unlimited access to network resources
+2014-11-24 11:57:07.127 SharpApp[8110:76437] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 11:57:07.458 SharpApp[8110:76437] Resetting plugins due to page load.
+2014-11-24 11:57:07.798 SharpApp[8110:76437] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/DC6DFDBF-8C3A-49AF-8347-FBD4609853C0/SharpApp.app/www/index.html
+2014-11-24 11:59:29.107 SharpApp[8571:78143] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/C51AF50E-EE90-4E1E-B456-DF11F2762076/Library/Cookies/Cookies.binarycookies
+2014-11-24 11:59:29.235 SharpApp[8571:78143] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 11:59:29.236 SharpApp[8571:78143] Multi-tasking -> Device: YES, App: YES
+2014-11-24 11:59:29.244 SharpApp[8571:78143] Unlimited access to network resources
+2014-11-24 11:59:29.248 SharpApp[8571:78143] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 11:59:29.569 SharpApp[8571:78143] Resetting plugins due to page load.
+2014-11-24 11:59:29.853 SharpApp[8571:78143] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/18C7302B-1882-4673-A7A8-19CC8A81D8B1/SharpApp.app/www/index.html
+2014-11-24 12:00:20.654 SharpApp[9034:79214] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/1C12E72B-4071-47D9-8423-0D277D6E13DC/Library/Cookies/Cookies.binarycookies
+2014-11-24 12:00:20.758 SharpApp[9034:79214] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 12:00:20.758 SharpApp[9034:79214] Multi-tasking -> Device: YES, App: YES
+2014-11-24 12:00:20.768 SharpApp[9034:79214] Unlimited access to network resources
+2014-11-24 12:00:20.772 SharpApp[9034:79214] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 12:00:21.055 SharpApp[9034:79214] Resetting plugins due to page load.
+2014-11-24 12:00:21.424 SharpApp[9034:79214] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/F470866C-C49B-4505-BEB8-EFDB81B313C2/SharpApp.app/www/index.html
+2014-11-24 12:04:36.379 SharpApp[9499:82564] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/B9F883E9-BB64-44F4-923F-ADAC7D402A1C/Library/Cookies/Cookies.binarycookies
+2014-11-24 12:04:36.492 SharpApp[9499:82564] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 12:04:36.493 SharpApp[9499:82564] Multi-tasking -> Device: YES, App: YES
+2014-11-24 12:04:36.501 SharpApp[9499:82564] Unlimited access to network resources
+2014-11-24 12:04:36.504 SharpApp[9499:82564] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 12:04:36.828 SharpApp[9499:82564] Resetting plugins due to page load.
+2014-11-24 12:04:37.105 SharpApp[9499:82564] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/693500D8-D737-4182-BB1F-53E5A6E0A819/SharpApp.app/www/index.html
+2014-11-24 12:06:03.959 SharpApp[10005:84232] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/0534DB34-A298-4924-9424-FBABE7904C6E/Library/Cookies/Cookies.binarycookies
+2014-11-24 12:06:04.069 SharpApp[10005:84232] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 12:06:04.070 SharpApp[10005:84232] Multi-tasking -> Device: YES, App: YES
+2014-11-24 12:06:04.078 SharpApp[10005:84232] Unlimited access to network resources
+2014-11-24 12:06:04.081 SharpApp[10005:84232] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 12:06:04.406 SharpApp[10005:84232] Resetting plugins due to page load.
+2014-11-24 12:06:04.731 SharpApp[10005:84232] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/9EED2E33-D367-402D-B97F-95FD80B24F46/SharpApp.app/www/index.html
+2014-11-24 12:07:09.003 SharpApp[10467:85364] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/B22156DB-A481-4F68-9FC9-C66CDB9C6AE2/Library/Cookies/Cookies.binarycookies
+2014-11-24 12:07:09.111 SharpApp[10467:85364] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 12:07:09.112 SharpApp[10467:85364] Multi-tasking -> Device: YES, App: YES
+2014-11-24 12:07:09.120 SharpApp[10467:85364] Unlimited access to network resources
+2014-11-24 12:07:09.124 SharpApp[10467:85364] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 12:07:09.472 SharpApp[10467:85364] Resetting plugins due to page load.
+2014-11-24 12:07:09.743 SharpApp[10467:85364] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/012BE474-8C3B-4C7D-A6D8-DBF9BC2FF380/SharpApp.app/www/index.html
+2014-11-24 13:32:34.769 SharpApp[11090:124805] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/42A1AA69-6812-45A3-BC2D-218CCE57FD7F/Library/Cookies/Cookies.binarycookies
+2014-11-24 13:32:34.868 SharpApp[11090:124805] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 13:32:34.868 SharpApp[11090:124805] Multi-tasking -> Device: YES, App: YES
+2014-11-24 13:32:34.875 SharpApp[11090:124805] Unlimited access to network resources
+2014-11-24 13:32:34.878 SharpApp[11090:124805] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 13:32:35.319 SharpApp[11090:124805] Resetting plugins due to page load.
+2014-11-24 13:32:35.613 SharpApp[11090:124805] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/EB5270D1-C525-448F-ACEB-75F55C3C5BBB/SharpApp.app/www/index.html
+2014-11-24 13:33:30.590 SharpApp[11553:126159] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/0A6056AC-3907-41B7-9036-CAC2846BF466/Library/Cookies/Cookies.binarycookies
+2014-11-24 13:33:30.711 SharpApp[11553:126159] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 13:33:30.711 SharpApp[11553:126159] Multi-tasking -> Device: YES, App: YES
+2014-11-24 13:33:30.721 SharpApp[11553:126159] Unlimited access to network resources
+2014-11-24 13:33:30.725 SharpApp[11553:126159] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 13:33:31.060 SharpApp[11553:126159] Resetting plugins due to page load.
+2014-11-24 13:33:31.469 SharpApp[11553:126159] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/3F3046EB-02A6-4348-8E42-D6A172FF00EA/SharpApp.app/www/index.html
+2014-11-24 13:39:44.806 SharpApp[12029:129477] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/7B7B9104-80B0-4DC2-904B-B3E0901AF8B7/Library/Cookies/Cookies.binarycookies
+2014-11-24 13:39:44.896 SharpApp[12029:129477] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 13:39:44.897 SharpApp[12029:129477] Multi-tasking -> Device: YES, App: YES
+2014-11-24 13:39:44.902 SharpApp[12029:129477] Unlimited access to network resources
+2014-11-24 13:39:44.905 SharpApp[12029:129477] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 13:39:45.272 SharpApp[12029:129477] Resetting plugins due to page load.
+2014-11-24 13:39:45.550 SharpApp[12029:129477] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/1F7C221D-0406-48A4-BEA9-1811AD6DA453/SharpApp.app/www/index.html
+2014-11-24 13:41:22.103 SharpApp[12492:130811] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/D3506E03-A6A4-4953-9870-BCD0881AE7F3/Library/Cookies/Cookies.binarycookies
+2014-11-24 13:41:22.215 SharpApp[12492:130811] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 13:41:22.216 SharpApp[12492:130811] Multi-tasking -> Device: YES, App: YES
+2014-11-24 13:41:22.221 SharpApp[12492:130811] Unlimited access to network resources
+2014-11-24 13:41:22.224 SharpApp[12492:130811] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 13:41:22.525 SharpApp[12492:130811] Resetting plugins due to page load.
+2014-11-24 13:41:22.824 SharpApp[12492:130811] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/D1B89B7A-294B-45A5-BFA8-9F9D82BD3C0F/SharpApp.app/www/index.html
+2014-11-24 13:50:46.284 SharpApp[12978:138147] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/94BB099F-7C31-4D09-AAFC-4E6481DAD658/Library/Cookies/Cookies.binarycookies
+2014-11-24 13:50:46.391 SharpApp[12978:138147] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 13:50:46.392 SharpApp[12978:138147] Multi-tasking -> Device: YES, App: YES
+2014-11-24 13:50:46.399 SharpApp[12978:138147] Unlimited access to network resources
+2014-11-24 13:50:46.403 SharpApp[12978:138147] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 13:50:46.886 SharpApp[12978:138147] Resetting plugins due to page load.
+2014-11-24 13:50:46.949 SharpApp[12978:138147] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/6081AFE0-C6F9-497F-AFB5-2E0463077503/SharpApp.app/www/index.html
+2014-11-24 13:51:48.976 SharpApp[13445:139802] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/E063B66C-B2CB-47AC-85AD-5F4E57B5CA92/Library/Cookies/Cookies.binarycookies
+2014-11-24 13:51:49.049 SharpApp[13445:139802] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 13:51:49.050 SharpApp[13445:139802] Multi-tasking -> Device: YES, App: YES
+2014-11-24 13:51:49.055 SharpApp[13445:139802] Unlimited access to network resources
+2014-11-24 13:51:49.057 SharpApp[13445:139802] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 13:51:49.329 SharpApp[13445:139802] Resetting plugins due to page load.
+2014-11-24 13:51:49.370 SharpApp[13445:139802] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/4949F08D-A65B-414A-A8A2-47C851DAF879/SharpApp.app/www/index.html
+2014-11-24 13:52:20.037 SharpApp[13907:140983] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/D558061E-C4D1-43BB-8A2F-60E4E9E95F77/Library/Cookies/Cookies.binarycookies
+2014-11-24 13:52:20.136 SharpApp[13907:140983] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 13:52:20.136 SharpApp[13907:140983] Multi-tasking -> Device: YES, App: YES
+2014-11-24 13:52:20.144 SharpApp[13907:140983] Unlimited access to network resources
+2014-11-24 13:52:20.147 SharpApp[13907:140983] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 13:52:20.425 SharpApp[13907:140983] Resetting plugins due to page load.
+2014-11-24 13:52:20.575 SharpApp[13907:140983] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/BC9E8936-C050-403B-A960-D55C52FA6E99/SharpApp.app/www/index.html
+2014-11-24 13:53:25.470 SharpApp[14373:142585] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/61CAEC13-CF18-469B-8D21-2A52BEA11DD6/Library/Cookies/Cookies.binarycookies
+2014-11-24 13:53:25.590 SharpApp[14373:142585] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 13:53:25.591 SharpApp[14373:142585] Multi-tasking -> Device: YES, App: YES
+2014-11-24 13:53:25.600 SharpApp[14373:142585] Unlimited access to network resources
+2014-11-24 13:53:25.603 SharpApp[14373:142585] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 13:53:25.921 SharpApp[14373:142585] Resetting plugins due to page load.
+2014-11-24 13:53:26.015 SharpApp[14373:142585] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/64CB37EA-D841-45A9-AB51-AF7C1167009B/SharpApp.app/www/index.html
+2014-11-24 13:54:13.387 SharpApp[14836:143931] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/44791921-AA32-438A-AE36-8F666F87BA88/Library/Cookies/Cookies.binarycookies
+2014-11-24 13:54:13.519 SharpApp[14836:143931] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 13:54:13.520 SharpApp[14836:143931] Multi-tasking -> Device: YES, App: YES
+2014-11-24 13:54:13.528 SharpApp[14836:143931] Unlimited access to network resources
+2014-11-24 13:54:13.533 SharpApp[14836:143931] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 13:54:13.925 SharpApp[14836:143931] Resetting plugins due to page load.
+2014-11-24 13:54:14.057 SharpApp[14836:143931] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/D5F26D9A-20C3-4E80-9A61-8830A0FF033A/SharpApp.app/www/index.html
+2014-11-24 13:55:41.483 SharpApp[15301:145787] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/3B5CDB3D-4305-42FB-A94E-30AA45BB5CED/Library/Cookies/Cookies.binarycookies
+2014-11-24 13:55:41.568 SharpApp[15301:145787] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 13:55:41.569 SharpApp[15301:145787] Multi-tasking -> Device: YES, App: YES
+2014-11-24 13:55:41.574 SharpApp[15301:145787] Unlimited access to network resources
+2014-11-24 13:55:41.576 SharpApp[15301:145787] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 13:55:41.916 SharpApp[15301:145787] Resetting plugins due to page load.
+2014-11-24 13:55:42.012 SharpApp[15301:145787] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/C1A1272F-F1B1-41A4-AEFE-2475EDD3E35A/SharpApp.app/www/index.html
+2014-11-24 13:56:54.217 SharpApp[15779:147951] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/1FB601A6-A35A-4595-B7B6-5E071E79EBCE/Library/Cookies/Cookies.binarycookies
+2014-11-24 13:56:54.302 SharpApp[15779:147951] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 13:56:54.303 SharpApp[15779:147951] Multi-tasking -> Device: YES, App: YES
+2014-11-24 13:56:54.309 SharpApp[15779:147951] Unlimited access to network resources
+2014-11-24 13:56:54.312 SharpApp[15779:147951] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 13:56:54.586 SharpApp[15779:147951] Resetting plugins due to page load.
+2014-11-24 13:56:54.681 SharpApp[15779:147951] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/3A82E7DF-9C1A-4F4B-9617-C613E21C58AB/SharpApp.app/www/index.html
+2014-11-24 13:58:21.661 SharpApp[16243:149451] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/AF3D3DF3-00A5-41F0-ACE9-95E36DCB2198/Library/Cookies/Cookies.binarycookies
+2014-11-24 13:58:21.787 SharpApp[16243:149451] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 13:58:21.787 SharpApp[16243:149451] Multi-tasking -> Device: YES, App: YES
+2014-11-24 13:58:21.795 SharpApp[16243:149451] Unlimited access to network resources
+2014-11-24 13:58:21.799 SharpApp[16243:149451] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 13:58:22.106 SharpApp[16243:149451] Resetting plugins due to page load.
+2014-11-24 13:58:22.203 SharpApp[16243:149451] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/AE3996DC-E589-4785-9045-06A7B6037046/SharpApp.app/www/index.html
+2014-11-24 13:58:50.514 SharpApp[16705:150386] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/E651E2AD-FFE7-468B-87AF-85EC5FB45929/Library/Cookies/Cookies.binarycookies
+2014-11-24 13:58:50.626 SharpApp[16705:150386] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 13:58:50.627 SharpApp[16705:150386] Multi-tasking -> Device: YES, App: YES
+2014-11-24 13:58:50.635 SharpApp[16705:150386] Unlimited access to network resources
+2014-11-24 13:58:50.639 SharpApp[16705:150386] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 13:58:50.940 SharpApp[16705:150386] Resetting plugins due to page load.
+2014-11-24 13:58:51.032 SharpApp[16705:150386] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/52923157-2121-45C0-9002-95C9949D6E45/SharpApp.app/www/index.html
+2014-11-24 13:59:39.284 SharpApp[17167:151533] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/F5A6F402-FBE7-4CBE-896D-145A45A306D4/Library/Cookies/Cookies.binarycookies
+2014-11-24 13:59:39.395 SharpApp[17167:151533] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 13:59:39.395 SharpApp[17167:151533] Multi-tasking -> Device: YES, App: YES
+2014-11-24 13:59:39.404 SharpApp[17167:151533] Unlimited access to network resources
+2014-11-24 13:59:39.407 SharpApp[17167:151533] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 13:59:39.720 SharpApp[17167:151533] Resetting plugins due to page load.
+2014-11-24 13:59:39.809 SharpApp[17167:151533] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/D94FA832-D2E4-4644-847E-0683F5D64178/SharpApp.app/www/index.html
+2014-11-24 14:24:36.339 SharpApp[17791:178772] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/43ED0602-A43B-4B65-B7A9-9B10FA127B39/Library/Cookies/Cookies.binarycookies
+2014-11-24 14:24:36.427 SharpApp[17791:178772] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 14:24:36.428 SharpApp[17791:178772] Multi-tasking -> Device: YES, App: YES
+2014-11-24 14:24:36.432 SharpApp[17791:178772] Unlimited access to network resources
+2014-11-24 14:24:36.435 SharpApp[17791:178772] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 14:24:36.676 SharpApp[17791:178772] [CDVTimer][file] 23.945034ms
+2014-11-24 14:24:36.676 SharpApp[17791:178772] [CDVTimer][TotalPluginStartup] 24.127007ms
+2014-11-24 14:24:36.861 SharpApp[17791:178772] Resetting plugins due to page load.
+2014-11-24 14:24:36.983 SharpApp[17791:178772] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/02F585EC-BE33-407D-9D27-5D5072983F30/SharpApp.app/www/index.html
+2014-11-24 14:29:23.708 SharpApp[18292:182605] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/647089BC-F757-4709-94E8-3D0AC875DCCF/Library/Cookies/Cookies.binarycookies
+2014-11-24 14:29:23.812 SharpApp[18292:182605] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 14:29:23.812 SharpApp[18292:182605] Multi-tasking -> Device: YES, App: YES
+2014-11-24 14:29:23.819 SharpApp[18292:182605] Unlimited access to network resources
+2014-11-24 14:29:23.822 SharpApp[18292:182605] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 14:29:24.054 SharpApp[18292:182605] [CDVTimer][file] 3.690958ms
+2014-11-24 14:29:24.055 SharpApp[18292:182605] [CDVTimer][TotalPluginStartup] 3.960013ms
+2014-11-24 14:29:24.126 SharpApp[18292:182605] Resetting plugins due to page load.
+2014-11-24 14:29:24.277 SharpApp[18292:182605] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/9CD43D03-ADE4-43B4-AFBC-27454DC874B5/SharpApp.app/www/index.html
+2014-11-24 14:30:34.734 SharpApp[18791:184622] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/A544A8F4-2A39-4786-A58A-5967754559BA/Library/Cookies/Cookies.binarycookies
+2014-11-24 14:30:34.842 SharpApp[18791:184622] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 14:30:34.843 SharpApp[18791:184622] Multi-tasking -> Device: YES, App: YES
+2014-11-24 14:30:34.849 SharpApp[18791:184622] Unlimited access to network resources
+2014-11-24 14:30:34.852 SharpApp[18791:184622] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 14:30:35.078 SharpApp[18791:184622] [CDVTimer][file] 2.130032ms
+2014-11-24 14:30:35.078 SharpApp[18791:184622] [CDVTimer][TotalPluginStartup] 2.286017ms
+2014-11-24 14:30:35.140 SharpApp[18791:184622] Resetting plugins due to page load.
+2014-11-24 14:30:35.223 SharpApp[18791:184622] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/30A78C2D-0394-475D-911C-6AFA7BCDFB88/SharpApp.app/www/index.html
+2014-11-24 14:49:32.083 SharpApp[19311:193192] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/C3648EC3-EC59-48A2-A058-3C874B975517/Library/Cookies/Cookies.binarycookies
+2014-11-24 14:49:32.179 SharpApp[19311:193192] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 14:49:32.179 SharpApp[19311:193192] Multi-tasking -> Device: YES, App: YES
+2014-11-24 14:49:32.186 SharpApp[19311:193192] Unlimited access to network resources
+2014-11-24 14:49:32.189 SharpApp[19311:193192] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 14:49:32.421 SharpApp[19311:193192] [CDVTimer][file] 2.121031ms
+2014-11-24 14:49:32.421 SharpApp[19311:193192] [CDVTimer][TotalPluginStartup] 2.272964ms
+2014-11-24 14:49:32.488 SharpApp[19311:193192] Resetting plugins due to page load.
+2014-11-24 14:49:32.595 SharpApp[19311:193192] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/DB51868F-BA4C-4248-8CA7-A77B74DC49CF/SharpApp.app/www/index.html
+2014-11-24 14:54:41.868 SharpApp[19811:195799] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/FCA2D256-A437-46F4-AA84-FAA98A881291/Library/Cookies/Cookies.binarycookies
+2014-11-24 14:54:41.973 SharpApp[19811:195799] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 14:54:41.974 SharpApp[19811:195799] Multi-tasking -> Device: YES, App: YES
+2014-11-24 14:54:41.979 SharpApp[19811:195799] Unlimited access to network resources
+2014-11-24 14:54:41.983 SharpApp[19811:195799] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 14:54:42.211 SharpApp[19811:195799] [CDVTimer][file] 2.336979ms
+2014-11-24 14:54:42.211 SharpApp[19811:195799] [CDVTimer][TotalPluginStartup] 2.488017ms
+2014-11-24 14:54:42.282 SharpApp[19811:195799] Resetting plugins due to page load.
+2014-11-24 14:54:42.358 SharpApp[19811:195799] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/284CC7CD-8168-4A5A-AB92-9207BADFFF3E/SharpApp.app/www/index.html
+2014-11-24 14:58:35.997 SharpApp[20312:197698] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/7394BBE1-281D-4C0B-856E-9C899303E453/Library/Cookies/Cookies.binarycookies
+2014-11-24 14:58:36.088 SharpApp[20312:197698] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 14:58:36.089 SharpApp[20312:197698] Multi-tasking -> Device: YES, App: YES
+2014-11-24 14:58:36.095 SharpApp[20312:197698] Unlimited access to network resources
+2014-11-24 14:58:36.097 SharpApp[20312:197698] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 14:58:36.290 SharpApp[20312:197698] [CDVTimer][file] 3.771007ms
+2014-11-24 14:58:36.290 SharpApp[20312:197698] [CDVTimer][TotalPluginStartup] 3.947973ms
+2014-11-24 14:58:36.410 SharpApp[20312:197698] Resetting plugins due to page load.
+2014-11-24 14:58:36.486 SharpApp[20312:197698] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/2059EFC4-7D4B-4610-8C41-E9AD484C328C/SharpApp.app/www/index.html
+2014-11-24 15:30:20.431 SharpApp[20866:222321] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/00610C44-F2E5-4C1C-A6FB-AFC0590E60FB/Library/Cookies/Cookies.binarycookies
+2014-11-24 15:30:20.529 SharpApp[20866:222321] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 15:30:20.530 SharpApp[20866:222321] Multi-tasking -> Device: YES, App: YES
+2014-11-24 15:30:20.535 SharpApp[20866:222321] Unlimited access to network resources
+2014-11-24 15:30:20.537 SharpApp[20866:222321] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 15:30:20.734 SharpApp[20866:222321] [CDVTimer][file] 10.343015ms
+2014-11-24 15:30:20.734 SharpApp[20866:222321] [CDVTimer][TotalPluginStartup] 10.531008ms
+2014-11-24 15:30:20.921 SharpApp[20866:222321] Resetting plugins due to page load.
+2014-11-24 15:30:21.009 SharpApp[20866:222321] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/22C747C2-4778-4D15-A761-3D528F75331F/SharpApp.app/www/index.html
+2014-11-24 15:32:45.341 SharpApp[21376:224692] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/0FDF8C1B-435F-47B3-B124-A621690D30F8/Library/Cookies/Cookies.binarycookies
+2014-11-24 15:32:45.444 SharpApp[21376:224692] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 15:32:45.445 SharpApp[21376:224692] Multi-tasking -> Device: YES, App: YES
+2014-11-24 15:32:45.452 SharpApp[21376:224692] Unlimited access to network resources
+2014-11-24 15:32:45.455 SharpApp[21376:224692] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 15:32:45.775 SharpApp[21376:224692] [CDVTimer][file] 4.487991ms
+2014-11-24 15:32:45.776 SharpApp[21376:224692] [CDVTimer][TotalPluginStartup] 4.751027ms
+2014-11-24 15:32:45.880 SharpApp[21376:224692] Resetting plugins due to page load.
+2014-11-24 15:32:45.968 SharpApp[21376:224692] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/AEE89DF0-0A57-4AAF-B30D-0139667C655E/SharpApp.app/www/index.html
+2014-11-24 15:40:07.141 SharpApp[21903:229600] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/38D5ABFC-EAC4-46A6-B789-1CBEA24AD71C/Library/Cookies/Cookies.binarycookies
+2014-11-24 15:40:07.232 SharpApp[21903:229600] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 15:40:07.233 SharpApp[21903:229600] Multi-tasking -> Device: YES, App: YES
+2014-11-24 15:40:07.239 SharpApp[21903:229600] Unlimited access to network resources
+2014-11-24 15:40:07.241 SharpApp[21903:229600] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 15:40:07.453 SharpApp[21903:229600] [CDVTimer][file] 8.324981ms
+2014-11-24 15:40:07.454 SharpApp[21903:229600] [CDVTimer][TotalPluginStartup] 8.571982ms
+2014-11-24 15:40:07.631 SharpApp[21903:229600] Resetting plugins due to page load.
+2014-11-24 15:40:07.719 SharpApp[21903:229600] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/E7E87229-BA1E-424D-B765-89E13978A35A/SharpApp.app/www/index.html
+2014-11-24 15:58:19.250 SharpApp[22430:239543] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/E1F22E96-2F3E-443A-B281-64C3D9426D1D/Library/Cookies/Cookies.binarycookies
+2014-11-24 15:58:19.344 SharpApp[22430:239543] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 15:58:19.345 SharpApp[22430:239543] Multi-tasking -> Device: YES, App: YES
+2014-11-24 15:58:19.353 SharpApp[22430:239543] Unlimited access to network resources
+2014-11-24 15:58:19.356 SharpApp[22430:239543] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 15:58:19.566 SharpApp[22430:239543] [CDVTimer][file] 4.664004ms
+2014-11-24 15:58:19.566 SharpApp[22430:239543] [CDVTimer][TotalPluginStartup] 4.817963ms
+2014-11-24 15:58:19.761 SharpApp[22430:239543] Resetting plugins due to page load.
+2014-11-24 15:58:19.867 SharpApp[22430:239543] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/B7981748-916E-4193-B53F-228B46E542DA/SharpApp.app/www/index.html
+2014-11-24 16:07:32.154 SharpApp[22937:246313] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/BC210048-6E2E-4C30-A04A-5BCB0C192D7B/Library/Cookies/Cookies.binarycookies
+2014-11-24 16:07:32.232 SharpApp[22937:246313] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 16:07:32.233 SharpApp[22937:246313] Multi-tasking -> Device: YES, App: YES
+2014-11-24 16:07:32.238 SharpApp[22937:246313] Unlimited access to network resources
+2014-11-24 16:07:32.241 SharpApp[22937:246313] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 16:07:32.470 SharpApp[22937:246313] [CDVTimer][file] 3.370047ms
+2014-11-24 16:07:32.470 SharpApp[22937:246313] [CDVTimer][TotalPluginStartup] 3.548980ms
+2014-11-24 16:07:32.616 SharpApp[22937:246313] Resetting plugins due to page load.
+2014-11-24 16:07:32.693 SharpApp[22937:246313] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/B1E2D7A2-A2FA-4347-B1EB-390B6EE291C2/SharpApp.app/www/index.html
+2014-11-24 16:09:07.299 SharpApp[23436:248008] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/0D827A54-6B63-4ACA-8D6F-14F475C2F275/Library/Cookies/Cookies.binarycookies
+2014-11-24 16:09:07.418 SharpApp[23436:248008] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 16:09:07.419 SharpApp[23436:248008] Multi-tasking -> Device: YES, App: YES
+2014-11-24 16:09:07.428 SharpApp[23436:248008] Unlimited access to network resources
+2014-11-24 16:09:07.432 SharpApp[23436:248008] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 16:09:07.704 SharpApp[23436:248008] [CDVTimer][file] 2.577007ms
+2014-11-24 16:09:07.704 SharpApp[23436:248008] [CDVTimer][TotalPluginStartup] 2.758980ms
+2014-11-24 16:09:07.779 SharpApp[23436:248008] Resetting plugins due to page load.
+2014-11-24 16:09:07.855 SharpApp[23436:248008] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/3A23E7D5-A536-44EF-B933-29C53456B5E1/SharpApp.app/www/index.html
+2014-11-24 16:12:20.757 SharpApp[23955:250970] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/4E68B06B-1571-4195-A263-3C0618B6A5ED/Library/Cookies/Cookies.binarycookies
+2014-11-24 16:12:20.883 SharpApp[23955:250970] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 16:12:20.884 SharpApp[23955:250970] Multi-tasking -> Device: YES, App: YES
+2014-11-24 16:12:20.892 SharpApp[23955:250970] Unlimited access to network resources
+2014-11-24 16:12:20.894 SharpApp[23955:250970] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 16:12:21.127 SharpApp[23955:250970] [CDVTimer][file] 3.825009ms
+2014-11-24 16:12:21.127 SharpApp[23955:250970] [CDVTimer][TotalPluginStartup] 4.001021ms
+2014-11-24 16:12:21.819 SharpApp[23955:250970] Resetting plugins due to page load.
+2014-11-24 16:12:21.885 SharpApp[23955:250970] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/95F4AB93-9E37-438D-BCFB-F808A40214F0/SharpApp.app/www/index.html
+2014-11-24 16:13:13.635 SharpApp[24451:252384] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/9A90EE52-7706-4D31-AFF4-961869A53514/Library/Cookies/Cookies.binarycookies
+2014-11-24 16:13:13.734 SharpApp[24451:252384] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 16:13:13.734 SharpApp[24451:252384] Multi-tasking -> Device: YES, App: YES
+2014-11-24 16:13:13.741 SharpApp[24451:252384] Unlimited access to network resources
+2014-11-24 16:13:13.744 SharpApp[24451:252384] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 16:13:13.971 SharpApp[24451:252384] [CDVTimer][file] 2.201021ms
+2014-11-24 16:13:13.971 SharpApp[24451:252384] [CDVTimer][TotalPluginStartup] 2.352953ms
+2014-11-24 16:13:14.036 SharpApp[24451:252384] Resetting plugins due to page load.
+2014-11-24 16:13:14.118 SharpApp[24451:252384] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/03686CD1-01BA-4143-A64C-799EE36BA56B/SharpApp.app/www/index.html
+2014-11-24 16:22:59.323 SharpApp[24970:261638] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/144B63A6-B6A2-4565-9AD8-26C3C8AED389/Library/Cookies/Cookies.binarycookies
+2014-11-24 16:22:59.406 SharpApp[24970:261638] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 16:22:59.407 SharpApp[24970:261638] Multi-tasking -> Device: YES, App: YES
+2014-11-24 16:22:59.412 SharpApp[24970:261638] Unlimited access to network resources
+2014-11-24 16:22:59.413 SharpApp[24970:261638] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 16:22:59.628 SharpApp[24970:261638] [CDVTimer][file] 15.048981ms
+2014-11-24 16:22:59.628 SharpApp[24970:261638] [CDVTimer][TotalPluginStartup] 15.230954ms
+2014-11-24 16:22:59.770 SharpApp[24970:261638] Resetting plugins due to page load.
+2014-11-24 16:22:59.861 SharpApp[24970:261638] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/BDDEEFE9-A479-440C-A41B-F32D700E158F/SharpApp.app/www/index.html
+2014-11-24 16:24:09.172 SharpApp[25468:263247] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/C126F8EF-68C8-41CF-AAEC-33BC7D776B26/Library/Cookies/Cookies.binarycookies
+2014-11-24 16:24:09.249 SharpApp[25468:263247] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 16:24:09.250 SharpApp[25468:263247] Multi-tasking -> Device: YES, App: YES
+2014-11-24 16:24:09.255 SharpApp[25468:263247] Unlimited access to network resources
+2014-11-24 16:24:09.257 SharpApp[25468:263247] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 16:24:09.461 SharpApp[25468:263247] [CDVTimer][file] 2.990007ms
+2014-11-24 16:24:09.461 SharpApp[25468:263247] [CDVTimer][TotalPluginStartup] 3.180981ms
+2014-11-24 16:24:09.575 SharpApp[25468:263247] Resetting plugins due to page load.
+2014-11-24 16:24:09.667 SharpApp[25468:263247] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/8BD8EA18-2BD8-448F-80F4-707592EA4CD0/SharpApp.app/www/index.html
+2014-11-24 16:38:20.132 SharpApp[25993:274258] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/3574608D-937C-4265-B504-8D13EBCD8DA7/Library/Cookies/Cookies.binarycookies
+2014-11-24 16:38:20.243 SharpApp[25993:274258] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 16:38:20.244 SharpApp[25993:274258] Multi-tasking -> Device: YES, App: YES
+2014-11-24 16:38:20.248 SharpApp[25993:274258] Unlimited access to network resources
+2014-11-24 16:38:20.250 SharpApp[25993:274258] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 16:38:20.475 SharpApp[25993:274258] [CDVTimer][file] 5.502999ms
+2014-11-24 16:38:20.475 SharpApp[25993:274258] [CDVTimer][TotalPluginStartup] 5.662978ms
+2014-11-24 16:38:20.656 SharpApp[25993:274258] Resetting plugins due to page load.
+2014-11-24 16:38:20.776 SharpApp[25993:274258] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/A1F58707-B571-4865-8838-714BC463F1D4/SharpApp.app/www/index.html
+2014-11-24 20:24:28.384 SharpApp[36078:422836] /Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/9823C411-A62C-4CFD-A8CE-160CA56C1612/Documents
+2014-11-24 20:24:28.405 SharpApp[36078:422836] 279 entries in the zip file
+2014-11-24 20:24:28.574 SharpApp[36078:422836] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/9823C411-A62C-4CFD-A8CE-160CA56C1612/Library/Cookies/Cookies.binarycookies
+2014-11-24 20:24:28.729 SharpApp[36078:422836] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 20:24:28.729 SharpApp[36078:422836] Multi-tasking -> Device: YES, App: YES
+2014-11-24 20:24:28.756 SharpApp[36078:422836] Unlimited access to network resources
+2014-11-24 20:24:28.762 SharpApp[36078:422836] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 20:24:29.360 SharpApp[36078:422836] [CDVTimer][file] 7.098973ms
+2014-11-24 20:24:29.360 SharpApp[36078:422836] [CDVTimer][TotalPluginStartup] 7.270992ms
+2014-11-24 20:24:30.503 SharpApp[36078:422836] Resetting plugins due to page load.
+2014-11-24 20:24:30.670 SharpApp[36078:422836] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/8AE8E5CF-C8F2-436F-AE29-B9630EE15071/SharpApp.app/www/index.html
+2014-11-24 20:25:17.054 SharpApp[36586:424633] /Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/F514EC38-965D-4649-87FB-6EE21F2B8A05/Documents
+2014-11-24 20:25:17.073 SharpApp[36586:424633] 279 entries in the zip file
+2014-11-24 20:25:17.192 SharpApp[36586:424633] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/F514EC38-965D-4649-87FB-6EE21F2B8A05/Library/Cookies/Cookies.binarycookies
+2014-11-24 20:25:17.286 SharpApp[36586:424633] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 20:25:17.286 SharpApp[36586:424633] Multi-tasking -> Device: YES, App: YES
+2014-11-24 20:25:17.291 SharpApp[36586:424633] Unlimited access to network resources
+2014-11-24 20:25:17.293 SharpApp[36586:424633] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 20:25:17.496 SharpApp[36586:424633] [CDVTimer][file] 5.823970ms
+2014-11-24 20:25:17.496 SharpApp[36586:424633] [CDVTimer][TotalPluginStartup] 5.988002ms
+2014-11-24 20:25:17.659 SharpApp[36586:424633] Resetting plugins due to page load.
+2014-11-24 20:25:17.780 SharpApp[36586:424633] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/9AF76211-ED53-4A72-BFA4-BEC698D53D59/SharpApp.app/www/index.html
+2014-11-24 20:26:03.944 SharpApp[37092:426243] /Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/6D02FAC2-BCAD-4B0E-BAF7-2726AD1D84FE/Documents
+2014-11-24 20:26:03.957 SharpApp[37092:426243] 279 entries in the zip file
+2014-11-24 20:26:04.078 SharpApp[37092:426243] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/6D02FAC2-BCAD-4B0E-BAF7-2726AD1D84FE/Library/Cookies/Cookies.binarycookies
+2014-11-24 20:26:04.175 SharpApp[37092:426243] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 20:26:04.176 SharpApp[37092:426243] Multi-tasking -> Device: YES, App: YES
+2014-11-24 20:26:04.180 SharpApp[37092:426243] Unlimited access to network resources
+2014-11-24 20:26:04.183 SharpApp[37092:426243] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 20:26:04.387 SharpApp[37092:426243] [CDVTimer][file] 2.466023ms
+2014-11-24 20:26:04.387 SharpApp[37092:426243] [CDVTimer][TotalPluginStartup] 2.620041ms
+2014-11-24 20:26:04.458 SharpApp[37092:426243] Resetting plugins due to page load.
+2014-11-24 20:26:04.530 SharpApp[37092:426243] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/126C6577-A954-4F2F-A8BB-ACE21AD938B4/SharpApp.app/www/index.html
+2014-11-24 20:48:11.524 SharpApp[37627:433801] /Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/77783AE8-218E-479E-98F6-91E18DF89AC2/Documents
+2014-11-24 20:48:11.536 SharpApp[37627:433801] 279 entries in the zip file
+2014-11-24 20:48:11.679 SharpApp[37627:433801] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/77783AE8-218E-479E-98F6-91E18DF89AC2/Library/Cookies/Cookies.binarycookies
+2014-11-24 20:48:11.769 SharpApp[37627:433801] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 20:48:11.770 SharpApp[37627:433801] Multi-tasking -> Device: YES, App: YES
+2014-11-24 20:48:11.777 SharpApp[37627:433801] Unlimited access to network resources
+2014-11-24 20:48:11.779 SharpApp[37627:433801] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 20:48:12.003 SharpApp[37627:433801] [CDVTimer][file] 2.372980ms
+2014-11-24 20:48:12.003 SharpApp[37627:433801] [CDVTimer][TotalPluginStartup] 2.539039ms
+2014-11-24 20:48:12.079 SharpApp[37627:433801] Resetting plugins due to page load.
+2014-11-24 20:48:12.155 SharpApp[37627:433801] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/6F184E9D-1429-4736-A80E-6385CDA0F1A6/SharpApp.app/www/index.html
+2014-11-24 20:51:51.458 SharpApp[38146:438447] /Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/1C8899ED-80CC-4C1C-9104-4C6D7BAD0245/Documents
+2014-11-24 20:51:51.472 SharpApp[38146:438447] 279 entries in the zip file
+2014-11-24 20:51:51.586 SharpApp[38146:438447] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/1C8899ED-80CC-4C1C-9104-4C6D7BAD0245/Library/Cookies/Cookies.binarycookies
+2014-11-24 20:51:51.686 SharpApp[38146:438447] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 20:51:51.686 SharpApp[38146:438447] Multi-tasking -> Device: YES, App: YES
+2014-11-24 20:51:51.691 SharpApp[38146:438447] Unlimited access to network resources
+2014-11-24 20:51:51.693 SharpApp[38146:438447] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 20:51:51.899 SharpApp[38146:438447] [CDVTimer][file] 7.359028ms
+2014-11-24 20:51:51.899 SharpApp[38146:438447] [CDVTimer][TotalPluginStartup] 7.506013ms
+2014-11-24 20:51:52.088 SharpApp[38146:438447] Resetting plugins due to page load.
+2014-11-24 20:51:52.180 SharpApp[38146:438447] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/204D4CA4-153A-47F4-8D54-BA791109CF8B/SharpApp.app/www/index.html
+2014-11-24 20:56:55.022 SharpApp[38666:444364] /Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/31EF5297-3A5E-4FF7-A787-596421EDE824/Documents
+2014-11-24 20:56:55.036 SharpApp[38666:444364] 279 entries in the zip file
+2014-11-24 20:56:55.152 SharpApp[38666:444364] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/31EF5297-3A5E-4FF7-A787-596421EDE824/Library/Cookies/Cookies.binarycookies
+2014-11-24 20:56:55.258 SharpApp[38666:444364] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 20:56:55.258 SharpApp[38666:444364] Multi-tasking -> Device: YES, App: YES
+2014-11-24 20:56:55.263 SharpApp[38666:444364] Unlimited access to network resources
+2014-11-24 20:56:55.265 SharpApp[38666:444364] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 20:56:55.503 SharpApp[38666:444364] [CDVTimer][file] 26.203990ms
+2014-11-24 20:56:55.504 SharpApp[38666:444364] [CDVTimer][TotalPluginStartup] 26.449978ms
+2014-11-24 20:56:55.730 SharpApp[38666:444364] Resetting plugins due to page load.
+2014-11-24 20:56:55.830 SharpApp[38666:444364] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/631F8A1A-6079-4BF7-836C-FD1A9A25FD0A/SharpApp.app/www/index.html
+2014-11-24 20:58:06.305 SharpApp[39172:445722] /Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/555F521A-E86D-4354-B49B-5ACA474811D6/Documents
+2014-11-24 20:58:06.322 SharpApp[39172:445722] 279 entries in the zip file
+2014-11-24 20:58:06.503 SharpApp[39172:445722] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/555F521A-E86D-4354-B49B-5ACA474811D6/Library/Cookies/Cookies.binarycookies
+2014-11-24 20:58:06.612 SharpApp[39172:445722] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 20:58:06.612 SharpApp[39172:445722] Multi-tasking -> Device: YES, App: YES
+2014-11-24 20:58:06.617 SharpApp[39172:445722] Unlimited access to network resources
+2014-11-24 20:58:06.619 SharpApp[39172:445722] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 20:58:06.815 SharpApp[39172:445722] [CDVTimer][file] 2.027988ms
+2014-11-24 20:58:06.815 SharpApp[39172:445722] [CDVTimer][TotalPluginStartup] 2.167046ms
+2014-11-24 20:58:06.879 SharpApp[39172:445722] Resetting plugins due to page load.
+2014-11-24 20:58:06.951 SharpApp[39172:445722] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/F6DBC8E5-B672-4987-8015-E74D5D1F7328/SharpApp.app/www/index.html
+2014-11-24 21:21:34.396 SharpApp[39697:452688] /Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/CFCA7C10-0400-475D-9DCE-E158B20C067F/Documents
+2014-11-24 21:21:34.409 SharpApp[39697:452688] 279 entries in the zip file
+2014-11-24 21:21:34.539 SharpApp[39697:452688] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/CFCA7C10-0400-475D-9DCE-E158B20C067F/Library/Cookies/Cookies.binarycookies
+2014-11-24 21:21:34.627 SharpApp[39697:452688] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 21:21:34.628 SharpApp[39697:452688] Multi-tasking -> Device: YES, App: YES
+2014-11-24 21:21:34.633 SharpApp[39697:452688] Unlimited access to network resources
+2014-11-24 21:21:34.634 SharpApp[39697:452688] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 21:21:34.892 SharpApp[39697:452688] [CDVTimer][file] 3.651023ms
+2014-11-24 21:21:34.892 SharpApp[39697:452688] [CDVTimer][TotalPluginStartup] 3.813982ms
+2014-11-24 21:21:35.060 SharpApp[39697:452688] Resetting plugins due to page load.
+2014-11-24 21:21:35.153 SharpApp[39697:452688] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/23E701EA-A8FB-40D8-A94A-5A68F0930B8E/SharpApp.app/www/index.html
+2014-11-24 21:22:43.402 SharpApp[40199:454167] /Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/92F4850A-0318-40CD-8C48-4FA5E18B1029/Documents
+2014-11-24 21:22:43.415 SharpApp[40199:454167] 279 entries in the zip file
+2014-11-24 21:22:43.542 SharpApp[40199:454167] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/92F4850A-0318-40CD-8C48-4FA5E18B1029/Library/Cookies/Cookies.binarycookies
+2014-11-24 21:22:43.638 SharpApp[40199:454167] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 21:22:43.638 SharpApp[40199:454167] Multi-tasking -> Device: YES, App: YES
+2014-11-24 21:22:43.644 SharpApp[40199:454167] Unlimited access to network resources
+2014-11-24 21:22:43.647 SharpApp[40199:454167] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 21:22:43.842 SharpApp[40199:454167] [CDVTimer][file] 4.617035ms
+2014-11-24 21:22:43.842 SharpApp[40199:454167] [CDVTimer][TotalPluginStartup] 4.789948ms
+2014-11-24 21:22:44.543 SharpApp[40199:454167] Resetting plugins due to page load.
+2014-11-24 21:22:44.605 SharpApp[40199:454167] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/F3D40189-3803-430C-97EB-A96687D8DA94/SharpApp.app/www/index.html
+2014-11-24 21:23:30.974 SharpApp[40699:455398] /Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/22FE8475-E330-4A96-8E5E-91B340CBED61/Documents
+2014-11-24 21:23:30.997 SharpApp[40699:455398] 279 entries in the zip file
+2014-11-24 21:23:31.157 SharpApp[40699:455398] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/22FE8475-E330-4A96-8E5E-91B340CBED61/Library/Cookies/Cookies.binarycookies
+2014-11-24 21:23:31.280 SharpApp[40699:455398] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 21:23:31.280 SharpApp[40699:455398] Multi-tasking -> Device: YES, App: YES
+2014-11-24 21:23:31.288 SharpApp[40699:455398] Unlimited access to network resources
+2014-11-24 21:23:31.291 SharpApp[40699:455398] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 21:23:31.532 SharpApp[40699:455398] [CDVTimer][file] 2.177000ms
+2014-11-24 21:23:31.532 SharpApp[40699:455398] [CDVTimer][TotalPluginStartup] 2.367973ms
+2014-11-24 21:23:31.609 SharpApp[40699:455398] Resetting plugins due to page load.
+2014-11-24 21:23:31.681 SharpApp[40699:455398] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/5DDAC26F-6FA1-4509-9971-8B5A832FB5C6/SharpApp.app/www/index.html
+2014-11-24 21:25:54.255 SharpApp[41218:457616] /Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/63D9D407-AFDF-4054-8D14-4BAB0AE0ECDC/Documents
+2014-11-24 21:25:54.268 SharpApp[41218:457616] 279 entries in the zip file
+2014-11-24 21:25:54.381 SharpApp[41218:457616] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/63D9D407-AFDF-4054-8D14-4BAB0AE0ECDC/Library/Cookies/Cookies.binarycookies
+2014-11-24 21:25:54.475 SharpApp[41218:457616] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 21:25:54.475 SharpApp[41218:457616] Multi-tasking -> Device: YES, App: YES
+2014-11-24 21:25:54.480 SharpApp[41218:457616] Unlimited access to network resources
+2014-11-24 21:25:54.482 SharpApp[41218:457616] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 21:25:54.678 SharpApp[41218:457616] [CDVTimer][file] 7.636011ms
+2014-11-24 21:25:54.678 SharpApp[41218:457616] [CDVTimer][TotalPluginStartup] 7.806003ms
+2014-11-24 21:25:54.861 SharpApp[41218:457616] Resetting plugins due to page load.
+2014-11-24 21:25:54.948 SharpApp[41218:457616] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/BEAFFD5A-8075-4FEA-A5C8-41E7FE10A14A/SharpApp.app/www/index.html
+2014-11-24 21:27:17.075 SharpApp[41721:459034] /Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/4E1904CC-CCA1-44CD-9C66-BCA3FC18BCC8/Documents
+2014-11-24 21:27:17.087 SharpApp[41721:459034] 279 entries in the zip file
+2014-11-24 21:27:17.214 SharpApp[41721:459034] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/4E1904CC-CCA1-44CD-9C66-BCA3FC18BCC8/Library/Cookies/Cookies.binarycookies
+2014-11-24 21:27:17.314 SharpApp[41721:459034] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 21:27:17.314 SharpApp[41721:459034] Multi-tasking -> Device: YES, App: YES
+2014-11-24 21:27:17.321 SharpApp[41721:459034] Unlimited access to network resources
+2014-11-24 21:27:17.323 SharpApp[41721:459034] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 21:27:17.541 SharpApp[41721:459034] [CDVTimer][file] 2.754986ms
+2014-11-24 21:27:17.541 SharpApp[41721:459034] [CDVTimer][TotalPluginStartup] 2.939999ms
+2014-11-24 21:27:17.610 SharpApp[41721:459034] Resetting plugins due to page load.
+2014-11-24 21:27:17.691 SharpApp[41721:459034] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/FC58E983-8AA2-4D39-8551-BA7D432E274E/SharpApp.app/www/index.html
+2014-11-24 21:27:59.213 SharpApp[42219:460208] /Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/2DE333F2-D26B-4AAC-B7CB-B67C5FB97040/Documents
+2014-11-24 21:27:59.227 SharpApp[42219:460208] 279 entries in the zip file
+2014-11-24 21:27:59.335 SharpApp[42219:460208] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/2DE333F2-D26B-4AAC-B7CB-B67C5FB97040/Library/Cookies/Cookies.binarycookies
+2014-11-24 21:27:59.415 SharpApp[42219:460208] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 21:27:59.416 SharpApp[42219:460208] Multi-tasking -> Device: YES, App: YES
+2014-11-24 21:27:59.421 SharpApp[42219:460208] Unlimited access to network resources
+2014-11-24 21:27:59.424 SharpApp[42219:460208] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 21:27:59.617 SharpApp[42219:460208] [CDVTimer][file] 3.517985ms
+2014-11-24 21:27:59.617 SharpApp[42219:460208] [CDVTimer][TotalPluginStartup] 3.681004ms
+2014-11-24 21:27:59.779 SharpApp[42219:460208] Resetting plugins due to page load.
+2014-11-24 21:27:59.855 SharpApp[42219:460208] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/4E58A63C-5F63-4745-A3D7-132303237CB0/SharpApp.app/www/index.html
+2014-11-24 21:29:21.972 SharpApp[42724:461783] /Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/E979B855-80ED-49BB-BFA5-6CA7ABE0E1B1/Documents
+2014-11-24 21:29:21.992 SharpApp[42724:461783] 279 entries in the zip file
+2014-11-24 21:29:22.128 SharpApp[42724:461783] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/E979B855-80ED-49BB-BFA5-6CA7ABE0E1B1/Library/Cookies/Cookies.binarycookies
+2014-11-24 21:29:22.227 SharpApp[42724:461783] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 21:29:22.228 SharpApp[42724:461783] Multi-tasking -> Device: YES, App: YES
+2014-11-24 21:29:22.236 SharpApp[42724:461783] Unlimited access to network resources
+2014-11-24 21:29:22.239 SharpApp[42724:461783] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 21:29:22.433 SharpApp[42724:461783] [CDVTimer][file] 2.026021ms
+2014-11-24 21:29:22.433 SharpApp[42724:461783] [CDVTimer][TotalPluginStartup] 2.164960ms
+2014-11-24 21:29:22.494 SharpApp[42724:461783] Resetting plugins due to page load.
+2014-11-24 21:29:22.567 SharpApp[42724:461783] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/3518DAB4-1DB2-4566-81BE-5E4178F6B704/SharpApp.app/www/index.html
+2014-11-24 21:31:06.500 SharpApp[42724:465279] Terminating since there is no system app.
+2014-11-24 23:06:47.380 SharpApp[1945:25930] /Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/047A4A68-8263-42B1-B049-B094F20BE7CD/Documents
+2014-11-24 23:06:47.416 SharpApp[1945:25930] 279 entries in the zip file
+2014-11-24 23:06:47.709 SharpApp[1945:25930] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/047A4A68-8263-42B1-B049-B094F20BE7CD/Library/Cookies/Cookies.binarycookies
+2014-11-24 23:06:47.925 SharpApp[1945:25930] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 23:06:47.925 SharpApp[1945:25930] Multi-tasking -> Device: YES, App: YES
+2014-11-24 23:06:47.948 SharpApp[1945:25930] Unlimited access to network resources
+2014-11-24 23:06:47.952 SharpApp[1945:25930] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 23:06:48.399 SharpApp[1945:25930] [CDVTimer][file] 2.723992ms
+2014-11-24 23:06:48.399 SharpApp[1945:25930] [CDVTimer][TotalPluginStartup] 2.866983ms
+2014-11-24 23:06:48.545 SharpApp[1945:25930] Resetting plugins due to page load.
+2014-11-24 23:06:48.753 SharpApp[1945:25930] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/6154A5D0-F5FB-4B71-AB55-A367A6751D5B/SharpApp.app/www/index.html
+2014-11-24 23:09:36.811 SharpApp[2468:40145] /Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/985D7177-8949-4F73-AFE8-A7E3986ABA58/Documents
+2014-11-24 23:09:36.825 SharpApp[2468:40145] 279 entries in the zip file
+2014-11-24 23:09:36.953 SharpApp[2468:40145] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/985D7177-8949-4F73-AFE8-A7E3986ABA58/Library/Cookies/Cookies.binarycookies
+2014-11-24 23:09:37.040 SharpApp[2468:40145] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 23:09:37.040 SharpApp[2468:40145] Multi-tasking -> Device: YES, App: YES
+2014-11-24 23:09:37.046 SharpApp[2468:40145] Unlimited access to network resources
+2014-11-24 23:09:37.049 SharpApp[2468:40145] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 23:09:37.262 SharpApp[2468:40145] [CDVTimer][file] 3.821015ms
+2014-11-24 23:09:37.262 SharpApp[2468:40145] [CDVTimer][TotalPluginStartup] 4.037023ms
+2014-11-24 23:09:37.328 SharpApp[2468:40145] Resetting plugins due to page load.
+2014-11-24 23:09:37.404 SharpApp[2468:40145] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/08D39438-4AC9-42EF-A19D-13F05CCEEC58/SharpApp.app/www/index.html
+2014-11-24 23:21:14.781 SharpApp[2980:69348] /Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/9ECF06A0-A422-4DD3-BFA8-60E474C18C19/Documents
+2014-11-24 23:21:14.802 SharpApp[2980:69348] 279 entries in the zip file
+2014-11-24 23:21:14.938 SharpApp[2980:69348] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/9ECF06A0-A422-4DD3-BFA8-60E474C18C19/Library/Cookies/Cookies.binarycookies
+2014-11-24 23:21:15.033 SharpApp[2980:69348] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 23:21:15.033 SharpApp[2980:69348] Multi-tasking -> Device: YES, App: YES
+2014-11-24 23:21:15.042 SharpApp[2980:69348] Unlimited access to network resources
+2014-11-24 23:21:15.045 SharpApp[2980:69348] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 23:21:15.266 SharpApp[2980:69348] [CDVTimer][file] 2.222002ms
+2014-11-24 23:21:15.266 SharpApp[2980:69348] [CDVTimer][TotalPluginStartup] 2.380967ms
+2014-11-24 23:21:15.339 SharpApp[2980:69348] Resetting plugins due to page load.
+2014-11-24 23:21:15.423 SharpApp[2980:69348] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/15B34629-E032-40BE-AC65-BFBDF98CE5BB/SharpApp.app/www/index.html
+2014-11-24 23:22:16.504 SharpApp[3473:73730] /Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/83EE669A-A5D1-4391-8A6F-0E19F4361FF5/Documents
+2014-11-24 23:22:16.517 SharpApp[3473:73730] 279 entries in the zip file
+2014-11-24 23:22:16.644 SharpApp[3473:73730] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/83EE669A-A5D1-4391-8A6F-0E19F4361FF5/Library/Cookies/Cookies.binarycookies
+2014-11-24 23:22:16.726 SharpApp[3473:73730] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 23:22:16.726 SharpApp[3473:73730] Multi-tasking -> Device: YES, App: YES
+2014-11-24 23:22:16.731 SharpApp[3473:73730] Unlimited access to network resources
+2014-11-24 23:22:16.734 SharpApp[3473:73730] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 23:22:16.945 SharpApp[3473:73730] [CDVTimer][file] 2.111018ms
+2014-11-24 23:22:16.945 SharpApp[3473:73730] [CDVTimer][TotalPluginStartup] 2.251983ms
+2014-11-24 23:22:17.014 SharpApp[3473:73730] Resetting plugins due to page load.
+2014-11-24 23:22:17.092 SharpApp[3473:73730] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/9B81D246-7609-400D-8885-53366D189B50/SharpApp.app/www/index.html
+2014-11-24 23:24:16.888 SharpApp[3970:82069] /Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/A452D2E5-0DF3-4A14-B241-C3E6F98640ED/Documents
+2014-11-24 23:24:16.904 SharpApp[3970:82069] 279 entries in the zip file
+2014-11-24 23:24:17.029 SharpApp[3970:82069] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/A452D2E5-0DF3-4A14-B241-C3E6F98640ED/Library/Cookies/Cookies.binarycookies
+2014-11-24 23:24:17.114 SharpApp[3970:82069] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 23:24:17.114 SharpApp[3970:82069] Multi-tasking -> Device: YES, App: YES
+2014-11-24 23:24:17.122 SharpApp[3970:82069] Unlimited access to network resources
+2014-11-24 23:24:17.124 SharpApp[3970:82069] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 23:24:17.334 SharpApp[3970:82069] [CDVTimer][file] 3.107011ms
+2014-11-24 23:24:17.334 SharpApp[3970:82069] [CDVTimer][TotalPluginStartup] 3.270984ms
+2014-11-24 23:24:17.394 SharpApp[3970:82069] Resetting plugins due to page load.
+2014-11-24 23:24:17.469 SharpApp[3970:82069] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/6EDF0525-D582-4EEB-AD60-1642D7E14093/SharpApp.app/www/index.html
+2014-11-24 23:25:13.140 SharpApp[4464:86735] /Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/9B7393B0-AA4B-4ACF-8B04-4DAA8FF5DB3E/Documents
+2014-11-24 23:25:13.158 SharpApp[4464:86735] 279 entries in the zip file
+2014-11-24 23:25:13.297 SharpApp[4464:86735] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/9B7393B0-AA4B-4ACF-8B04-4DAA8FF5DB3E/Library/Cookies/Cookies.binarycookies
+2014-11-24 23:25:13.383 SharpApp[4464:86735] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-24 23:25:13.384 SharpApp[4464:86735] Multi-tasking -> Device: YES, App: YES
+2014-11-24 23:25:13.390 SharpApp[4464:86735] Unlimited access to network resources
+2014-11-24 23:25:13.392 SharpApp[4464:86735] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-24 23:25:13.607 SharpApp[4464:86735] [CDVTimer][file] 2.380013ms
+2014-11-24 23:25:13.607 SharpApp[4464:86735] [CDVTimer][TotalPluginStartup] 2.541006ms
+2014-11-24 23:25:13.663 SharpApp[4464:86735] Resetting plugins due to page load.
+2014-11-24 23:25:13.741 SharpApp[4464:86735] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/781725C0-6D16-484B-AC9D-B9ECA7DDE042/SharpApp.app/www/index.html
+2014-11-25 10:18:22.050 SharpApp[2325:23776] /Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/85FF25C2-6307-4ADA-81D1-82F5F1C2C643/Documents
+2014-11-25 10:18:22.068 SharpApp[2325:23776] 279 entries in the zip file
+2014-11-25 10:18:22.235 SharpApp[2325:23776] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Data/Application/85FF25C2-6307-4ADA-81D1-82F5F1C2C643/Library/Cookies/Cookies.binarycookies
+2014-11-25 10:18:22.309 SharpApp[2325:23776] Apache Cordova native platform version 3.6.3 is starting.
+2014-11-25 10:18:22.309 SharpApp[2325:23776] Multi-tasking -> Device: YES, App: YES
+2014-11-25 10:18:22.316 SharpApp[2325:23776] Unlimited access to network resources
+2014-11-25 10:18:22.318 SharpApp[2325:23776] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-11-25 10:18:22.925 SharpApp[2325:23776] [CDVTimer][file] 3.021002ms
+2014-11-25 10:18:22.925 SharpApp[2325:23776] [CDVTimer][TotalPluginStartup] 3.167987ms
+2014-11-25 10:18:23.077 SharpApp[2325:23776] Resetting plugins due to page load.
+2014-11-25 10:18:23.179 SharpApp[2325:23776] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/262770EA-9079-4D4A-B43C-BD8307FD4F48/SharpApp.app/www/index.html

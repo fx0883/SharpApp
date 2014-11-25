@@ -1,0 +1,67 @@
+默认情况下Json.NET将会序列化所有他遇到的值的对象。如果一个list包含两个person引用，且两个引用都指向相同的对象，那么JsonSerializer 将会为每个引用写出所有的名字和值。
+Person p = new Person
+  {
+    BirthDate = new DateTime(1980, 12, 23, 0, 0, 0, DateTimeKind.Utc),
+    LastModified = new DateTime(2009, 2, 20, 12, 59, 21, DateTimeKind.Utc),
+    Name = "James"
+  };
+List<Person> people = new List<Person>();
+people.Add(p);
+people.Add(p);
+string json = JsonConvert.SerializeObject(people, Formatting.Indented);
+//[
+//  {
+//    "Name": "James",
+//    "BirthDate": "\/Date(346377600000)\/",
+//    "LastModified": "\/Date(1235134761000)\/"
+//  },
+//  {
+//    "Name": "James",
+//    "BirthDate": "\/Date(346377600000)\/",
+//    "LastModified": "\/Date(1235134761000)\/"
+//  }
+//]
+在大多数情况下，这就是想要的结果。但是某些场景下，在list中写入第二个元素为对第一个元素的引用是更好的方案。如果前面的JSON现在被反序列化，然后返回包含两个值相同但完全分开的Person对象。写入值的引用，也会在出现循环引用的时候导致对象出问题。
+8.1 PreserveReferencesHandling
+设置PreserveReferencesHandling 将会在序列化和反序列化JSON时，跟踪对象的引用。
+string json = JsonConvert.SerializeObject(
+	people, 
+	Formatting.Indented,
+ 	new JsonSerializerSettings { 
+	PreserveReferencesHandling = PreserveReferencesHandling.Objects });
+//[
+//  {
+//    "$id": "1",
+//    "Name": "James",
+//    "BirthDate": "\/Date(346377600000)\/",
+//    "LastModified": "\/Date(1235134761000)\/"
+//  },
+//  {
+//    "$ref": "1"
+//  }
+//]
+List<Person> deserializedPeople = JsonConvert.DeserializeObject<List<Person>>(json,
+  new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects });
+Console.WriteLine(deserializedPeople.Count);
+// 2
+Person p1 = deserializedPeople[0];
+Person p2 = deserializedPeople[1];
+Console.WriteLine(p1.Name);
+// James
+Console.WriteLine(p2.Name);
+// James
+bool equal = Object.ReferenceEquals(p1, p2);
+// true
+List中第一个Person被序列化时增加了额外的object Id。第二个JSON中的Person目前只是对第一个的引用。
+通过PreserveReferencesHandling，现在在反序列化时只会创建一个Person对象，并且list包含两个对其的引用。
+8.2 IsReference on JsonObjectAttribute, JsonArrayAttribute and JsonPropertyAttribute
+设置在JsonSerializer 上的PreserveReferencesHandling 将改变所有对象序列化和被序列化的方式。为了更好的控制哪些对象和成员应该被序列化为一个引用，有一个IsReference property可以用用在JsonObjectAttribute, JsonArrayAttribute 和JsonPropertyAttribute上。
+在JsonObjectAttribute 或JsonArrayAttribute 上设置IsReference 为true，将意味着JsonSerializer 会一直序列化这个类型作为引用。在JsonPropertyAttribute 上设置IsReference 为true将会只序列化那个property 为一个引用。
+[JsonObject(IsReference = true)]
+public class EmployeeReference
+{
+  public string Name { get; set; }
+  public EmployeeReference Manager { get; set; }
+}
+8.3 IReferenceResolver
+To customize how references are generated and resolved the IReferenceResolver interface is available to inherit from and use with the JsonSerializer.

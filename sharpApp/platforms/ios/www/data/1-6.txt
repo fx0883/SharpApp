@@ -1,0 +1,176 @@
+函数有两种用途：1.完成指定的任务，这种情况下函数作为调用语句使用；2.计算并返回值，这种情况下函数作为赋值语句的表达式使用。
+语法：
+function func_name (arguments-list)
+    statements-list;
+end;
+调用函数的时候，如果参数列表为空，必须使用()表明是函数调用。
+print(8*9, 9/8)
+a = math.sin(3) + math.cos(10)
+print(os.date())
+上述规则有一个例外，当函数只有一个参数并且这个参数是字符串或者表构造的时候，()可有可无：
+print "Hello World"      <-->       print("Hello World")
+dofile 'a.lua'           <-->       dofile ('a.lua')
+print [[a multi-line     <-->       print([[a multi-line
+           message]]                          message]])
+f{x=10, y=20}            <-->       f({x=10, y=20})
+type{}                   <-->       type({})
+Lua也提供了面向对象方式调用函数的语法，比如o:foo(x)与o.foo(o, x)是等价的，后面的章节会详细介绍面向对象内容。
+Lua使用的函数，既可是Lua编写的，也可以是其他语言编写的，对于Lua程序员，用什么语言实现的函数使用起来都一样。
+Lua函数实参和形参的匹配与赋值语句类似，多余部分被忽略，缺少部分用nil补足。
+function f(a, b) return a or b end
+ 
+CALL              PARAMETERS
+ 
+f(3)              a=3, b=nil
+f(3, 4)           a=3, b=4
+f(3, 4, 5)        a=3, b=4   (5 is discarded)
+5.1 多返回值
+Lua函数可以返回多个结果值，比如string.find，其返回匹配串“开始和结束的下标”（如果不存在匹配串返回nil）。
+s, e = string.find("hello Lua users", "Lua")
+print(s, e)       --> 7  9
+Lua函数中，在return后列出要返回的值得列表即可返回多值，如：
+function maximum (a)
+    local mi = 1             -- maximum index
+    local m = a[mi]          -- maximum value
+    for i,val in ipairs(a) do
+       if val > m then
+           mi = i
+           m = val
+       end
+    end
+    return m, mi
+end
+ 
+print(maximum({8,10,23,12,5}))     --> 23   3
+Lua总是调整函数返回值的个数以适用调用环境，当作为独立的语句调用函数时，所有返回值将被忽略。假设有如下三个函数：
+function foo0 () end                   -- returns no results
+function foo1 () return 'a' end        -- returns 1 result
+function foo2 () return 'a','b' end    -- returns 2 results
+第一，当作为表达式调用函数时，有以下几种情况：
+1. 当调用作为表达式最后一个参数或者仅有一个参数时，根据变量个数函数尽可能多地返回多个值，不足补nil，超出舍去。
+2. 其他情况下，函数调用仅返回第一个值（如果没有返回值为nil）
+x,y = foo2()             -- x='a', y='b'
+x = foo2()               -- x='a', 'b' is discarded
+x,y,z = 10,foo2()        -- x=10, y='a', z='b'
+ 
+x,y = foo0()             -- x=nil, y=nil
+x,y = foo1()             -- x='a', y=nil
+x,y,z = foo2()           -- x='a', y='b', z=nil
+ 
+x,y = foo2(), 20         -- x='a', y=20
+x,y = foo0(), 20, 30     -- x='nil', y=20, 30 is discarded
+第二，函数调用作为函数参数被调用时，和多值赋值是相同。
+print(foo0())            -->
+print(foo1())            --> a
+print(foo2())            --> a   b
+print(foo2(), 1)         --> a   1
+print(foo2() .. "x")     --> ax
+第三，函数调用在表构造函数中初始化时，和多值赋值时相同。
+a = {foo0()}             -- a = {}    (an empty table)
+a = {foo1()}             -- a = {'a'}
+a = {foo2()}             -- a = {'a', 'b'}
+ 
+a = {foo0(), foo2(), 4}  -- a[1] = nil, a[2] = 'a', a[3] = 4
+另外，return f()这种形式，则返回“f()的返回值”：
+function foo (i)
+    if i == 0 then return foo0()
+    elseif i == 1 then return foo1()
+    elseif i == 2 then return foo2()
+    end
+end
+ 
+print(foo(1))        --> a
+print(foo(2))        --> a  b
+print(foo(0))        -- (no results)
+print(foo(3))        -- (no results)
+可以使用圆括号强制使调用返回一个值。
+print((foo0()))      --> nil
+print((foo1()))      --> a
+print((foo2()))      --> a
+一个return语句如果使用圆括号将返回值括起来也将导致返回一个值。
+函数多值返回的特殊函数unpack，接受一个数组作为输入参数，返回数组的所有元素。unpack被用来实现范型调用机制，在C语言中可以使用函数指针调用可变的函数，可以声明参数可变的函数，但不能两者同时可变。在Lua中如果你想调用可变参数的可变函数只需要这样：
+f(unpack(a))
+unpack返回a所有的元素作为f()的参数
+f = string.find
+a = {"hello", "ll"}
+print(f(unpack(a)))      --> 3  4
+预定义的unpack函数是用C语言实现的，我们也可以用Lua来完成：
+function unpack(t, i)
+    i = i or 1
+    if t[i] then
+       return t[i], unpack(t, i + 1)
+    end
+end
+ 5.2 可变参数
+Lua函数可以接受可变数目的参数，和C语言类似在函数参数列表中使用三点（...）表示函数有可变的参数。Lua将函数的参数放在一个叫arg的表中，除了参数以外，arg表中还有一个域n表示参数的个数。
+例如，我们可以重写print函数：
+printResult = ""
+ 
+function print(...)
+    for i,v in ipairs(arg) do
+       printResult = printResult .. tostring(v) .. "\t"
+    end
+    printResult = printResult .. "\n"
+end
+有时候我们可能需要几个固定参数加上可变参数
+function g (a, b, ...) end
+ 
+CALL              PARAMETERS
+ 
+g(3)              a=3, b=nil, arg={n=0}
+g(3, 4)           a=3, b=4, arg={n=0}
+g(3, 4, 5, 8)     a=3, b=4, arg={5, 8; n=2}
+如上面所示，Lua会将前面的实参传给函数的固定参数，后面的实参放在arg表中。
+举个具体的例子，如果我们只想要string.find返回的第二个值。一个典型的方法是使用哑元（dummy variable，下划线）：
+local _, x = string.find(s, p)
+-- now use `x'
+...
+还可以利用可变参数声明一个select函数：
+function select (n, ...)
+    return arg[n]
+end
+ 
+print(string.find("hello hello", " hel")) --> 6  9
+print(select(1, string.find("hello hello", " hel"))) --> 6
+print(select(2, string.find("hello hello", " hel"))) --> 9
+有时候需要将函数的可变参数传递给另外的函数调用，可以使用前面我们说过的unpack(arg)返回arg表所有的可变参数，Lua提供了一个文本格式化的函数string.format（类似C语言的sprintf函数）：
+function fwrite(fmt, ...)
+    return io.write(string.format(fmt, unpack(arg)))
+end
+这个例子将文本格式化操作和写操作组合为一个函数。
+5.3 命名参数
+Lua的函数参数是和位置相关的，调用时实参会按顺序依次传给形参。有时候用名字指定参数是很有用的，比如rename函数用来给一个文件重命名，有时候我们我们记不清命名前后两个参数的顺序了：
+-- invalid code
+rename(old="temp.lua", new="temp1.lua")
+上面这段代码是无效的，Lua可以通过将所有的参数放在一个表中，把表作为函数的唯一参数来实现上面这段伪代码的功能。因为Lua语法支持函数调用时实参可以是表的构造。
+rename{old="temp.lua", new="temp1.lua"}
+根据这个想法我们重定义了rename：
+function rename (arg)
+    return os.rename(arg.old, arg.new)
+end
+当函数的参数很多的时候，这种函数参数的传递方式很方便的。例如GUI库中创建窗体的函数有很多参数并且大部分参数是可选的，可以用下面这种方式：
+w = Window {
+    x=0, y=0, width=300, height=200,
+    title = "Lua", background="blue",
+    border = true
+}
+ 
+function Window (options)
+    -- check mandatory options
+    if type(options.title) ~= "string" then
+       error("no title")
+    elseif type(options.width) ~= "number" then
+       error("no width")
+    elseif type(options.height) ~= "number" then
+       error("no height")
+    end
+ 
+    -- everything else is optional
+    _Window(options.title,
+       options.x or 0,          -- default value
+       options.y or 0,          -- default value
+       options.width, options.height,
+       options.background or "white",  -- default
+       options.border           -- default is false (nil)
+    )
+end

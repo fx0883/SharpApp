@@ -1,0 +1,132 @@
+本教程展示如何使用 XML 将代码存档。
+教程
+C# 提供一种机制，供开发人员使用 XML 将其代码存档。在源代码文件中，以下代码行可以作为注释处理并放在文件中：以 /// 开始的行；在用户定义的类型（如类、委托或接口）、某成员（如字段、事件、属性或方法）或某命名空间声明之前的行。
+示例
+下面的示例提供对某个已存档的类型的基本概述。若要编译该示例，请键入以下命令行：
+csc XMLsample.cs /doc:XMLsample.xml
+这将创建 XML 文件 XMLsample.xml，您可以在浏览器中或使用 TYPE 命令查看该文件。
+// XMLsample.cs
+// compile with: /doc:XMLsample.xml
+using System;
+/// <summary>
+/// Class level summary documentation goes here.</summary>
+/// <remarks>
+/// Longer comments can be associated with a type or member 
+/// through the remarks tag</remarks>
+public class SomeClass
+{
+   /// <summary>
+   /// Store for the name property</summary>
+   private string myName = null;
+   /// <summary>
+   /// The class constructor. </summary>
+   public SomeClass()
+   {
+       // TODO: Add Constructor Logic here
+   }
+   
+   /// <summary>
+   /// Name property </summary>
+   /// <value>
+   /// A value tag is used to describe the property value</value>
+   public string Name
+   {
+      get 
+      {
+         if ( myName == null )
+         {
+            throw new Exception("Name is null");
+         }
+             
+         return myName;
+      }
+   }
+   /// <summary>
+   /// Description for SomeMethod.</summary>
+   /// <param name="s"> Parameter description for s goes here</param>
+   /// <seealso cref="String">
+   /// You can use the cref attribute on any tag to reference a type or member 
+   /// and the compiler will check that the reference exists. </seealso>
+   public void SomeMethod(string s)
+   {
+   }
+   /// <summary>
+   /// Some other method. </summary>
+   /// <returns>
+   /// Return results are described through the returns tag.</returns>
+   /// <seealso cref="SomeMethod(string)">
+   /// Notice the use of the cref attribute to reference a specific method </seealso>
+   public int SomeOtherMethod()
+   {
+      return 0;
+   }
+   /// <summary>
+   /// The entry point for the application.
+   /// </summary>
+   /// <param name="args"> A list of command line arguments</param>
+   public static int Main(String[] args)
+   {
+      // TODO: Add code to start application here
+       return 0;
+   }
+}
+代码讨论
+XML 文档以 /// 开头。创建新项目时，向导将为您放入一些起始 /// 行。对这些注释的处理有一些限制：
+    文档必须是符合标准格式的 XML。如果 XML 不符合标准格式，将生成警告，并且文档文件将包含一条注释，指出遇到错误。有关符合标准格式的 XML 的更多信息，请参见 XML 词汇表。
+    开发人员可自由创建自己的标记集。有一套建议的标记（请参见“其他阅读材料”部分）。某些建议的标记具有特殊含义：
+        <param> 标记用于描述参数。如果使用，编译器将验证参数是否存在，以及文档中是否描述了所有参数。如果验证失败，则编译器发出警告。
+        cref 属性可以附加到任意标记，以提供对代码元素的引用。编译器将验证该代码元素是否存在。如果验证失败，则编译器发出警告。查找 cref 属性中描述的类型时，编译器还考虑任何 using 语句。
+        <summary> 标记由 Visual Studio 内的“智能感知”使用，用来显示类型或成员的其他相关信息。 
+示例输出
+以下是从上面的类生成的 XML 文件：
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>xmlsample</name>
+    </assembly>
+    <members>
+        <member name="T:SomeClass">
+            <summary>
+            Class level summary documentation goes here.</summary>
+            <remarks>
+            Longer comments can be associated with a type or member 
+            through the remarks tag</remarks>
+        </member>
+        <member name="F:SomeClass.myName">
+            <summary>
+            Store for the name property</summary>
+        </member>
+        <member name="M:SomeClass.#ctor">
+            <summary>The class constructor.</summary> 
+        </member>
+        <member name="M:SomeClass.SomeMethod(System.String)">
+            <summary>
+            Description for SomeMethod.</summary>
+            <param name="s"> Parameter description for s goes here</param>
+            <seealso cref="T:System.String">
+            You can use the cref attribute on any tag to reference a type or member 
+            and the compiler will check that the reference exists. </seealso>
+        </member>
+        <member name="M:SomeClass.SomeOtherMethod">
+            <summary>
+            Some other method. </summary>
+            <returns>
+            Return results are described through the returns tag.</returns>
+            <seealso cref="M:SomeClass.SomeMethod(System.String)">
+            Notice the use of the cref attribute to reference a specific method </seealso>
+        </member>
+        <member name="M:SomeClass.Main(System.String[])">
+            <summary>
+            The entry point for the application.
+            </summary>
+            <param name="args"> A list of command line arguments</param>
+        </member>
+        <member name="P:SomeClass.Name">
+            <summary>
+            Name property </summary>
+            <value>
+            A value tag is used to describe the property value</value>
+        </member>
+    </members>
+</doc>
+    注意   XML 文件并不提供有关类型和成员的完整信息（例如，它不包含任何类型信息）。若要获得有关类型或成员的完整信息，文档文件必须与实际类型或成员上的反射一起使用。

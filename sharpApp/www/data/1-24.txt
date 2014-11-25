@@ -1,0 +1,193 @@
+Lua是一个嵌入式的语言，意味着Lua不仅可以是一个独立运行的程序包也可以是一个用来嵌入其他应用的程序库。你可能觉得奇怪：如果Lua不只是独立的程序，为什么到目前为止贯穿整本书我们都是在使用Lua独立程序呢？这个问题的答案在于Lua解释器（可执行的lua）。Lua解释器是一个使用Lua标准库实现的独立的解释器，她是一个很小的应用（总共不超过500行的代码）。解释器负责程序和使用者的接口：从使用者那里获取文件或者字符串，并传给Lua标准库，Lua标准库负责最终的代码运行。
+Lua可以作为程序库用来扩展应用的功能，也就是Lua可以作为扩展性语言的原因所在。同时，Lua程序中可以注册有其他语言实现的函数，这些函数可能由C语言(或其他语言)实现，可以增加一些不容易由Lua实现的功能。这使得Lua是可扩展的。与上面两种观点(Lua作为扩展性语言和可扩展的语言)对应的C和Lua中间有两种交互方式。第一种，C作为应用程序语言，Lua作为一个库使用；第二种，反过来，Lua作为程序语言，C作为库使用。这两种方式，C语言都使用相同的API与Lua通信，因此C和Lua交互这部分称为C API。
+C API是一个C代码与Lua进行交互的函数集。他有以下部分组成：读写Lua全局变量的函数，调用Lua函数的函数，运行Lua代码片断的函数，注册C函数然后可以在Lua中被调用的函数，等等。（本书中，术语函数实际上指函数或者宏，API有些函数为了方便以宏的方式实现）
+C API遵循C语言的语法形式，这Lua有所不同。当使用C进行程序设计的时候，我们必须注意，类型检查，错误处理，内存分配都很多问题。API中的大部分函数并不检查他们参数的正确性；你需要在调用函数之前负责确保参数是有效的。如果你传递了错误的参数，可能得到 \"segmentation fault\" 这样或者类似的错误信息，而没有很明确的错误信息可以获得。另外，API重点放在了灵活性和简洁性方面，有时候以牺牲方便实用为代价的。一般的任务可能需要涉及很多个API调用，这可能令人烦恼，但是他给你提供了对细节的全部控制的能力，比如错误处理，缓冲大小，和类似的问题。如本章的标题所示，这一章的目标是对当你从C调用Lua时将涉及到哪些内容的预览。如果不能理解某些细节不要着急，后面我们会一一详细介绍。不过，在Lua参考手册中有对指定函数的详细描述。另外，在Lua发布版中你可以看到API的应用的例子，Lua独立的解释器（lua.c）提供了应用代码的例子，而标准库（lmathlib.c、lstrlib.c等等）提供了程序库代码的例子。
+从现在开始，你戴上了C程序员的帽子，当我们谈到“你/你们”，我们意思是指当你使用C编程的时候。在C和Lua之间通信关键内容在于一个虚拟的栈。几乎所有的API调用都是对栈上的值进行操作，所有C与Lua之间的数据交换也都通过这个栈来完成。另外，你也可以使用栈来保存临时变量。栈的使用解决了C和Lua之间两个不协调的问题：第一，Lua会自动进行垃圾收集，而C要求显示的分配存储单元，两者引起的矛盾。第二，Lua中的动态类型和C中的静态类型不一致引起的混乱。我们将在24.2节详细地介绍栈的相关内容。
+24.1 第一个示例程序
+通过一个简单的应用程序让我们开始这个预览：一个独立的Lua解释器的实现。我们写一个简单的解释器，代码如下：
+#include <stdio.h>
+#include <lua.h>
+#include <lauxlib.h>
+#include <lualib.h>
+ 
+int main (void)
+{
+    char buff[256];
+    int error;
+    lua_State *L = lua_open();  /* opens Lua */
+    luaopen_base(L);         /* opens the basic library */
+    luaopen_table(L);        /* opens the table library */
+    luaopen_io(L);           /* opens the I/O library */
+    luaopen_string(L);       /* opens the string lib. */
+    luaopen_math(L);         /* opens the math lib. */
+ 
+    while (fgets(buff, sizeof(buff), stdin) != NULL) {
+       error = luaL_loadbuffer(L, buff, strlen(buff),
+                  "line") || lua_pcall(L, 0, 0, 0);
+       if (error) {
+           fprintf(stderr, "%s", lua_tostring(L, -1));
+           lua_pop(L, 1);/* pop error message from the stack */
+       }
+    }
+ 
+    lua_close(L);
+    return 0;
+}
+头文件lua.h定义了Lua提供的基础函数。其中包括创建一个新的Lua环境的函数（如lua_open），调用Lua函数（如lua_pcall）的函数，读取/写入Lua环境的全局变量的函数，注册可以被Lua代码调用的新函数的函数，等等。所有在lua.h中被定义的都有一个lua_前缀。
+头文件lauxlib.h定义了辅助库（auxlib）提供的函数。同样，所有在其中定义的函数等都以luaL_打头（例如，luaL_loadbuffer）。辅助库利用lua.h中提供的基础函数提供了更高层次上的抽象；所有Lua标准库都使用了auxlib。基础API致力于economy and orthogonality，相反auxlib致力于实现一般任务的实用性。当然，基于你的程序的需要而创建其它的抽象也是非常容易的。需要铭记在心的是，auxlib没有存取Lua内部的权限。它完成它所有的工作都是通过正式的基本API。
+Lua库没有定义任何全局变量。它所有的状态保存在动态结构lua_State中，而且指向这个结构的指针作为所有Lua函数的一个参数。这样的实现方式使得Lua能够重入（reentrant）且为在多线程中的使用作好准备。
+函数lua_open创建一个新环境（或state）。lua_open创建一个新的环境时，这个环境并不包括预定义的函数，甚至是print。为了保持Lua的苗条，所有的标准库以单独的包提供，所以如果你不需要就不会强求你使用它们。头文件lualib.h定义了打开这些库的函数。例如，调用luaopen_io，以创建io table并注册I/O函数（io.read,io.write等等）到Lua环境中。
+创建一个state并将标准库载入之后，就可以着手解释用户的输入了。对于用户输入的每一行，C程序首先调用luaL_loadbuffer编译这些Lua代码。如果没有错误，这个调用返回零并把编译之后的chunk压入栈。（记住，我们将在下一节中讨论魔法般的栈）之后，C程序调用lua_pcall，它将会把chunk从栈中弹出并在保护模式下运行它。和luaL_laodbuffer一样，lua_pcall在没有错误的情况下返回零。在有错误的情况下，这两个函数都将一条错误消息压入栈；我们可以用lua_tostring来得到这条信息、输出它，用lua_pop将它从栈中删除。
+注意，在有错误发生的情况下，这个程序简单的输出错误信息到标准错误流。在C中，实际的错误处理可能是非常复杂的而且如何处理依赖于应用程序本身。Lua核心决不会直接输出任何东西到任务输出流上；它通过返回错误代码和错误信息来发出错误信号。每一个应用程序都可以用最适合它们自己的方式来处理这些错误。为了讨论的简单，现在我们假想一个简单的错误处理方式，就象下面代码一样，它只是输出一条错误信息、关闭Lua state、退出整个应用程序。
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+ 
+void error (lua_State *L, const char *fmt, ...) {
+    va_list argp;
+    va_start(argp, fmt);
+    vfprintf(stderr, argp);
+    va_end(argp);
+    lua_close(L);
+    exit(EXIT_FAILURE);
+}
+稍候我们再详细的讨论关于在应用代码中如何处理错误.因为你可以将Lua和C/C++代码一起编译，lua.h并不包含这些典型的在其他C库中出现的整合代码：
+#ifdef __cplusplus
+extern "C" {
+#endif
+    ...
+#ifdef __cplusplus
+}
+#endif
+因此，如果你用C方式来编译它，但用在C++中，那么你需要象下面这样来包含lua.h头文件。
+extern "C" {
+#include <lua.h>
+}
+一个常用的技巧是建立一个包含上面代码的lua.hpp头文件，并将这个新的头文件包含进你的C++程序。
+24.2 堆栈
+当在Lua和C之间交换数据时我们面临着两个问题：动态与静态类型系统的不匹配和自动与手动内存管理的不一致。
+在Lua中，我们写下a[k]=v时，k和v可以有几种不同的类型（由于metatables的存在，a也可能有不同的类型）。如果我们想在C中提供类似的操作，无论怎样，操作表的函数(settable)必定有一个固定的类型。我们将需要几十个不同的函数来完成这一个的操作（三个参数的类型的每一种组合都需要一个函数）。
+我们可以在C中声明一些union类型来解决这个问题，我们称之为lua_Value，它能够描述所有类型的Lua值。然后，我们就可以这样声明settable
+void lua_settable (lua_Value a, lua_Value k, lua_Value v);
+这个解决方案有两个缺点。第一，要将如此复杂的类型映射到其它语言可能很困难；Lua不仅被设计为与C/C++易于交互，Java,Fortran以及类似的语言也一样。第二，Lua负责垃圾回收：如果我们将Lua值保存在C变量中，Lua引擎没有办法了解这种用法；它可能错误地认为某个值为垃圾并收集他。
+因此，Lua API没有定义任何类似lua_Value的类型。替代的方案，它用一个抽象的栈在Lua与C之间交换值。栈中的每一条记录都可以保存任何Lua值。无论你何时想要从Lua请求一个值（比如一个全局变量的值），调用Lua，被请求的值将会被压入栈。无论你何时想要传递一个值给Lua，首先将这个值压入栈，然后调用Lua（这个值将被弹出）。我们仍然需要一个不同的函数将每种C类型压入栈和一个不同函数从栈上取值（译注：只是取出不是弹出），但是我们避免了组合式的爆炸（combinatorial explosion）。另外，因为栈是由Lua来管理的，垃圾回收器知道那个值正在被C使用。 几乎所有的API函数都用到了栈。正如我们在第一个例子中所看到的，luaL_loadbuffer把它的结果留在了栈上（被编译的chunk或一条错误信息）；lua_pcall从栈上获取要被调用的函数并把任何临时的错误信息放在这里。
+Lua以一个严格的LIFO规则（后进先出；也就是说，始终存取栈顶）来操作栈。当你调用Lua时，它只会改变栈顶部分。你的Ｃ代码却有更多的自由；更明确的来讲，你可以查询栈上的任何元素，甚至是在任何一个位置插入和删除元素。
+24.2.1 压入元素
+API有一系列压栈的函数，它将每种可以用C来描述的Lua类型压栈：空值（nil）用lua_pushnil，数值型（double）用lua_pushnumber，布尔型（在C中用整数表示）用lua_pushboolean，任意的字符串（char*类型，允许包含'\0'字符）用lua_pushlstring，C语言风格（以'\0'结束）的字符串（const char*）用lua_pushstring：
+void lua_pushnil (lua_State *L);
+void lua_pushboolean (lua_State *L, int bool);
+void lua_pushnumber (lua_State *L, double n);
+void lua_pushlstring (lua_State *L, const char *s,
+                                          size_t length);
+void lua_pushstring (lua_State *L, const char *s);
+同样也有将C函数和userdata值压入栈的函数，稍后会讨论到它们。
+Lua中的字符串不是以零为结束符的；它们依赖于一个明确的长度，因此可以包含任意的二进制数据。将字符串压入串的正式函数是lua_pushlstring，它要求一个明确的长度作为参数。对于以零结束的字符串，你可以用lua_pushstring（它用strlen来计算字符串长度）。Lua从来不保持一个指向外部字符串（或任何其它对象，除了C函数——它总是静态指针）的指针。对于它保持的所有字符串，Lua要么做一份内部的拷贝要么重新利用已经存在的字符串。因此，一旦这些函数返回之后你可以自由的修改或是释放你的缓冲区。
+无论你何时压入一个元素到栈上，你有责任确保在栈上有空间来做这件事情。记住，你现在是C程序员；Lua不会宠着你。当Lua在起始以及在Lua调用C的时候，栈上至少有20个空闲的记录（lua.h中的LUA_MINSTACK宏定义了这个常量）。对于多数普通的用法栈是足够的，所以通常我们不必去考虑它。无论如何，有些任务或许需要更多的栈空间（如，调用一个不定参数数目的函数）。在这种情况下，或许你需要调用下面这个函数：
+int lua_checkstack (lua_State *L, int sz);
+它检测栈上是否有足够你需要的空间（稍后会有关于它更多的信息）。
+24.2.2 查询元素
+API用索引来访问栈中的元素。在栈中的第一个元素（也就是第一个被压入栈的）有索引1，下一个有索引2，以此类推。我们也可以用栈顶作为参照来存取元素，利用负索引。在这种情况下，-1指出栈顶元素（也就是最后被压入的），-2指出它的前一个元素，以此类推。例如，调用lua_tostring(L, -1)以字符串的形式返回栈顶的值。我们下面将看到，在某些场合使用正索引访问栈比较方便，另外一些情况下，使用负索引访问栈更方便。
+API提供了一套lua_is*函数来检查一个元素是否是一个指定的类型，*可以是任何Lua类型。因此有lua_isnumber,lua_isstring,lua_istable以及类似的函数。所有这些函数都有同样的原型：
+int lua_is... (lua_State *L, int index);
+lua_isnumber和lua_isstring函数不检查这个值是否是指定的类型，而是看它是否能被转换成指定的那种类型。例如，任何数字类型都满足lua_isstring。
+还有一个lua_type函数，它返回栈中元素的类型。（lua_is*中的有些函数实际上是用了这个函数定义的宏）在lua.h头文件中，每种类型都被定义为一个常量：LUA_TNIL、LUA_TBOOLEAN、LUA_TNUMBER、LUA_TSTRING、LUA_TTABLE、LUA_TFUNCTION、LUA_TUSERDATA以及LUA_TTHREAD。这个函数主要被用在与一个switch语句联合使用。当我们需要真正的检查字符串和数字类型时它也是有用的
+为了从栈中获得值，这里有lua_to*函数：
+int           lua_toboolean (lua_State *L, int index);
+double        lua_tonumber (lua_State *L, int index);
+const char *  lua_tostring (lua_State *L, int index);
+size_t        lua_strlen (lua_State *L, int index);
+即使给定的元素的类型不正确，调用上面这些函数也没有什么问题。在这种情况下，lua_toboolean、lua_tonumber和lua_strlen返回0，其他函数返回NULL。由于ANSI C没有提供有效的可以用来判断错误发生数字值，所以返回的0是没有什么用处的。对于其他函数而言，我们一般不需要使用对应的lua_is*函数：我们只需要调用lua_is*，测试返回结果是否为NULL即可。
+Lua_tostring函数返回一个指向字符串的内部拷贝的指针。你不能修改它（使你想起那里有一个const）。只要这个指针对应的值还在栈内，Lua会保证这个指针一直有效。当一个C函数返回后，Lua会清理他的栈，所以，有一个原则：永远不要将指向Lua字符串的指针保存到访问他们的外部函数中。
+Lua_string返回的字符串结尾总会有一个字符结束标志0，但是字符串中间也可能包含0，lua_strlen返回字符串的实际长度。特殊情况下，假定栈顶的值是一个字符串，下面的断言(assert)总是有效的：
+const char *s = lua_tostring(L, -1);   /* any Lua string */
+size_t l = lua_strlen(L, -1);          /* its length */
+assert(s[l] == '\0');
+assert(strlen(s) <= l);
+24.2.3 其他堆栈操作
+除开上面所提及的C与堆栈交换值的函数外，API也提供了下列函数来完成通常的堆栈维护工作：
+int  lua_gettop (lua_State *L);
+void lua_settop (lua_State *L, int index);
+void lua_pushvalue (lua_State *L, int index);
+void lua_remove (lua_State *L, int index);
+void lua_insert (lua_State *L, int index);
+void lua_replace (lua_State *L, int index);
+函数lua_gettop返回堆栈中的元素个数，它也是栈顶元素的索引。注意一个负数索引-x对应于正数索引gettop-x+1。lua_settop设置栈顶（也就是堆栈中的元素个数）为一个指定的值。如果开始的栈顶高于新的栈顶，顶部的值被丢弃。否则，为了得到指定的大小这个函数压入相应个数的空值（nil）到栈上。特别的，lua_settop(L,0)清空堆栈。你也可以用负数索引作为调用lua_settop的参数；那将会设置栈顶到指定的索引。利用这种技巧，API提供了下面这个宏，它从堆栈中弹出n个元素：
+#define lua_pop(L,n)  lua_settop(L, -(n)-1)
+函数lua_pushvalue压入堆栈上指定索引的一个抟贝到栈顶；lua_remove移除指定索引位置的元素，并将其上面所有的元素下移来填补这个位置的空白；lua_insert移动栈顶元素到指定索引的位置，并将这个索引位置上面的元素全部上移至栈顶被移动留下的空隔；最后，lua_replace从栈顶弹出元素值并将其设置到指定索引位置，没有任何移动操作。注意到下面的操作对堆栈没有任何影响：
+lua_settop(L, -1);   /* set top to its current value */
+lua_insert(L, -1);   /* move top element to the top */
+为了说明这些函数的用法，这里有一个有用的帮助函数，它dump整个堆栈的内容：
+static void stackDump (lua_State *L) {
+    int i;
+    int top = lua_gettop(L);
+    for (i = 1; i <= top; i++) {  /* repeat for each level */
+       int t = lua_type(L, i);
+       switch (t) {
+ 
+       case LUA_TSTRING:  /* strings */
+           printf("`%s'", lua_tostring(L, i));
+           break;
+ 
+       case LUA_TBOOLEAN:  /* booleans */
+           printf(lua_toboolean(L, i) ? "true" : "false");
+           break;
+ 
+       case LUA_TNUMBER:  /* numbers */
+           printf("%g", lua_tonumber(L, i));
+           break;
+   
+       default:  /* other values */
+           printf("%s", lua_typename(L, t));
+           break;
+ 
+       }
+       printf("  ");  /* put a separator */
+    }
+    printf("\n");     /* end the listing */
+}
+这个函数从栈底到栈顶遍历了整个堆栈，依照每个元素自己的类型打印出其值。它用引号输出字符串；以%g的格式输出数字；对于其它值（table，函数，等等）它仅仅输出它们的类型（lua_typename转换一个类型码到类型名）。
+下面的函数利用stackDump更进一步的说明了API堆栈的操作。
+#include <stdio.h>
+#include <lua.h>
+ 
+static void stackDump (lua_State *L) {
+    ...
+}
+ 
+int main (void) {
+    lua_State *L = lua_open();
+    lua_pushboolean(L, 1); lua_pushnumber(L, 10);
+    lua_pushnil(L); lua_pushstring(L, "hello");
+    stackDump(L);
+           /* true  10  nil  `hello'  */
+ 
+    lua_pushvalue(L, -4); stackDump(L);
+           /* true  10  nil  `hello'  true  */
+ 
+    lua_replace(L, 3); stackDump(L);
+           /* true  10  true  `hello'  */
+ 
+    lua_settop(L, 6); stackDump(L);
+           /* true  10  true  `hello'  nil  nil  */
+ 
+    lua_remove(L, -3); stackDump(L);
+           /* true  10  true  nil  nil  */
+ 
+    lua_settop(L, -5); stackDump(L);
+           /* true  */
+ 
+    lua_close(L);
+    return 0;
+}
+24.3 C API的错误处理
+不象C++或者JAVA一样，C语言没有提供一种异常处理机制。为了改善这个难处，Lua利用C的setjmp技巧构造了一个类似异常处理的机制。（如果你用C++来编译Lua，那么修改代码以使用真正的异常并不困难。）
+Lua中的所有结构都是动态的：它们按需增长，最终当可能时又会缩减。意味着内存分配失败的可能性在Lua中是普遍的。几乎任意操作都会面对这种意外。Lua的API中用异常发出这些错误而不是为每步操作产生错误码。这意味着所有的API函数可能抛出一个错误（也就是调用longjmp）来代替返回。
+当我们写一个库代码时（也就是被Lua调用的C函数）长跳转（long jump）的用处几乎和一个真正的异常处理一样的方便，因为Lua抓取了任务偶然的错误。当我们写应用程序代码时（也就是调用Lua的C代码），无论如何，我们必须提供一种方法来抓取这些错误。
+24.3.1 应用程序中的错误处理
+典型的情况是应用的代码运行在非保护模式下。由于应用的代码不是被Lua调用的，Lua根据上下文情况来捕捉错误的发生（也就是说，Lua不能调用setjmp）。在这些情况下，当Lua遇到像 "not enough memory" 的错误，他不知道如何处理。他只能调用一个panic函数退出应用。（你可以使用lua_atpanic函数设置你自己的panic函数）
+不是所有的API函数都会抛出异常，lua_open、lua_close、lua_pcall和lua_load都是安全的，另外，大多数其他函数只能在内存分配失败的情况下抛出异常：比如，luaL_loadfile如果没有足够内存来拷贝指定的文件将会失败。有些程序当碰到内存不足时，他们可能需要忽略异常不做任何处理。对这些程序而言，如果Lua导致内存不足，panic是没有问题的。
+如果你不想你的应用退出，即使在内存分配失败的情况下，你必须在保护模式下运行你的代码。大部分或者所有你的Lua代码通过调用lua_pcall来运行，所以，它运行在保护模式下。即使在内存分配失败的情况下，lua_pcall也返回一个错误代码，使得lua解释器处于和谐的（consistent）状态。如果你也想保护所有你的与Lua交互的C代码，你可以使用lua_cpcall。（请看参考手册，有对这个函数更深的描述，在Lua的发布版的lua.c文件中有它应用的例子）
+24.3.2 类库中的错误处理
+Lua是安全的语言，也就是说，不管你些什么样的代码，也不管代码如何错误，你都可以根据Lua本身知道程序的行为。另外，错误也会根据Lua被发现和解释。你可以与C比较一下，C语言中很多错误的程序的行为只能依据硬件或者由程序计数器给出的错误出现的位置被解释。
+不论什么时候你向Lua中添加一个新的C函数，你都可能打破原来的安全性。比如，一个类似poke的函数，在任意的内存地址存放任意的字节，可能使得内存瘫痪。你必须想法设法保证你的插件（add-ons）对于Lua来讲是安全的，并且提高比较好的错误处理。
+正如我们前面所讨论的，每一个C程序都有他自己的错勿处理方式，当你打算为Lua写一个库函数的时候，这里有一些标准的处理错误的方法可以参考。不论什么时候，C函数发现错误只要简单的调用lua_error（或者luaL_error，后者更好，因为她调用了前者并格式化了错误信息）。Lua_error函数会清理所有在Lua中需要被清理的，然后和错误信息一起回到最初的执行lua_pcall的地方。

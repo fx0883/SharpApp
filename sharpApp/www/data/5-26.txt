@@ -1,0 +1,307 @@
+该教程说明如何在 C# 中使用不安全代码（使用指针的代码）。
+教程
+在 C# 中很少需要使用指针，但仍有一些需要使用的情况。例如，在下列情况中使用允许采用指针的不安全上下文是正确的：
+处理磁盘上的现有结构
+涉及内部包含指针的结构的高级 COM 或平台调用方案
+性能关键代码
+不鼓励在其他情况下使用不安全上下文。具体地说，不应该使用不安全上下文尝试在 C# 中编写 C 代码。
+警告   使用不安全上下文编写的代码无法被验证为安全的，因此只有在代码完全受信任时才会执行该代码。换句话说，不可以在不受信任的环境中执行不安全代码。例如，不能从 Internet 上直接运行不安全代码。
+该教程包括下列示例：
+示例 1   使用指针复制一个字节数组。
+示例 2   显示如何调用 Windows ReadFile 函数。
+示例 3   显示如何打印可执行文件的 Win32 版本。
+示例 1
+以下示例使用指针将一个字节数组从 src 复制到 dst。用 /unsafe 选项编译此示例。
+// fastcopy.cs
+// compile with: /unsafe
+using System;
+ 
+class Test
+{
+    // The unsafe keyword allows pointers to be used within
+    // the following method:
+    static unsafe void Copy(byte[] src, int srcIndex,
+        byte[] dst, int dstIndex, int count)
+    {
+        if (src == null || srcIndex < 0 ||
+            dst == null || dstIndex < 0 || count < 0)
+        {
+            throw new ArgumentException();
+        }
+        int srcLen = src.Length;
+        int dstLen = dst.Length;
+        if (srcLen - srcIndex < count ||
+            dstLen - dstIndex < count)
+        {
+            throw new ArgumentException();
+        }
+ 
+ 
+            // The following fixed statement pins the location of
+            // the src and dst objects in memory so that they will
+            // not be moved by garbage collection.         
+            fixed (byte* pSrc = src, pDst = dst)
+            {
+                  byte* ps = pSrc;
+                  byte* pd = pDst;
+            // Loop over the count in blocks of 4 bytes, copying an
+            // integer (4 bytes) at a time:
+            for (int n =0 ; n < count/4 ; n++)
+            {
+                *((int*)pd) = *((int*)ps);
+                pd += 4;
+                ps += 4;
+            }
+ 
+            // Complete the copy by moving any bytes that weren't
+            // moved in blocks of 4:
+            for (int n =0; n < count%4; n++)
+            {
+                *pd = *ps;
+                pd++;
+                ps++;
+            }
+            }
+    }
+ 
+ 
+    static void Main(string[] args)
+    {
+        byte[] a = new byte[100];
+        byte[] b = new byte[100];
+        for(int i=0; i<100; ++i)
+           a[i] = (byte)i;
+        Copy(a, 0, b, 0, 100);
+        Console.WriteLine("The first 10 elements are:");
+        for(int i=0; i<10; ++i)
+           Console.Write(b[i] + " ");
+        Console.WriteLine("\n");
+    }
+}
+输出示例
+The first 10 elements are:
+0 1 2 3 4 5 6 7 8 9
+代码讨论
+请注意使用了 unsafe 关键字，这允许在 Copy 方法内使用指针。
+fixed 语句用于声明指向源和目标数组的指针。它锁定 src 和 dst 对象在内存中的位置以便使其不会被垃圾回收移动。当 fixed 块完成后，这些对象将被解除锁定。
+通过略过数组界限检查，不安全代码可提高性能。
+示例 2
+本示例显示如何从 Platform SDK 调用 Windows ReadFile 函数，这要求使用不安全上下文，因为读缓冲区需要将指针作为参数。
+// readfile.cs
+// compile with: /unsafe
+// arguments: readfile.cs
+ 
+// Use the program to read and display a text file.
+using System;
+using System.Runtime.InteropServices;
+using System.Text;
+ 
+class FileReader
+{
+      const uint GENERIC_READ = 0x80000000;
+      const uint OPEN_EXISTING = 3;
+      IntPtr handle;
+ 
+      [DllImport("kernel32", SetLastError=true)]
+      static extern unsafe IntPtr CreateFile(
+            string FileName,                    // file name
+            uint DesiredAccess,                 // access mode
+            uint ShareMode,                     // share mode
+            uint SecurityAttributes,            // Security Attributes
+            uint CreationDisposition,           // how to create
+            uint FlagsAndAttributes,            // file attributes
+            int hTemplateFile                   // handle to template file
+            );
+ 
+       [DllImport("kernel32", SetLastError=true)]
+      static extern unsafe bool ReadFile(
+            IntPtr hFile,                       // handle to file
+            void* pBuffer,                      // data buffer
+            int NumberOfBytesToRead,            // number of bytes to read
+            int* pNumberOfBytesRead,            // number of bytes read
+            int Overlapped                      // overlapped buffer
+            );
+ 
+      [DllImport("kernel32", SetLastError=true)]
+      static extern unsafe bool CloseHandle(
+            IntPtr hObject   // handle to object
+            );
+     
+      public bool Open(string FileName)
+      {
+            // open the existing file for reading         
+            handle = CreateFile(
+                  FileName,
+                  GENERIC_READ,
+                  0,
+                  0,
+                  OPEN_EXISTING,
+                  0,
+                  0);
+     
+            if (handle != IntPtr.Zero)
+                  return true;
+            else
+                  return false;
+      }
+ 
+      public unsafe int Read(byte[] buffer, int index, int count)
+      {
+            int n = 0;
+            fixed (byte* p = buffer)
+            {
+                  if (!ReadFile(handle, p + index, count, &n, 0))
+                        return 0;
+            }
+            return n;
+      }
+ 
+      public bool Close()
+      {
+            // close file handle
+            return CloseHandle(handle);
+      }
+}
+ 
+class Test
+{
+      public static int Main(string[] args)
+      {
+            if (args.Length != 1)
+            {
+                  Console.WriteLine("Usage : ReadFile <FileName>");
+                  return 1;
+            }
+           
+            if (! System.IO.File.Exists(args[0]))
+            {
+                  Console.WriteLine("File " + args[0] + " not found.");
+                  return 1;
+            }
+ 
+            byte[] buffer = new byte[128];
+            FileReader fr = new FileReader();
+           
+            if (fr.Open(args[0]))
+            {
+                 
+                  // Assume that an ASCII file is being read
+                  ASCIIEncoding Encoding = new ASCIIEncoding();
+                 
+                  int bytesRead;
+                  do
+                  {
+                        bytesRead = fr.Read(buffer, 0, buffer.Length);
+                        string content = Encoding.GetString(buffer,0,bytesRead);
+                        Console.Write("{0}", content);
+                  }
+                  while ( bytesRead > 0);
+                 
+                  fr.Close();
+                  return 0;
+            }
+            else
+            {
+                  Console.WriteLine("Failed to open requested file");
+                  return 1;
+            }
+      }
+}
+输入示例
+在编译和运行此示例时，下列来自 readfile.txt 的输入将产生在“输出示例”中显示的输出。
+line 1
+line 2
+输出示例
+line 1
+line 2
+代码讨论
+传递到 Read 函数的字节数组是托管类型。这意味着公共语言运行库垃圾回收器可能会随意地对数组使用的内存进行重新定位。fixed 语句允许您获取指向字节数组使用的内存的指针，并且标记实例，以便垃圾回收器不会移动它。
+在 fixed 块的末尾，将标记该实例以便可以移动它。此功能称为声明式锁定。锁定的好处是系统开销非常小，除非在 fixed 块中发生垃圾回收（但此情况不太可能发生）。
+示例 3
+本示例读取并显示可执行文件的 Win32 版本号，在本示例中此版本号与程序集版本号相同。本例中使用的可执行文件为 printversion.exe。本示例使用 Platform SDK 函数 VerQueryValue、GetFileVersionInfoSize 和 GetFileVersionInfo 从指定的版本信息资源中检索指定的版本信息。
+本示例使用了指针，因为它可以简化在其签名中使用指向指针的指针（这在 Win32 API 中很常见）的方法的使用。
+// printversion.cs
+// compile with: /unsafe
+using System;
+using System.Reflection;
+using System.Runtime.InteropServices;
+ 
+// Give this assembly a version number:
+[assembly:AssemblyVersion("4.3.2.1")]
+ 
+public class Win32Imports
+{
+      [DllImport("version.dll")]
+      public static extern bool GetFileVersionInfo (string sFileName,
+            int handle, int size, byte[] infoBuffer);
+      [DllImport("version.dll")]
+      public static extern int GetFileVersionInfoSize (string sFileName,
+            out int handle);
+  
+      // The third parameter - "out string pValue" - is automatically
+      // marshaled from ANSI to Unicode:
+      [DllImport("version.dll")]
+      unsafe public static extern bool VerQueryValue (byte[] pBlock,
+            string pSubBlock, out string pValue, out uint len);
+      // This VerQueryValue overload is marked with 'unsafe' because
+      // it uses a short*:
+      [DllImport("version.dll")]
+      unsafe public static extern bool VerQueryValue (byte[] pBlock,
+            string pSubBlock, out short *pValue, out uint len);
+}
+ 
+public class C
+{
+      // Main is marked with 'unsafe' because it uses pointers:
+      unsafe public static int Main ()
+      {
+            try
+            {
+                  int handle = 0;
+                  // Figure out how much version info there is:
+                  int size =
+                        Win32Imports.GetFileVersionInfoSize("printversion.exe",
+                        out handle);
+ 
+                  if (size == 0) return -1;
+ 
+                  byte[] buffer = new byte[size];
+ 
+                  if (!Win32Imports.GetFileVersionInfo("printversion.exe", handle, size, buffer))
+                  {
+                        Console.WriteLine("Failed to query file version information.");
+                        return 1;
+                  }
+ 
+                  short *subBlock = null;
+                  uint len = 0;
+                  // Get the locale info from the version info:
+                  if (!Win32Imports.VerQueryValue (buffer, @"\VarFileInfo\Translation", out subBlock, out len))
+                  {
+                        Console.WriteLine("Failed to query version information.");
+                        return 1;
+                  }
+ 
+                  string spv = @"\StringFileInfo\" + subBlock[0].ToString("X4") + subBlock[1].ToString("X4") + @"\ProductVersion";
+ 
+                  byte *pVersion = null;
+                  // Get the ProductVersion value for this program:
+                  string versionInfo;
+                  if (!Win32Imports.VerQueryValue (buffer, spv, out versionInfo, out len))
+                  {
+                        Console.WriteLine("Failed to query version information.");
+                        return 1;
+                  }
+ 
+                 Console.WriteLine ("ProductVersion == {0}", versionInfo);
+            }
+            catch (Exception e)
+            {
+                  Console.WriteLine ("Caught unexpected exception " + e.Message);
+            }
+     
+            return 0;
+      }
+}
+输出示例
+ProductVersion == 4.3.2.1

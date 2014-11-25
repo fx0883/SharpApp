@@ -1,0 +1,31 @@
+FileUpload 对象
+在 HTML 文档中 <input type="file"> 标签每出现一次，一个 FileUpload 对象就会被创建。
+该元素包含一个文本输入字段，用来输入文件名，还有一个按钮，用来打开文件选择对话框以便图形化选择文件。
+该元素的 value 属性保存了用户指定的文件的名称，但是当包含一个 file-upload 元素的表单被提交的时候，浏览器会向服务器发送选中的文件的内容而不仅仅是发送文件名。
+为安全起见，file-upload 元素不允许 HTML 作者或 JavaScript 程序员指定一个默认的文件名。HTML value 属性被忽略，并且对于此类元素来说，value 属性是只读的，这意味着只有用户可以输入一个文件名。当用户选择或编辑一个文件名，file-upload 元素触发 onchange 事件句柄。
+您可以通过遍历表单的 elements[] 数组，或者通过使用 document.getElementById()来访问 FileUpload 对象。
+IE: Internet Explorer, F: Firefox, O: Opera, W3C: W3C 标准.
+FileUpload 对象的属性
+属性 	描述 	IE 	F 	O 	W3C
+accept 	设置或返回指示文件传输的 MIME 类型的列表（逗号分隔）。 	  	  	  	Yes
+accessKey 	设置或返回访问 FileUpload 对象的快捷键。 	4 	  	  	Yes
+alt 	设置或返回不支持 <input type="file"> 时显示的替代文字。 	  	  	  	Yes
+defaultValue 	设置或返回 FileUpload 对象的初始值。 	4 	1 	  	Yes
+disabled 	设置或返回是否禁用 FileUpload 对象。 	4 	  	  	Yes
+form 	返回对包含 FileUpload 对象的表单的引用。 	4 	1 	  	Yes
+id 	设置或返回 FileUpload 对象的 id。 	4 	1 	  	Yes
+name 	设置或返回 FileUpload 对象的名称。 	4 	1 	  	Yes
+tabIndex 	设置或返回定义 FileUpload 对象的 tab 键控制次序的索引号。 	4 	  	  	Yes
+type 	返回表单元素的类型。对于 FileUpload ，则是 "file" 。 	4 	1 	  	Yes
+value 	返回由用户输入设置的文本后，FileUpload 对象的文件名。 	4 	1 	  	Yes
+标准属性
+属性 	描述 	IE 	F 	O 	W3C
+className 	设置或返回元素的 class 属性。 	5 	1 	9 	Yes
+dir 	设置或返回文本的方向。 	5 	1 	9 	Yes
+lang 	设置或返回元素的语言代码。 	5 	1 	9 	Yes
+title 	设置或返回元素的 title 属性。 	5 	1 	9 	Yes
+FileUpload 对象的方法
+方法 	描述 	IE 	F 	O 	W3C
+blur() 	从 FileUpload 对象上移开焦点。 	4 	1 	  	Yes
+focus() 	为 FileUpload 对象赋予焦点。 	4 	1 	  	Yes
+select() 	选取 FileUpload 对象。 	4 	  	  	Yes

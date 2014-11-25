@@ -1,0 +1,26 @@
+TableCell 对象
+TableCell 对象代表一个 HTML 表格单元格。
+在一个 HTML 文档中 <td> 标签每出现一次，一个 TableCell 对象就会被创建。
+IE: Internet Explorer, F: Firefox, O: Opera, W3C: W3C 标准.
+TableCell 对象属性
+属性 	描述 	IE 	F 	O 	W3C
+abbr 	设置或返回单元格中内容的缩写版本。 	6 	1 	9 	Yes
+align 	设置或返回单元格内部数据的水平排列方式。 	4 	1 	9 	Yes
+axis 	设置或返回相关单元格的一个逗号分隔的列表。 	6 	1 	9 	Yes
+cellIndex 	返回单元格在某行的单元格集合中的位置。 	4 	1 	9 	Yes
+ch 	设置或返回单元格的对齐字符。 	  	  	  	Yes
+chOff 	设置或返回单元格的对齐字符的偏移量。 	  	  	  	Yes
+colSpan 	单元格横跨的列数。 	4 	1 	9 	Yes
+headers 	设置或返回 header-cell 的 id 值。 	  	  	  	Yes
+id 	设置或返回单元格的 id。 	4 	1 	9 	Yes
+innerHTML 	设置或返回单元格的开始标签和结束标签之间的 HTML。 	4 	1 	9 	No
+rowSpan 	设置或返回单元格可横跨的行数。 	4 	1 	9 	Yes
+scope 	设置或返回此单元格是否可提供标签信息。 	  	  	  	Yes
+vAlign 	设置或返回表格单元格内数据的垂直排列方式。 	4 	1 	9 	Yes
+width 	设置或返回单元格的宽度。 	4 	1 	9 	Yes
+标准属性
+属性 	描述 	IE 	F 	O 	W3C
+className 	设置或返回元素的 class 属性。 	5 	1 	9 	Yes
+dir 	设置或返回文本的方向。 	5 	1 	9 	Yes
+lang 	设置或返回元素的语言代码。 	5 	1 	9 	Yes
+title 	设置或返回元素的 title 属性。 	5 	1 	9 	Yes

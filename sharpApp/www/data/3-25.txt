@@ -1,0 +1,18 @@
+ADO 用于从网页访问数据库。
+从 ASP 页面访问数据库
+从 ASP 文件内部访问数据库的通常途径是：
+    创建至数据库的 ADO 连接（ADO connection）
+    打开数据库连接
+    创建 ADO 记录集（ADO recordset）
+    打开记录集（recordset）
+    从数据集中提取你所需要的数据
+    关闭数据集
+    关闭连接
+什么是 ADO?
+    ADO 是一项微软公司的技术
+    ADO 指 ActiveX Data Objects
+    ADO 是一个微软的 Active-X 组件
+    ADO 会随着微软 IIS 自动安装
+    ADO 是用以访问数据库中数据的编程接口
+下一步学习什么内容？
+假如您希望学习更多关于 ADO 的知识，请阅读我们的 ADO 教程。

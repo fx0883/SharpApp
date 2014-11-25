@@ -8,6 +8,11 @@
         PhoneGap Team
     </author>
     <content src="index.html" />
+    <feature name="debug-server" required="true">
+        <param name="domain" value="http://localhost" />
+        <param name="key" value="com.sharpApp.app" />
+    </feature>
+    <preference name="DisallowOverscroll" value="true" />
     <preference name="permissions" value="none" />
     <preference name="phonegap-version" value="3.5.0" />
     <preference name="orientation" value="default" />

@@ -1,0 +1,14 @@
+关键字是类似标识符的保留的字符序列，不能用作标识符（以 @ 字符开头时除外）。
+keyword: one of（关键字：下列之一）
+    abstract 	as 	base 	bool 	break 	byte 	case
+    catch 	char 	checked 	class 	const 	continue 	decimal
+    default 	delegate 	do 	double 	else 	enum 	event
+    explicit 	extern 	false 	finally 	fixed 	float 	for
+    foreach 	goto 	if 	implicit 	in 	int 	interface
+    internal 	is 	lock 	long 	namespace 	new 	null
+    object 	operator 	out 	override 	params 	private 	protected
+    public 	readonly 	ref 	return 	sbyte 	sealed 	short
+    sizeof 	stackalloc 	static 	string 	struct 	switch 	this
+    throw 	true 	try 	typeof 	uint 	ulong 	unchecked
+    unsafe 	ushort 	using 	virtual 	void 	volatile 	while
+在文法中的某些位置，特定的标识符有特殊的含义，但不是关键字。例如，在属性声明中，“get”和“set”标识符有特殊的含义（第 10.6.2 节）。在这些位置决不允许使用 get 或 set 以外的标识符，因此这种用法不会与将这些字用作标识符冲突。

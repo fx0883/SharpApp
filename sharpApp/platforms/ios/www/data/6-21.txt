@@ -1,0 +1,24 @@
+Unicode 字符转义序列表示一个 Unicode 字符。Unicode 字符转义序列在标识符（第 2.4.2 节）、字符（第 2.4.4.4 节）和规则字符串（第 2.4.4.5 节）中处理。不在其他任何位置处理 Unicode 字符转义（例如，在构成运算符、标点符号或关键字时）。
+unicode-escape-sequence:（unicode 转义序列：）
+    \u   hex-digit   hex-digit   hex-digit   hex-digit（\u   十六进制数字   十六进制数字   十六进制数字   十六进制数字）
+    \U   hex-digit   hex-digit   hex-digit   hex-digit   hex-digit   hex-digit   hex-digit   hex-digit（\U   十六进制数字   十六进制数字   十六进制数字   十六进制数字   十六进制数字   十六进制数字   十六进制数字   十六进制数字） 
+Unicode 转义序列表示由“\u”或“\U”字符后面的十六进制数字构成的单个 Unicode 字符。由于 C# 在字符和字符串值中使用 Unicode 代码点的 16 位编码，因此从 U+10000 到 U+10FFFF 的 Unicode 字符不能在字符中使用，在字符串中则用一个 Unicode 代理项对来表示。不支持代码数据点在 0x10FFFF 以上的 Unicode 字符。
+不执行多次转换。例如，字符串“\u005Cu005C”等同于“\u005C”，而不是“\”。Unicode 值 \u005C 是字符“\”。
+示例
+class Class1
+{
+   static void Test(bool \u0066) {
+      char c = '\u0066';
+      if (\u0066)
+         System.Console.WriteLine(c.ToString());
+   }      
+}
+表明了 \u0066（它是字母“f”的转义序列）的一些用法。该程序等效于
+class Class1
+{
+   static void Test(bool f) {
+      char c = 'f';
+      if (f)
+         System.Console.WriteLine(c.ToString());
+   }      
+}

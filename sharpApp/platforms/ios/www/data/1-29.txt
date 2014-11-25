@@ -1,0 +1,317 @@
+在前面一章介绍的数组实现方法，我们不必担心如何管理资源，只需要分配内存。每一个表示数组的userdatum都有自己的内存，这个内存由Lua管理。当数组变为垃圾（也就是说，当程序不需要）的时候，Lua会自动收集并释放内存。
+生活总是不那么如意。有时候，一个对象除了需要物理内存以外，还需要文件描述符、窗口句柄等类似的资源。（通常这些资源也是内存，但由系统的其他部分来管理）。在这种情况下，当一个对象成为垃圾并被收集的时候，这些相关的资源也应该被释放。一些面向对象的语言为了这种需要提供了一种特殊的机制（称为finalizer 或者析构器）。Lua以__gc元方法的方式提供了finalizers。这个元方法只对userdata类型的值有效。当一个userdatum将被收集的时候，并且usedatum有一个__gc域，Lua会调用这个域的值（应该是一个函数）：以userdatum作为这个函数的参数调用。这个函数负责释放与userdatum相关的所有资源。
+为了阐明如何将这个元方法和API作为一个整体使用，这一章我们将使用Lua扩展应用的方式，介绍两个例子。第一个例子是前面已经介绍的遍历一个目录的函数的另一种实现。第二个例子是一个绑定Expat（Expat开源的XML解析器）实现的XML解析器。
+29.1 目录迭代器
+前面我们实现了一个dir函数，给定一个目录作为参数，这个函数以一个table的方式返回目录下所有文件。我们新版本的dir函数将返回一个迭代子，每次调用这个迭代子的时候会返回目录中的一个入口（entry）。按新版本的实现方式，我们可以使用循环来遍历整个目录：
+for fname in dir(".") do  print(fname)  end
+在C语言中，我们需要DIR这种结构才能够迭代一个目录。通过opendir才能创建一个DIR的实例，并且必须显式的调用closedir来释放资源。我们以前实现的dir用一个本地变量保存DIR的实例，并且在获取目录中最后一个文件名之后关闭实例。但我们新实现的dir中不能在本地变量中保存DIR的实例，因为有很多个调用都要访问这个值，另外，也不能仅仅在获取目录中最后一个文件名之后关闭目录。如果程序循环过程中中断退出，迭代子根本就不会取得最后一个文件名，所以，为了保证DIR的实例一定能够被释放掉，我们将它的地址保存在一个userdatum中，并使用这个userdatum的__gc的元方法来释放目录结构。
+尽管我们实现中userdatum的作用很重要，但这个用来表示一个目录的userdatum，并不需要在Lua可见范围之内。Dir函数返回一个迭代子函数，迭代子函数需要在Lua的可见范围之内。目录可能是迭代子函数的一个upvalue。这样一来，迭代子函数就可以直接访问这个结构[9]，但是Lua不可以（也不需要）访问这个结构。
+总的来说，我们需要三个C函数。第一，dir函数，一个Lua调用他产生迭代器的工厂，这个函数必须打开DIR结构并将他作为迭代函数的upvalue。第二，我们需要一个迭代函数。第三，__gc元方法，负责关闭DIR结构。一般来说，我们还需要一个额外的函数来进行一些初始的操作，比如为目录创建metatable，并初始化这个metatable。
+首先看我们的dir函数：
+#include <dirent.h>
+#include <errno.h>
+ 
+/* forward declaration for the iterator function */
+static int dir_iter (lua_State *L);
+ 
+static int l_dir (lua_State *L) {
+    const char *path = luaL_checkstring(L, 1);
+ 
+    /* create a userdatum to store a DIR address */
+    DIR **d = (DIR **)lua_newuserdata(L, sizeof(DIR *));
+ 
+    /* set its metatable */
+    luaL_getmetatable(L, "LuaBook.dir");
+    lua_setmetatable(L, -2);
+ 
+    /* try to open the given directory */
+    *d = opendir(path);
+    if (*d == NULL)  /* error opening the directory? */
+       luaL_error(L, "cannot open %s: %s", path,
+                  strerror(errno));
+ 
+    /* creates and returns the iterator function
+       (its sole upvalue, the directory userdatum,
+       is already on the stack top */
+    lua_pushcclosure(L, dir_iter, 1);
+    return 1;
+}
+这儿有一点需要注意的，我们必须在打开目录之前创建userdatum。如果我们先打开目录，然后调用lua_newuserdata会抛出错误，这样我们就无法获取DIR结构。按照正确的顺序，DIR结构一旦被创建，就会立刻和userdatum关联起来；之后不管发生什么，__gc元方法都会自动的释放这个结构。
+第二个函数是迭代器：
+static int dir_iter (lua_State *L) {
+    DIR *d = *(DIR **)lua_touserdata(L, lua_upvalueindex(1));
+    struct dirent *entry;
+    if ((entry = readdir(d)) != NULL) {
+       lua_pushstring(L, entry->d_name);
+       return 1;
+    }
+    else return 0;  /* no more values to return */
+}
+__gc元方法用来关闭目录，但有一点需要小心：因为我们在打开目录之前创建userdatum，所以不管opendir的结果是什么，userdatum将来都会被收集。如果opendir失败，将来就没有什么可以关闭的了：
+static int dir_gc (lua_State *L) {
+    DIR *d = *(DIR **)lua_touserdata(L, 1);
+    if (d) closedir(d);
+    return 0;
+}
+最后一个函数打开这个只有一个函数的库：
+int luaopen_dir (lua_State *L) {
+    luaL_newmetatable(L, "LuaBook.dir");
+ 
+    /* set its __gc field */
+    lua_pushstring(L, "__gc");
+    lua_pushcfunction(L, dir_gc);
+    lua_settable(L, -3);
+ 
+    /* register the `dir' function */
+    lua_pushcfunction(L, l_dir);
+    lua_setglobal(L, "dir");
+ 
+    return 0;
+}
+整个例子有一个注意点。开始的时候，dir_gc看起来应该检查他的参数是否是一个目录。否则，一个恶意的使用者可能用其他类型的参数（比如，文件）调用这个函数导致严重的后果。然而，在Lua程序中无法访问这个函数：他被存放在目录的metatable中，Lua程序从来不会访问这些目录。
+29.2 XML解析
+现在，我们将要看到一个xml解析器的简单实现，称为lxp[10]，它包括了Lua和Expat（http://www.libexpat.org/）。Expat是一个开源的C语言写成的XML 1.0的解析器。它实现了SAX（http://www.saxproject.org/），SAX是XML简单的API，是基于事件的API，这意味着一个SAX解析器读取有一个XML文档，然后反馈给应用程序他所发现的。举个例子，我们要通知Expat解析这样一个字符串：
+<tag cap="5">hi</tag>
+它将会产生三个事件：当它读取子字符串 "<tag cap="5">hi</tag>"，产生一个读取到开始元素的事件；当它解析 "hi" 时，产生一个读取文本事件（有时也称为字符数据事件）；当解析 "end" 时，产生一个读取结束元素的事件。而每个事件，都会调用应用程序适当的句柄。
+这里我们不会涉及到整个Expat库，我们只会集中精力关注那些能够阐明和Lua相互作用的新技术的部分。当我们实现了核心功能后，在上面进行扩展将会变得很容易。虽然Expat解析XML文档时会有很多事件，我们将会关心的仅仅是上面例子提到的三个事件（开始元素，结束元素，文本数据），我们需要调用的API是Expat众多API中很少的几个。首先，我们需要创建和析构Expat解析器的函数：
+#include <xmlparse.h>
+ 
+XML_Parser XML_ParserCreate (const char *encoding);
+void XML_ParserFree (XML_Parser p);
+这里函数参数是可选的；在我们的使用中，我们直接选用NULL作为参数。当我们有了一个解析器的时候，我们必须注册回调的句柄：
+XML_SetElementHandler(XML_Parser p,
+                      XML_StartElementHandler start,
+                      XML_EndElementHandler end);
+ 
+XML_SetCharacterDataHandler(XML_Parser p,
+                             XML_CharacterDataHandler hndl);
+第一个函数登记了开始元素和结束元素的句柄。第二个函数登记了文本数据（在XML语法中的字符数据）的句柄。所有回掉的句柄通过第一个参数接收用户数据。开始元素的句柄同样接收到标签的名称和它的属性作为参数：
+typedef void (*XML_StartElementHandler)(void *uData,
+                                          const char *name,
+                                         const char **atts);
+这些属性来自于以 '\0' 结束的字符串组成的数组，这些字符串分别对应了一对以属性名和属性值组成的属性。结束元素的句柄只有一个参数，就是标签名。
+typedef void (*XML_EndElementHandler)(void *uData,
+                                        const char *name)
+最终，一个文本句柄仅仅以字符串作为额外的参数。该文本字符串不能是以'\0'结束的字符串，而是显式指明长度的字符串：
+typedef void
+(*XML_CharacterDataHandler)(void *uData,
+                             const char *s,
+                             int len);
+我们用下面的函数将这些文本传给Expat：
+int XML_Parse (XML_Parser p,
+                const char *s, int len, int isFinal);
+Expat通过成功调用XML_Parse一段一段的解析它接收到的文本。XML_Parse最后一个参数为isFinal，他表示这部分是不是XML文档的最后一个部分了。需要注意的是不是每段文本都需要通过0来表示结束，我们也可以通过显实的长度来判定。XML_Parse函数如果发现解析错误就会返回一个0（expat也提供了辅助的函数来显示错误信息，但是因为简单的缘故，我们这里都将之忽略掉）。我们需要Expat的最后一个函数是允许我们设置将要传给句柄的用户数据的函数：
+void XML_SetUserData (XML_Parser p, void *uData);
+好了，现在我们来看一下如何在Lua中使用Expat库。第一种方法也是最直接的一种方法：简单的在Lua中导入这些函数。比较好的方法是对Lua调整这些函数。比如Lua是没有类型的，我们不需要用不同的函数来设置不同的调用。但是我们怎么样避免一起调用那些注册了的函数呢。替代的是，当我们创建了一个解析器，我们同时给出了一个包含所有回调句柄以及相应的键值的回调表。举个例子来说，如果我们要打印一个文档的布局，我们可以用下面的回调表：
+local count = 0
+ 
+callbacks = {
+    StartElement = function (parser, tagname)
+       io.write("+ ", string.rep("  ", count), tagname, "\n")
+       count = count + 1
+    end,
+ 
+    EndElement = function (parser, tagname)
+       count = count - 1
+       io.write("- ", string.rep("  ", count), tagname, "\n")
+    end,
+}
+输入"<to> <yes/> </to>"，这些句柄将会打印出：
++ to
++   yes
+-   yes
+- to
+通过这个API，我们不需要维护这些函数的调用。我们直接在回调表中维回他们。因此，整个API需要三个函数：一个创建解析器，一个解析一段段文本，最后一个关闭解析器。（实际上，我们用解析器对象的方法，实现了最后两个功能）。对这些API函数的典型使用如下：
+p = lxp.new(callbacks)      -- create new parser
+for l in io.lines() do      -- iterate over input lines
+    assert(p:parse(l))       -- parse the line
+    assert(p:parse("\n"))    -- add a newline
+end
+assert(p:parse())           -- finish document
+p:close()
+现在，让我们把注意力集中到实现中来。首先，考虑如何在Lua中实现解析器。很自然的会想到使用userdatum，但是我们将什么内容放在userdata里呢？至少，我们必须保留实际的Expat解析器和一个回调表。我们不能将一个Lua表保存在一个userdatum（或者在任何的C结构中），然而，我们可以创建一个指向表的引用，并将这个引用保存在userdatum中。（我们在27.3.2节已经说过，一个引用就是Lua自动产生的在registry中的一个整数）最后，我们还必须能够将Lua的状态保存到一个解析器对象中，因为这些解析器对象就是Expat回调从我们程序中接受的所有内容，并且这些回调需要调用Lua。一个解析器的对象的定义如下：
+#include <xmlparse.h>
+ 
+typedef struct lxp_userdata {
+    lua_State *L;
+    XML_Parser *parser;  /* associated expat parser */
+    int tableref; /* table with callbacks for this parser */
+} lxp_userdata;
+下面是创建解析器对象的函数：
+static int lxp_make_parser (lua_State *L) {
+    XML_Parser p;
+    lxp_userdata *xpu;
+ 
+    /* (1) create a parser object */
+    xpu = (lxp_userdata *)lua_newuserdata(L,
+                  sizeof(lxp_userdata));
+ 
+    /* pre-initialize it, in case of errors */
+    xpu->tableref = LUA_REFNIL;
+    xpu->parser = NULL;
+ 
+    /* set its metatable */
+    luaL_getmetatable(L, "Expat");
+    lua_setmetatable(L, -2);
+ 
+    /* (2) create the Expat parser */
+    p = xpu->parser = XML_ParserCreate(NULL);
+    if (!p)
+       luaL_error(L, "XML_ParserCreate failed");
+ 
+    /* (3) create and store reference to callback table */
+    luaL_checktype(L, 1, LUA_TTABLE);
+    lua_pushvalue(L, 1);  /* put table on the stack top */
+    xpu->tableref = luaL_ref(L, LUA_REGISTRYINDEX);
+ 
+    /* (4) configure Expat parser */
+    XML_SetUserData(p, xpu);
+    XML_SetElementHandler(p, f_StartElement, f_EndElement);
+    XML_SetCharacterDataHandler(p, f_CharData);
+    return 1;
+}
+函数lxp_make_parser有四个主要步骤：
+第一步遵循共同的模式：首先创建一个userdatum，然后使用consistent的值预初始化userdatum，最后设置userdatum的metatable。预初始化的原因在于：如果在初始化的时候有任何错误的话，我们必须保证析构器（__gc元方法）能够发现在可靠状态下发现userdata并释放资源。
+第二步，函数创建一个Expat解析器，将它保存在userdatum中，并检测错误。
+第三步，保证函数的第一个参数是一个表（回调表），创建一个指向表的引用，并将这个引用保存到新的userdatum中。
+第四步，初始化Expat解析器，将userdatum设置为将要传递给回调函数的对象，并设置这些回调函数。注意，对于所有的解析器来说这些回调函数都一样。毕竟，在C中不可能动态的创建新的函数，取代的方法是，这些固定的C函数使用回调表来决定每次应该调用哪个Lua函数。
+下一步是解析方法，负责解析一段XML数据。他有两个参数：解析器对象(方法自己)和一个可选的一段XML数据。当没有数据调用这个方法时，他通知Expat文档已经解析结束：
+static int lxp_parse (lua_State *L) {
+    int status;
+    size_t len;
+    const char *s;
+    lxp_userdata *xpu;
+ 
+    /* get and check first argument (should be a parser) */
+    xpu = (lxp_userdata *)luaL_checkudata(L, 1, "Expat");
+    luaL_argcheck(L, xpu, 1, "expat parser expected");
+ 
+    /* get second argument (a string) */
+    s = luaL_optlstring(L, 2, NULL, &len);
+ 
+    /* prepare environment for handlers: */
+    /* put callback table at stack index 3 */
+    lua_settop(L, 2);
+    lua_getref(L, xpu->tableref);
+    xpu->L = L;  /* set Lua state */
+ 
+    /* call Expat to parse string */
+    status = XML_Parse(xpu->parser, s, (int)len, s == NULL);
+ 
+    /* return error code */
+    lua_pushboolean(L, status);
+    return 1;
+}
+当lxp_parse调用XML_Parse的时候，后一个函数将会对在给定的一段XML数据中找到的所有元素，分别调用这些元素对应的句柄。所以，lxp_parse会首先为这些句柄准备环境，在调用XML_Parse的时候有一些细节：记住这个函数的最后一个参数告诉Expat给定的文本段是否是最后一段。当我们不带参数调用他时，s将使用缺省的NULL，因此这时候最后一个参数将为true。现在让我们注意力集中到回调函数f_StartElement、f_EndElement和f_CharData上，这三个函数有相似的结构：每一个都会针对他的指定事件检查callback表是否定义了Lua句柄，如果有，预处理参数然后调用这个Lua句柄。
+我们首先来看f_CharData 句柄，他的代码非常简单。她调用他对应的Lua中的句柄（当存在的时候），带有两个参数：解析器parser和字符数据（一个字符串）
+static void f_CharData (void *ud, const char *s, int len) {
+    lxp_userdata *xpu = (lxp_userdata *)ud;
+    lua_State *L = xpu->L;
+ 
+    /* get handler */
+    lua_pushstring(L, "CharacterData");
+    lua_gettable(L, 3);
+    if (lua_isnil(L, -1)) {  /* no handler? */
+       lua_pop(L, 1);
+       return;
+    }
+ 
+    lua_pushvalue(L, 1); /* push the parser (`self') */
+    lua_pushlstring(L, s, len);  /* push Char data */
+    lua_call(L, 2, 0);   /* call the handler */
+}
+注意，由于当我们创建解析器的时候调用了XML_SetUserData，所以，所有的C句柄都接受lxp_userdata数据结构作为第一个参数。还要注意程序是如何使用由lxp_parse设置的环境的。首先，他假定callback表在栈中的索引为3；第二，假定解析器parser在栈中索引为1（parser的位置肯定是这样的，因为她应该是lxp_parse的第一个参数）。
+f_EndElement句柄和f_CharData类似，也很简单。他也是用两个参数调用相应的Lua句柄：一个解析器parser和一个标签名（也是一个字符串，但现在是以 '\0' 结尾）：
+static void f_EndElement (void *ud, const char *name) {
+    lxp_userdata *xpu = (lxp_userdata *)ud;
+    lua_State *L = xpu->L;
+ 
+    lua_pushstring(L, "EndElement");
+    lua_gettable(L, 3);
+    if (lua_isnil(L, -1)) {  /* no handler? */
+       lua_pop(L, 1);
+       return;
+    }
+ 
+    lua_pushvalue(L, 1); /* push the parser (`self') */
+    lua_pushstring(L, name);  /* push tag name */
+    lua_call(L, 2, 0);   /* call the handler */
+}
+最后一个句柄f_StartElement带有三个参数：解析器parser，标签名，和一个属性列表。这个句柄比上面两个稍微复杂点，因为它需要将属性的标签列表翻译成Lua识别的内容。我们是用自然的翻译方式，比如，类似下面的开始标签：
+<to method="post" priority="high">
+产生下面的属性表：
+{ method = "post", priority = "high" }
+f_StartElement的实现如下：
+static void f_StartElement (void *ud,
+                            const char *name,
+                             const char **atts) {
+    lxp_userdata *xpu = (lxp_userdata *)ud;
+    lua_State *L = xpu->L;
+ 
+    lua_pushstring(L, "StartElement");
+    lua_gettable(L, 3);
+    if (lua_isnil(L, -1)) {  /* no handler? */
+       lua_pop(L, 1);
+       return;
+    }
+ 
+    lua_pushvalue(L, 1);  /* push the parser (`self') */
+    lua_pushstring(L, name);  /* push tag name */
+ 
+    /* create and fill the attribute table */
+    lua_newtable(L);
+    while (*atts) {
+       lua_pushstring(L, *atts++);
+       lua_pushstring(L, *atts++);
+       lua_settable(L, -3);
+    }
+ 
+    lua_call(L, 3, 0);  /* call the handler */
+}
+解析器的最后一个方法是close。当我们关闭一个解析器的时候，我们必须释放解析器对应的所有资源，即Expat结构和callback表。记住，在解析器创建的过程中如果发生错误，解析器并不拥有这些资源：
+static int lxp_close (lua_State *L) {
+    lxp_userdata *xpu;
+ 
+    xpu = (lxp_userdata *)luaL_checkudata(L, 1, "Expat");
+    luaL_argcheck(L, xpu, 1, "expat parser expected");
+ 
+    /* free (unref) callback table */
+    luaL_unref(L, LUA_REGISTRYINDEX, xpu->tableref);
+    xpu->tableref = LUA_REFNIL;
+ 
+    /* free Expat parser (if there is one) */
+    if (xpu->parser)
+       XML_ParserFree(xpu->parser);
+    xpu->parser = NULL;
+    return 0;
+}
+注意我们在关闭解析器的时候，是如何保证它处于一致的（consistent）状态的,当我们对一个已经关闭的解析器或者垃圾收集器已经收集这个解析器之后，再次关闭这个解析器是没有问题的。实际上，我们使用这个函数作为我们的析构函数。他负责保证每一个解析器自动得释放他所有的资源，即使程序员没有关闭解析器。
+最后一步是打开库，将上面各个部分放在一起。这儿我们使用和面向对象的数组例子（28.3节）一样的方案：创建一个metatable，将所有的方法放在这个表内，表的__index域指向自己。这样，我们还需要一个解析器方法的列表：
+static const struct luaL_reg lxp_meths[] = {
+    {"parse", lxp_parse},
+    {"close", lxp_close},
+    {"__gc", lxp_close},
+    {NULL, NULL}
+};
+我们也需要一个关于这个库中所有函数的列表。和OO库相同的是，这个库只有一个函数，这个函数负责创建一个新的解析器：
+static const struct luaL_reg lxp_funcs[] = {
+    {"new", lxp_make_parser},
+    {NULL, NULL}
+};
+最终，open函数必须要创建metatable，并通过__index指向表本身，并且注册方法和函数：
+int luaopen_lxp (lua_State *L) {
+    /* create metatable */
+    luaL_newmetatable(L, "Expat");
+ 
+    /* metatable.__index = metatable */
+    lua_pushliteral(L, "__index");
+    lua_pushvalue(L, -2);
+    lua_rawset(L, -3);
+ 
+    /* register methods */
+    luaL_openlib (L, NULL, lxp_meths, 0);
+ 
+    /* register functions (only lxp.new) */
+    luaL_openlib (L, "lxp", lxp_funcs, 0);
+    return 1;
+}

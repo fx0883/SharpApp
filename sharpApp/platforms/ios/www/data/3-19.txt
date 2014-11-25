@@ -1,0 +1,60 @@
+FileSystemObject 对象用于访问服务器上的文件系统。
+实例
+指定的文件存在吗？
+    本例演示如何首先创建 FileSystemObject 对象，然后使用 FileExists 方法来探测某文件是否存在。
+指定的文件夹存在吗？
+    本例演示如何使用 FolderExists 方法探测某文件夹是否存在。
+指定的驱动器存在吗？
+    本例演示如何使用 DriveExists 方法来探测某个驱动器是否存在。
+取得某个指定驱动器的名称
+    本例演示如何使用 GetDriveName 方法来取得某个指定的驱动器的名称。
+取得某个指定路径的父文件夹的名称
+    本例演示如何使用 GetParentFolderName 方法来取得某个指定的路径的父文件夹的名称。
+取得文件夹扩展名
+    本例演示如何使用 GetExtensionName 方法来取得指定的路径中的最后一个成分的文件扩展名。
+取得文件名
+    本例演示如何使用 GetFileName 方法来取得指定的路径中的最后一个成分的文件名。
+取得文件或文件夹的基名称
+    本例演示如何使用 GetBaseName 方法来返回在指定的路径中文件或者文件夹的基名称。
+FileSystemObject 对象
+FileSystemObject 对象用于访问服务器上的文件系统。此对象可对文件、文件夹以及目录路径进行操作。也可通过此对象获取文件系统的信息。
+下面的代码会创建一个文本文件 (c:\test.txt)，然后向这个文件写一些文本：
+<%
+dim fs,fname
+      set fs=Server.CreateObject("Scripting.FileSystemObject")
+      set fname=fs.CreateTextFile("c:\test.txt",true)
+      fname.WriteLine("Hello World!")
+      fname.Close
+set fname=nothing
+set fs=nothing
+%>
+FileSystemObject 对象的属性和方法描述如下：
+属性
+属性 	描述
+Drives 	返回本地计算机上所有驱动器对象的集合。
+方法
+方法 	描述
+BuildPath 	将一个名称追加到已有的路径后
+CopyFile 	从一个位置向另一个位置拷贝一个或多个文件。
+CopyFolder 	从一个位置向另一个位置拷贝一个或多个文件夹。
+CreateFolder 	创建新文件夹。
+CreateTextFile 	创建文本文件，并返回一个 TextStream 对象。
+DeleteFile 	删除一个或者多个指定的文件。
+DeleteFolder 	删除一个或者多个指定的文件夹。
+DriveExists 	检查指定的驱动器是否存在。
+FileExists 	检查指定的文件是否存在。
+FolderExists 	检查某个文件夹是否存在。
+GetAbsolutePathName 	针对指定的路径返回从驱动器根部起始的完整路径。
+GetBaseName 	返回指定文件或者文件夹的基名称。
+GetDrive 	返回指定路径中所对应的驱动器的 Drive 对象。
+GetDriveName 	返回指定的路径的驱动器名称。
+GetExtensionName 	返回在指定的路径中最后一个成分的文件扩展名。
+GetFile 	返回一个针对指定路径的 File 对象。
+GetFileName 	返回在指定的路径中最后一个成分的文件名。
+GetFolder 	返回一个针对指定路径的 Folder 对象。
+GetParentFolderName 	返回在指定的路径中最后一个成分的父文件名称。
+GetSpecialFolder 	返回某些 Windows 的特殊文件夹的路径。
+GetTempName 	返回一个随机生成的文件或文件夹。
+MoveFile 	从一个位置向另一个位置移动一个或多个文件。
+MoveFolder 	从一个位置向另一个位置移动一个或多个文件夹。
+OpenTextFile 	打开文件，并返回一个用于访问此文件的 TextStream 对象。

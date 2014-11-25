@@ -1,0 +1,157 @@
+在序列化.NET object到JSON时有一个常见的问题会遇到，这就是JSON最后都包含大量不需要的属性和值。尤其是当返回JSON给客户端时，这很重要。JSON意味着更大的宽带和更慢的网页。
+为了解决不需要的JSON，Json.NET有大量的内建的选项，来调节从一个要被序列化的对象中获取什么来写入JSON。
+13.1 JsonIgnoreAttribute and DataMemberAttribute
+默认情况下Json.NET将包含一个类所有的共有property和field，将其创建到JSON里。添加JsonIgnoreAttribute 给一个 property 告诉序列化器总是跳过写入这个JSON结果。
+public class Car
+{
+  // included in JSON
+  public string Model { get; set; }
+  public DateTime Year { get; set; }
+  public List<string> Features { get; set; }
+  // ignored
+  [JsonIgnore]
+  public DateTime LastModified { get; set; }
+}
+如果一个class有许多property ，并且你想要序列化一个很小的子集，那么添加JsonIgnore 到所有这些上会显得枯燥乏味并且容易出错。这时候处理这个场景可以添加DataContractAttribute 到class上，以及把DataMemberAttributes 放在要序列化的property 上。这就是opt-in序列化，只有你标记要序列化的property 才会被序列化，和opt-out 序列化中使用JsonIgnoreAttribute相反。
+[DataContract]
+public class Computer
+{
+  // included in JSON
+  [DataMember]
+  public string Name { get; set; }
+  [DataMember]
+  public decimal SalePrice { get; set; }
+  // ignored
+  public string Manufacture { get; set; }
+  public int StockCount { get; set; }
+  public decimal WholeSalePrice { get; set; }
+  public DateTime NextShipmentDate { get; set; }
+}
+13.2 Formatting
+序列化器写入JSON时，有一个选项 Formatting.Indented 产生很好看的格式，是的JSON在开发时更容易阅读。Formatting.None 的话就保持JSON的结果尽量小，跳过所有不必要的空格、换行来产生更精简更有效率的JSON。
+13.3 NullValueHandling
+NullValueHandling 是JsonSerializer 上的一个选项，用来控制序列化器处理null值的property的方式。通过设置一个NullValueHandling值，让JsonSerializer 忽略和跳过写入任何有null值的属性。
+public class Movie
+{
+  public string Name { get; set; }
+  public string Description { get; set; }
+  public string Classification { get; set; }
+  public string Studio { get; set; }
+  public DateTime? ReleaseDate { get; set; }
+  public List<string> ReleaseCountries { get; set; }
+}
+Movie movie = new Movie();
+movie.Name = "Bad Boys III";
+movie.Description = "It's no Bad Boys";
+string included = JsonConvert.SerializeObject(movie,
+  Formatting.Indented,
+  new JsonSerializerSettings { });
+// {
+//   "Name": "Bad Boys III",
+//   "Description": "It's no Bad Boys",
+//   "Classification": null,
+//   "Studio": null,
+//   "ReleaseDate": null,
+//   "ReleaseCountries": null
+// }
+string ignored = JsonConvert.SerializeObject(movie,
+  Formatting.Indented,
+  new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+// {
+//   "Name": "Bad Boys III",
+//   "Description": "It's no Bad Boys"
+// }
+NullValueHandling 也可以用JsonPropertyAttribute. 在不同的属性上自行定义。JsonPropertyAttribute 中关于NullValueHandling 的值将覆盖JsonSerializer 为那个property的设置。
+13.4 DefaultValueHandling
+DefaultValueHandling 是JsonSerializer 上的一个选项，用来控制序列化器如果处理property的默认值。设置DefaultValueHandling.Ignore的值来使得JsonSerializer 跳过写入任何属性到有默认值的property上。对于对象引用，这可能是null。对于值类型例如int或DateTime，序列化器将跳过默认未初始化的值类型。
+Json.NET 也允许你自定义，单独的property 通过DefaultValueAttribute.设置任何默认值。例如如果一个string property 叫Department ，默认一直返回一个空字符串，并且你不想这个空字符串出现在你的JSON里，那么把DefaultValueAttribute 放在Department 上，这意味着Department 不再被写入JSON，除非它有一个值。
+Json.NET also allows you to customize what the default value of an individual property is using the DefaultValueAttribute. For example if a string property called Department always returns an empty string in its default state and you didn't want that empty string in your JSON then placing the DefaultValueAttribute on Department with that value will mean Department is no longer written to JSON unless it has a value.
+public class Invoice
+{
+  public string Company { get; set; }
+  public decimal Amount { get; set; }
+  // false is default value of bool
+  public bool Paid { get; set; }
+  // null is default value of nullable
+  public DateTime? PaidDate { get; set; }
+  // customize default values
+  [DefaultValue(30)]
+  public int FollowUpDays { get; set; }
+  [DefaultValue("")]
+  public string FollowUpEmailAddress { get; set; }
+}
+Invoice invoice = new Invoice
+{
+  Company = "Acme Ltd.",
+  Amount = 50.0m,
+  Paid = false,
+  FollowUpDays = 30,
+  FollowUpEmailAddress = string.Empty,
+  PaidDate = null
+};
+string included = JsonConvert.SerializeObject(invoice,
+  Formatting.Indented,
+  new JsonSerializerSettings { });
+// {
+//   "Company": "Acme Ltd.",
+//   "Amount": 50.0,
+//   "Paid": false,
+//   "PaidDate": null,
+//   "FollowUpDays": 30,
+//   "FollowUpEmailAddress": ""
+// }
+string ignored = JsonConvert.SerializeObject(invoice,
+  Formatting.Indented,
+  new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+// {
+//   "Company": "Acme Ltd.",
+//   "Amount": 50.0
+// }
+DefaultValueHandling 也可以用一个JsonPropertyAttribute. 来自定义一个单独的property。这个DefaultValueHandling 的JsonPropertyAttribute 值将覆盖JsonSerializer 对那个property的设置。
+13.5 IContractResolver
+为了更有弹性， IContractResolver 提供了一个接口来自定义大多数关于如何把.NET序列化为JSON，包括在运行时改变序列化的行为。
+public class DynamicContractResolver : DefaultContractResolver
+{
+  private readonly char _startingWithChar;
+  public DynamicContractResolver(char startingWithChar)
+  {
+    _startingWithChar = startingWithChar;
+  }
+  protected override IList<JsonProperty> CreateProperties(JsonObjectContract contract)
+  {
+    IList<JsonProperty> properties = base.CreateProperties(contract);
+    // only serializer properties that start with the specified character
+    properties =
+      properties.Where(p => p.PropertyName.StartsWith(_startingWithChar.ToString())).ToList();
+    return properties;
+  }
+}
+public class Book
+{
+  public string BookName { get; set; }
+  public decimal BookPrice { get; set; }
+  public string AuthorName { get; set; }
+  public int AuthorAge { get; set; }
+  public string AuthorCountry { get; set; }
+}
+Book book = new Book
+              {
+                BookName = "The Gathering Storm",
+                BookPrice = 16.19m,
+                AuthorName = "Brandon Sanderson",
+                AuthorAge = 34,
+                AuthorCountry = "United States of America"
+              };
+string startingWithA = JsonConvert.SerializeObject(book, Formatting.Indented,
+  new JsonSerializerSettings { ContractResolver = new DynamicContractResolver('A') });
+// {
+//   "AuthorName": "Brandon Sanderson",
+//   "AuthorAge": 34,
+//   "AuthorCountry": "United States of America"
+// }
+string startingWithB = JsonConvert.SerializeObject(book, Formatting.Indented,
+  new JsonSerializerSettings { ContractResolver = new DynamicContractResolver('B') });
+// {
+//   "BookName": "The Gathering Storm",
+//   "BookPrice": 16.19
+// }

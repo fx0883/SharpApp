@@ -1,0 +1,22 @@
+Frame 对象
+Frame 对象代表一个 HTML 框架。
+在 HTML 文档中 <frame> 每出现一次，就会创建一个 Frame对象。
+IE: Internet Explorer, F: Firefox, O: Opera, W3C: W3C 标准.
+Frame 对象的属性
+属性 	描述 	IE 	F 	O 	W3C
+contentDocument 	容纳框架的内容的文档。 	No 	1 	9 	Yes
+frameBorder 	设置或返回是否显示框架周围的边框。 	5 	1 	9 	Yes
+id 	设置或返回框架的 id。 	4 	1 	9 	Yes
+longDesc 	设置或返回指向包含框架内容描述文档的 URL。 	6 	1 	9 	Yes
+marginHeight 	设置或返回框架的顶部和底部页空白。 	5 	1 	9 	Yes
+marginWidth 	设置或返回框架的左边缘和右边缘的空白。 	5 	1 	9 	Yes
+name 	设置或返回框架的名称。 	5 	1 	9 	Yes
+noResize 	设置或返回框架是否可调整大小。 	5 	1 	9 	Yes
+scrolling 	设置或返回框架是否可拥有滚动条。 	No 	1 	No 	Yes
+src 	设置或返回应被加载到框架中的文档的 URL。 	5 	1 	9 	Yes
+标准属性
+属性 	描述 	IE 	F 	O 	W3C
+className 	设置或返回元素的 class 属性。 	5 	1 	9 	Yes
+dir 	设置或返回文本的方向。 	5 	1 	9 	Yes
+lang 	设置或返回元素的语言代码。 	5 	1 	9 	Yes
+title 	设置或返回元素的 title 属性。 	5 	1 	9 	Yes

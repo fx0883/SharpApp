@@ -1,0 +1,34 @@
+从JSON文本转换到一个.NET对象，最快的方法就是使用JsonSerializer。JsonSerializer把.NET对象转化到它的JSON对应物，并转换回来。
+在某些简单的场景下，你希望转换从其或到达一个JSON字符串：JsonConvert上的SerializeObject和DeserializeObject方法，提供了对JsonSerializer的简单包装。
+Product product = new Product();
+product.Name = "Apple";
+product.Expiry = new DateTime(2008, 12, 28);
+product.Price = 3.99M;
+product.Sizes = new string[] { "Small", "Medium", "Large" };
+string output = JsonConvert.SerializeObject(product);
+//{
+//  "Name": "Apple",
+//  "Expiry": "\/Date(1230375600000+1300)\/",
+//  "Price": 3.99,
+//  "Sizes": [
+//    "Small",
+//    "Medium",
+//    "Large"
+//  ]
+//}
+Product deserializedProduct = JsonConvert.DeserializeObject<Product>(output);
+SerializeObject和DeserializeObject方法都有一个重载，都携带一个JsonSerializerSetting对象。JsonSerializerSetting让你可以使用JsonSerializer的设置，而调用的时候仍然保持之前简单的调用方式。
+2.1 JsonSerializer
+为了精细的控制JsonSerializer被调用时，序列化对象的方式。JsonSerializer可以直接对流对象如JsonTextReader或JsonTextWriter读写JSON文本。其他的JsonWriter也可以用来转换LINQ to JSON（如JTokenReader/JTokenWriter），或BsonReader/BsonWriter来转换BSON。
+Product product = new Product();
+product.Expiry = new DateTime(2008, 12, 28);
+JsonSerializer serializer = new JsonSerializer();
+serializer.Converters.Add(new JavaScriptDateTimeConverter());
+serializer.NullValueHandling = NullValueHandling.Ignore;
+using (StreamWriter sw = new StreamWriter(@"c:\json.txt"))
+using (JsonWriter writer = new JsonTextWriter(sw))
+{
+  serializer.Serialize(writer, product);
+  // {"Expiry":new Date(1230375600000),"Price":0}
+}
+JsonSerializer有许多属性用来自定义其化成JSON的方式。这些属性一样可以被JsonConvert 的方法，借助JsonSerializerSettings 重载来获得。

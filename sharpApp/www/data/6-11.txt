@@ -1,0 +1,28 @@
+枚举类型声明为一组相关的符号常数定义了一个类型名称。枚举用于“多项选择”场合，就是程序运行时从编译时已经设定的固定数目的“选择”中做出决定。
+示例
+enum Color 
+{
+   Red,
+   Blue,
+   Green
+}
+class Shape
+{
+   public void Fill(Color color) {
+      switch(color) {
+         case Color.Red:
+            ...
+            break;
+         case Color.Blue:
+            ...
+            break;
+         case Color.Green:
+            ...
+            break;
+         default:
+            break;
+      }
+   }
+}
+显示了一个 Color 枚举和一个使用此枚举的方法。Fill 方法的签名清楚地表明可以用给定的颜色之一来填充形状。
+使用枚举胜过使用整数常数（在没有枚举的语言中很常见），这是因为使用枚举使代码更具可读性和自归档。代码的自归档特性还使开发工具可以帮助代码编写和其他“设计器”活动。例如，对参数类型使用 Color 而不用 int 使聪明的代码编辑器能够建议 Color 值。

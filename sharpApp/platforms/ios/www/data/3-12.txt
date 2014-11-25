@@ -1,0 +1,91 @@
+CDOSYS 是 ASP 中的内置组件。此组建用于通过 ASP 来发送电子邮件。
+使用 CDOSYS 发送电子邮件
+CDO (Collaboration Data Objects) 是一项微软的技术，设计目的是用来简化通信程序的创建。
+CDOSYS 是 ASP 中的内置组件。我们会向您展示如何使用该组件来发送电子邮件。
+CDONTs 怎么样？
+微软已经在 Windows 2000、Windows XP 以及 Windows 2003 中淘汰了 CDONTs。如果您还在应用程序中使用 CDONTs，就需要更新代码，并使用新的 CDO 技术。
+使用 CDOSYS 的实例
+发送电子邮件：
+<%
+Set myMail=CreateObject("CDO.Message")
+myMail.Subject="Sending email with CDO"
+myMail.From="mymail@mydomain.com"
+myMail.To="someone@somedomain.com"
+myMail.TextBody="This is a message."
+myMail.Send
+set myMail=nothing
+%>
+发送带有 Bcc 和 CC 字段的文本邮件:
+<%
+Set myMail=CreateObject("CDO.Message")
+myMail.Subject="Sending email with CDO"
+myMail.From="mymail@mydomain.com"
+myMail.To="someone@somedomain.com"
+myMail.Bcc="someoneelse@somedomain.com"
+myMail.Cc="someoneelse2@somedomain.com"
+myMail.TextBody="This is a message."
+myMail.Send
+set myMail=nothing
+%>
+发送 HTML 邮件:
+<%
+Set myMail=CreateObject("CDO.Message")
+myMail.Subject="Sending email with CDO"
+myMail.From="mymail@mydomain.com"
+myMail.To="someone@somedomain.com"
+myMail.HTMLBody = "<h1>This is a message.</h1>" 
+myMail.Send
+set myMail=nothing
+%>
+发送一封发送来自网站的网页的 HTML 邮件：
+<%
+Set myMail=CreateObject("CDO.Message")
+myMail.Subject="Sending email with CDO"
+myMail.From="mymail@mydomain.com"
+myMail.To="someone@somedomain.com"
+myMail.CreateMHTMLBody "http://www.w3school.com.cn/asp/" 
+myMail.Send
+set myMail=nothing
+%>
+发送一封发送来自电脑中文件的网页的 HTML 邮件：
+<%
+Set myMail=CreateObject("CDO.Message")
+myMail.Subject="Sending email with CDO"
+myMail.From="mymail@mydomain.com"
+myMail.To="someone@somedomain.com"
+myMail.CreateMHTMLBody "file://c:/mydocuments/test.htm" 
+myMail.Send
+set myMail=nothing
+%>
+发送一封带有附件的电子邮件：
+<%
+Set myMail=CreateObject("CDO.Message")
+myMail.Subject="Sending email with CDO"
+myMail.From="mymail@mydomain.com"
+myMail.To="someone@somedomain.com"
+myMail.TextBody="This is a message."
+myMail.AddAttachment "c:\mydocuments\test.txt"
+myMail.Send
+set myMail=nothing
+%>
+使用远程服务器发送一封文本邮件：
+<%
+Set myMail=CreateObject("CDO.Message")
+myMail.Subject="Sending email with CDO"
+myMail.From="mymail@mydomain.com"
+myMail.To="someone@somedomain.com"
+myMail.TextBody="This is a message."
+myMail.Configuration.Fields.Item _
+("http://schemas.microsoft.com/cdo/configuration/sendusing")=2
+'远程 SMTP 服务器的 IP 或名称
+myMail.Configuration.Fields.Item _
+("http://schemas.microsoft.com/cdo/configuration/smtpserver") _
+="smtp.server.com"
+'服务器端口
+myMail.Configuration.Fields.Item _
+("http://schemas.microsoft.com/cdo/configuration/smtpserverport") _
+=25 
+myMail.Configuration.Fields.Update
+myMail.Send
+set myMail=nothing
+%>

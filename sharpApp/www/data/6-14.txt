@@ -1,0 +1,40 @@
+C# 是一种命令式语言，但像所有命令式语言一样，它具有某些声明性元素。例如，通过将类中的方法声明为 public、protected、internal、protected internal 或 private，指定它的可访问性。C# 使此功能一般化，以便程序员可以创造出一种新的声明性信息，将此声明性信息附加到各种程序实体，并在运行时检索此声明性信息。程序通过定义和使用属性（第 17 节）来描述这类额外的声明性信息。
+例如，一个框架也许会定义一个可放置在程序元素（如类和方法）上的 HelpAttribute 属性，使开发人员能够提供从程序元素到其文档的映射。示例
+using System;
+[AttributeUsage(AttributeTargets.All)]
+public class HelpAttribute: Attribute
+{
+   public HelpAttribute(string url) {
+      this.url = url;
+   }
+   public string Topic = null;
+   private string url;
+   public string Url { 
+      get { return url; }
+   }
+}
+定义了一个名为 HelpAttribute 的属性类，它具有一个定位参数 (string url) 和一个命名参数 (string Topic)。正如第 17.1 节中所解释的，该属性可以通过它的完整名称 HelpAttribute 或通过它的隐式简称 Help 引用。定位参数由该属性类的公共实例构造函数的形参定义，命名参数则由属性类的公共非静态读写字段和对应的属性定义。
+示例
+[Help("http://www.microsoft.com/.../Class1.htm")]
+public class Class1 
+{
+   [Help("http://www.microsoft.com/.../Class1.htm", Topic = "F")]
+   public void F() {}
+}
+显示 Help 属性的几种用法。
+在运行时可以利用反射支持检索给定程序元素的属性信息。示例
+using System;
+class Test
+{
+   static void Main() {
+      Type type = typeof(Class1);
+      object[] arr = type.GetCustomAttributes(typeof(HelpAttribute), true);
+      if (arr.Length == 0)
+         Console.WriteLine("Class1 has no Help attribute.");
+      else {
+         HelpAttribute ha = (HelpAttribute) arr[0];
+         Console.WriteLine("Url = {0}, Topic = {1}", ha.Url, ha.Topic);
+      }
+   }
+}
+检查 Class1 是否具有 Help 属性，如果具有该属性，则写出关联的 Topic 和 Url 值。

@@ -1,0 +1,82 @@
+本教程演示条件方法，它们提供一种功能强大的机制，通过它可以根据是否定义了预处理器符号来包括或省略方法调用。
+示例文件
+请参见“条件方法”示例以下载和生成本教程中讨论的示例文件。
+教程
+条件方法使开发人员能够创建这样的方法，可将对这些方法的调用放在代码中，然后编译期间根据预处理符号包括或省略这些调用。
+假定您想在调试版本中启用某些断言代码，而在发布版本中禁用它们。在 C++ 中，有不止一种方法可以将此功能包含到您的代码中，例如：
+    使用 #ifdef 同时定义宏的调试版本和发布版本。调试版本调用跟踪代码，而发布版本不执行任何操作。由于 C# 不支持宏，该方法行不通。
+    具有正在被调用的代码的两个实现。即，在调试版本中，具有完全功能；而在发布版本中，具有方法的空存根 (stub)。然后，用户在链接项目时选择包括哪一个实现。该方法的问题是，发布版本包含对空方法的调用，并且配置较复杂。 
+C# 条件方法为该问题提供了简单的解决方案，类似于上面列出的第一种方法。该操作有两个基本机制：
+    直接在源代码中用 #define 定义预处理标识符。
+    通过 /define 选项 (/d) 在 C# 命令行上定义预处理标识符。下面的示例中使用该方法。 
+条件方法用于“.NET Framework”中。System.Diagnostics 命名空间包含许多支持应用程序中的跟踪和调试的类。使用 System.Diagnostics.Trace 和 System.Diagnostics.Debug 类向应用程序添加复杂的跟踪和调试（使用条件方法可从发布版本编译掉的功能）。
+下面的示例展示如何使用条件方法实现非常简单的跟踪机制。System.Diagnostics.Trace 提供的跟踪机制复杂得多，但它使用下面的基本机制提供该功能。
+示例
+本示例由两个源文件组成：第一个文件是提供跟踪机制的库，第二个文件是使用该库的客户程序。
+文件 #1：创建条件方法
+下面的代码展示了一个简单的库，它提供向系统控制台显示跟踪消息的跟踪机制。客户可以将跟踪调用嵌入代码，然后可以通过在自己的编译阶段中定义符号来控制是否调用跟踪。
+// CondMethod.cs
+// compile with: /target:library /d:DEBUG
+using System; 
+using System.Diagnostics;
+namespace TraceFunctions 
+{
+   public class Trace 
+   { 
+       [Conditional("DEBUG")] 
+       public static void Message(string traceMessage) 
+       { 
+           Console.WriteLine("[TRACE] - " + traceMessage); 
+       } 
+   } 
+}
+代码讨论
+下面的代码行：
+[Conditional("DEBUG")] 
+将 Message 方法标记为条件方法（通过 Conditional 属性）。Conditional 属性采用一个参数（预处理标识符），该标识符控制编译客户代码时是否包括方法调用。如果定义了预处理标识符，则调用方法；否则从不将调用插入客户代码。
+关于哪些方法可以标记为条件方法存在一些限制；有关更多信息，请参见“C# 语言规范”中的 17.4.2 Conditional 属性。
+文件 #2：使用条件方法
+下面的客户程序使用文件 #1 中定义的 Trace 类来执行一些简单跟踪。
+// TraceTest.cs
+// compile with: /reference:CondMethod.dll
+// arguments: A B C
+using System; 
+using TraceFunctions; 
+public class TraceClient 
+{
+   public static void Main(string[] args) 
+   { 
+      Trace.Message("Main Starting"); 
+   
+      if (args.Length == 0) 
+      { 
+          Console.WriteLine("No arguments have been passed"); 
+      } 
+      else 
+      { 
+          for( int i=0; i < args.Length; i++)    
+          { 
+              Console.WriteLine("Arg[{0}] is [{1}]",i,args[i]); 
+          } 
+      } 
+       Trace.Message("Main Ending"); 
+   } 
+}
+代码讨论
+编译客户代码时，根据是否定义了预处理标识符来决定在客户代码中是否包含条件代码。
+用 /d:DEBUG 标志编译客户代码意味着编译器插入对 Trace 方法的调用。如果未定义该符号，则从不调用。
+运行示例
+命令为：
+tracetest A B C
+给出以下输出：
+[TRACE] - Main Starting
+Arg[0] is [A]
+Arg[1] is [B]
+Arg[2] is [C]
+[TRACE] - Main Ending
+命令为：
+tracetest
+给出以下输出：
+[TRACE] - Main Starting
+No arguments have been passed
+[TRACE] - Main Ending

@@ -1,0 +1,3 @@
+null-literal:（空文本：）
+    null 
+“空文本”的类型为 null 类型。

@@ -1,0 +1,8 @@
+文本是值的源代码表示形式。
+literal:（文本：）
+    boolean-literal（布尔值）
+    integer-literal（整数）
+    real-literal（实数）
+    character-literal（字符）
+    string-literal（字符串）
+    null-literal（空值）

@@ -1,0 +1,43 @@
+§2.1 Comparable
+§2.2 Enumerable
+§2.3 Error
+§2.4 FileTest
+§2.5 GC
+§2.6 Kernel
+§2.7 Marshal
+§2.8 Math
+§2.9 ObjectSpace
+§2.10 Process
+§2.11 Process：：GID
+§2.12 Process：：Sys
+§2.13 Process：：UID
+§2.14 Signal
+
+all?方法
+方法原型:
+enum.all? [ {|obj| block} ]
+	方法依次将集合内的每个元素传递给块，如果所有的执行结果都为真那么方法返回true，任意一次执行结果为假那么方法返回false。如果忽略了block块，则Ruby会自动添加一个{|obj|obj}块。
+	%w{ ant bear cat}.all? {|word| word.length >= 3}   #=> true
+	%w{ ant bear cat}.all? {|word| word.length >= 4}   #=> false
+	[ nil, true, 99 ].all?                                  #=> false
+Inject方法
+方法原型:
+	enum.inject(initial) {| memo, obj | block }  => obj
+enum.inject            {| memo, obj | block }  => obj
+memo被设置为块计算后的返回值。首先，用initial初始化memo，并将memo与obj参数传递给块进行计算，然后将上步块计算后的值赋值给memo后，再继续计算块，以此类推。
+若省略了初始值initial，开始时会把第一和第二个元素传递给块。若只有一个元素时，将直接返回首元素，而不会执行块。 若没有元素，则返回nil。
+# 求5到10的和
+(5..10).inject {|sum, n| sum + n }              #=> 45
+# 求5到10的积
+(5..10).inject(1) {|product, n| product * n }   #=> 151200
+# 找出最长的单词
+longest = %w{ cat sheep bear }.inject do |memo,word|
+    memo.length > word.length ? memo : word
+end
+longest                                         #=> "sheep"
+# 找出最长单词的长度
+longest = %w{ cat sheep bear }.inject(0) do |memo,word|
+    memo >= word.length ? memo : word.length
+end
+longest                                         #=> 5
+这个方法之所以用inject这个名称，是因为这个方法有注射动作，即将initial及后来的块计算结果注入到memo中。

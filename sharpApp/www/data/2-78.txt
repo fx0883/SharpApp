@@ -1,0 +1,29 @@
+Object 对象
+Object 对象代表 HTML 的 <object> 元素。
+<object> 元素用于在网页中包含对象，比如：图像、音频、视频、Java applet、ActiveX、PDF、Flash 等。
+W3C: W3C 标准.
+Object 对象属性
+属性 	描述 	W3C
+align 	设置或返回对象相对于周围文本的对齐方式。 	Yes
+archive 	设置或返回一个字符串，用于实现对象的存档功能。 	Yes
+border 	设置或返回围绕对象的边框。 	Yes
+code 	设置或返回文件的 URL，该文件包含已编译的 Java 类。 	Yes
+codeBase 	设置或返回组件的 URL。 	Yes
+codeType 	  	Yes
+data 	  	Yes
+declare 	  	Yes
+form 	返回对对象的父表单的引用。 	Yes
+height 	设置或返回对象的高度。 	Yes
+hspace 	设置或返回对象的水平外边距。 	Yes
+name 	设置或返回对象的名称。 	Yes
+standby 	设置或返回在加载对象时返回的消息。 	Yes
+type 	设置或返回通过 data 属性下载的数据的内容类型。 	Yes
+useMap 	  	Yes
+vspace 	设置或返回对象的垂直外边距。 	Yes
+width 	设置或返回对象的宽度。 	Yes
+标准属性
+属性 	描述 	W3C
+className 	设置或返回元素的 class 属性。 	Yes
+dir 	设置或返回文本的方向。 	Yes
+lang 	设置或返回元素的语言代码。 	Yes
+title 	设置或返回元素的 title 属性。 	Yes

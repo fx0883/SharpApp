@@ -1,0 +1,65 @@
+如果没有一个外部的服务器，你可以在自己的 PC 上运行 ASP 。要做点这一点，你就必须安装微软的 PWS 或者 IIS 。
+如何在自己的 PC 上运行 ASP
+如果没有一个外部的服务器，你可以在自己的 PC 上运行 ASP。要做点这一点，你就必须安装微软的 PWS(Personal Web Server) 或者 IIS (Internet Information Services)。
+假如你希望很好地学习 ASP 的话，我们推荐你至少要使用 Windows 98 的第二版。
+如果有可能的，Windows 2000 或者更高的版本是最好的选择（包括Windows XP Professional、Windows Server 2003 或者 windows vista 操作系统）。
+如何在 Windows 2000 上安装 IIS 并运行ASP
+    开始按钮 - 设置 - 控制面板
+    在控制面板中选择添加/删除程序
+    在添加/删除程序中选择添加/删除Windows组件
+    在向导窗口中选中 Internet 信息服务，然后点击确定
+    Inetpub 文件夹会在硬盘中被创建
+    打开 Inetpub 文件夹，找到名为 wwwroot 的文件夹
+    在 wwwroot 下创建一个新文件夹，比如 "MyWeb"
+    使用文本编辑器编写几行 ASP 代码，将这个文件取名为 "test1.asp" 保存在 "MyWeb" 文件夹。
+    确保你的服务器正在运行 - 安装程序会在系统托盘创建一个IIS的图标。点击这个图标，然后在出现的新窗口中按开始按钮。
+    打开浏览器，在地址栏键入 "http://localhost/MyWeb/test1.asp"，就可以看到你的第一个 ASP 页面了。
+如何在 Windows XP Professional 上安装 IIS 并运行 ASP
+    在 CD-Rom 驱动器中插入 Windows XP Professional CD-Rom
+    开始菜单，设置，控制面板
+    在控制面板选择添加/删除程序
+    在添加/删除程序中选择添加/删除 Windows 组件
+    在向导窗口中选中 Internet Information Services，然后点击确定
+    Inetpub 文件夹会在硬盘中创建
+    打开 Inetpub 文件夹，找到名为 wwwroot 的文件夹
+    在 wwwroot下创建一个新文件夹，比如 "MyWeb"
+    使用文本编辑器编写几行 ASP 代码，将这个文件取名为 "test1.asp" 保存在 "MyWeb" 文件夹。
+    确保你的服务器正在运行，使用下面的方法确认它的运行状态：进入控制面板，然后是管理工具，然后双击“IIS 管理器”图标。
+    打开浏览器，在地址栏键入 "http://localhost/MyWeb/test1.asp"，就可以看到你的第一个 ASP 页面了。
+提示：Windows XP Home Edition 无法运行 ASP。
+如何在 Windows Server 2003 上安装 IIS 并运行 ASP
+    当你启动 Windows Server 2003 后，会看到服务器管理向导
+    如果向导没有显示，可以打开管理工具，然后选择“配置您的服务器向导”
+    出现提示后，点击下一步
+    随后会出现一个“预备步骤”的提示，点击下一步，随后系统自动搜索已在本机安装了的系统服务组件
+    在随后出现的服务器角色窗口中选择应用程序服务器，然后点击下一步
+    选中启用ASP.NET
+    随后向导会提示这个组件的大概安装过程，请点击下一步
+    现在，向导会请求 Server 2003 CD。请插入CD后继续运行向导。
+    最后，向导会提示“此服务器目前是一台应用程序服务器”。
+    点击完成后，你会发现“应用程序服务器”已在管理你的服务器角色窗口中出现
+    点击“管理此应用程序服务器”会打在应用程序服务器管理控制台(MMC)
+    展开Internet 信息服务 (IIS)管理器，然后展开你的服务器，然后是站点文件夹。
+    你会看到默认的网站，并且它的状态应该是运行中。
+    在Internet 信息服务 (IIS)管理器中点击“Web服务扩展”，你会看到 Active Server Pages 是被禁止的。
+    选中Active Server Pages，然后点击允许按钮，这样 ASP 就被激活了！
+如何在老版本的 Windows 操作系统中运行 ASP
+如何在 Windows 95 上安装 PWS 并运行 ASP
+Windows 95 不包含 PWS！！
+要想在 Windows 95 上运行 ASP，就必须从微软的站点下载 “Windows NT 4.0 Option Pack”。
+下载"Windows NT 4.0 Option Pack"
+如何在 Windows NT 上安装 PWS 并运行 ASP
+Windows NT 同样不包含 PWS！！
+要想在 Windows NT 上运行 ASP，就必须从微软的站点下载 “Windows NT 4.0 Option Pack”。
+下载"Windows NT 4.0 Option Pack"
+如何在 Windows 98 上安装 PWS 并运行 ASP
+    打开 Windows 98 CD 上的 Add-ons 文件夹，找到PWS文件夹并运行其中的 setup.exe 文件。
+    安装程序会在硬盘创建一个 Inetpub 文件夹。打开这个文件夹，找到 wwwroot 文件夹。
+    然后在 wwwroot 文件夹下面创建一个新的文件夹，比如 "MyWeb"。
+    使用文本编辑器编写几行 ASP 代码，将这个文件取名为 "test1.asp" 保存在 "MyWeb" 文件夹。
+    确保你的服务器正在运行 - 安装程序会在系统托盘创建一个PWS的图标。点击这个图标，然后在出现的新窗口中按开始按钮。
+    打开浏览器，在地址栏键入 "http://localhost/MyWeb/test1.asp"，就可以看到你的第一个 ASP 页面了。
+如何在 Windows ME 上安装 PWS 并运行 ASP
+Windows ME 同样不包含 PWS！！
+阅读微软站点的信息
+来自 Bill James 的安装方法。
