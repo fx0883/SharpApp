@@ -22,7 +22,7 @@ package com.sharpApp.app;
 import android.os.Bundle;
 import org.apache.cordova.*;
 
-public class SharpApp extends CordovaActivity
+public class SharpApp extends BaseActivity
 {
     @Override
     public void onCreate(Bundle savedInstanceState)
