@@ -1,0 +1,6 @@
+﻿@charset "utf-8";
+
+.directory_list li {}
+.ui-listview .ui-li-has-thumb > img:first-child, .ui-listview .ui-li-has-thumb > .ui-btn > img:first-child, .ui-listview .ui-li-has-thumb .ui-li-thumb { border-radius:50% !important; left:5px; top:5px;}
+.ui-listview > li a { padding-top:0; padding-bottom:0;}
+.ui-listview > li h1, .ui-listview > li h2, .ui-listview > li h3, .ui-listview > li h4, .ui-listview > li h5, .ui-listview > li h6 { margin:1.2em auto;}

@@ -42,10 +42,10 @@
      *  -jm
      **/
     
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
-    NSString *docDir = [paths objectAtIndex:0];
-    
-    NSLog(docDir);
+//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
+//    NSString *docDir = [paths objectAtIndex:0];
+//    
+//    NSLog(docDir);
     
     [self loadDicContextConfig];
     

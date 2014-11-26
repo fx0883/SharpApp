@@ -2,85 +2,61 @@
 <head>	
 <title>File System Example</title>
 <meta charset="utf-8">
-<script type="text/javascript" src="js/index.js"></script>
-
-
-<script type="text/javascript">
-            app.initialize();
-</script>
-
-<script src="http://localhost:8080/target/target-script-min.js#anonymous"></script>
-<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
-<script type="text/javascript" charset="utf-8"> 
-
-	// 等待加载PhoneGap
-	
-	document.addEventListener("deviceready", onDeviceReady, false); 
-	
-	// PhoneGap加载完毕
-	
-	function onDeviceReady() { 
-		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail); 
-	}  
-	
-	function gotFS(fileSystem) { 
-		fileSystem.root.getFile("data/1-1.txt", {create: true, exclusive: false}, gotFileEntry, fail); 
-	}  
-	
-	function gotFileEntry(fileEntry) { 
-		fileEntry.file(gotFile, fail); 
-	}  
-	
-	function gotFile(file){ 
-
-		readAsText(file); 
-	}  
-	
-	function readDataUrl(file) { 
-		var reader = new FileReader(); 
-		reader.onloadend = function(evt) { 
-			console.log("Read as data URL"); 
-			console.log(evt.target.result); 
-		}; 
-		reader.readAsDataURL(file); 
-	}  
-	
-	function readAsText(file) { 
-		var reader = new FileReader(); 
-		reader.onloadend = function(evt) { 
-			console.log("Read as text1");
-			console.log(evt.target.result);
-            
-            writeHtml(evt.target.result);
-
-		}; 
-
-        reader.readAsText(file);
-	}
-
-    function writeHtml(contextText)
-    {
-        var oDiv1  = document.getElementById("oDiv1");
-        contextText = contextText.replace(/\r\n/ig,"<br/><br/>");
-        oDiv1.innerHTML = contextText;
-        //console.log(text22);
-    }
-	
-    
-    
-	function fail(evt) { 
-		console.log(evt.target.error.code); 
-	}  
-
-</script>
-    
-<script src="http://localhost:8080/target/target-script-min.js#anonymous"></script>
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
+<link rel="stylesheet" href="css/common.css">
 </head>
 <body>
-	<h1>Example</h1>
-	<p>File System</p>
-    
-    <div ID="oDiv1">Div #1</div> 
+<div data-role="page" class="jqm-demos" id="panel-fixed-page1" data-title="Panel fixed positioning">
+
+    <div data-role="header" data-position="fixed">
+        <h1>Fixed header</h1>
+        <a href="#nav-panel" data-icon="bars" data-iconpos="notext">Menu</a>
+    </div><!-- /header -->
+
+    <div role="main" class="ui-content jqm-content jqm-fullwidth">
+
+    	<h1>Panel fixed positioning</h1>
+		<ol class="directory_list">
+			<li><a href="#panel-fixed-page2">Directory 1</a></li>
+			<li><a href="#panel-fixed-page2">Directory 1</a></li>
+			<li><a href="#panel-fixed-page2">Directory 1</a></li>
+		</ol>       
+
+	</div><!-- /content -->
+
+    <!--<div data-role="footer" data-position="fixed">
+    	<h4>Fixed footer</h4>
+    </div> /footer -->
+
+	<div data-role="panel" data-position-fixed="true" data-display="reveal" data-theme="b" id="nav-panel">
+		<ul class="left_list" data-role="listview"> 
+		</ul>
+	</div><!-- /panel -->
+</div><!-- /page -->
+
+<div data-role="page" id="panel-fixed-page2">
+
+    <div data-role="header">
+        <h1>Landing page</h1>
+		<a href="#panel-fixed-page1" data-icon="back" data-iconpos="notext">Back</a>
+    </div><!-- /header -->
+
+    <div role="main" class="ui-content jqm-content">
+
+        <p>This is just a landing page.</p>       
+
+    </div><!-- /content -->
+
+</div><!-- /page -->  
 </body>
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.mobile-1.4.5.min.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript">
+    app.initialize();
+</script>
+<script src="http://localhost:8080/target/target-script-min.js#anonymous"></script>
+<script type="text/javascript" charset="utf-8" src="cordova.js"></script>   
+<script src="js/main.js"></script>
 </html>
