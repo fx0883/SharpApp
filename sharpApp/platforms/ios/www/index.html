@@ -3,11 +3,12 @@
 <title>File System Example</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="http://localhost:8080/target/target-script-min.js#anonymous"></script>
 <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
 <link rel="stylesheet" href="css/common.css">
-<script src="http://localhost:8080/target/target-script-min.js#anonymous"></script>
 </head>
 <body>
+<img style="position:fixed; top:0; left:0;" src="images/bg_home.png" />
 <div data-role="page" class="jqm-demos" id="panel-fixed-page1" data-title="Panel fixed positioning">
 
     <div data-role="header" data-position="fixed">
@@ -17,9 +18,9 @@
 
     <div role="main" class="ui-content jqm-content jqm-fullwidth">
 
-    	<h1>Directory</h1>
-		<ol class="directory_list">
-		</ol>       
+    	<h2>目录</h2>
+		<ul class="directory_list">
+		</ul>       
 
 	</div><!-- /content -->
 
@@ -27,7 +28,7 @@
     	<h4>Fixed footer</h4>
     </div> /footer -->
 
-	<div data-role="panel" data-position-fixed="true" data-display="reveal" data-theme="b" id="nav-panel">
+	<div data-role="panel" data-position-fixed="true" data-display="push" data-theme="b" id="nav-panel">
 		<ul class="left_list" data-role="listview"> 
             
 		</ul>

@@ -37,7 +37,7 @@ document.addEventListener("deviceready",function(){
                 $pro.config.allData["list"+i] = {};
 			}
             $pro.ui.createDirList();
-            $("div[data-role=panel] ul").listview("refresh");  
+              
 		});
 	};
 	
@@ -105,6 +105,8 @@ document.addEventListener("deviceready",function(){
 			$("."+$pro.config.leftClass).append('<li _data="'+(i+1)+'"><a href="#" data-rel="close"><img src="images/'+(i+1)+$pro.config.iconAte+'" /><h2>'+$pro.config.DirList[i]+'</h2></a></li>');
 		}
 		$pro.event.leftDirClick();
+        $("div[data-role=panel] ul").listview("refresh");
+        $("."+$pro.config.leftClass+" li").eq(0).trigger("click");
 	};
 	/**
 	* ViewAPI
@@ -117,7 +119,7 @@ document.addEventListener("deviceready",function(){
 		
         console.log("second dir created!");
 		for(var key in _items){
-			$("."+$pro.config.SecListClass).append('<li _id="'+id+'" _data="'+(_items[key].id)+'"><a href="#panel-fixed-page2">'+_items[key].title+'</a></li>');
+			$("."+$pro.config.SecListClass).append('<li _id="'+id+'" _data="'+(_items[key].id)+'"><a href="#panel-fixed-page2"><span>'+_items[key].id+'</span>'+_items[key].title+'</a></li>');
 		}
         $pro.event.secDirClick();
         $("."+$pro.config.SecListClass).listview("refresh");
@@ -127,9 +129,9 @@ document.addEventListener("deviceready",function(){
 	* ViewAPI
 	* 更新内容
 	*/
-	$pro.ui.refreshItemContent = function(data){	
-        data.replace(/\r\n/ig,"<br/><br/>");
-        $pro.config.AimContainer.html( data );
+	$pro.ui.refreshItemContent = function(data){
+        //data.replace(/\r\n/ig,"</p><p>");
+        $pro.config.AimContainer.html( "<pre>"+data+"</pre>" );
 	};
     
 	/**
@@ -207,6 +209,9 @@ document.addEventListener("deviceready",function(){
 		$("."+$pro.config.leftClass+" li").click(function(){
 			var _idx = $(this).attr("_data");
             var list_name = $pro.config.DirList[_idx-1];
+            $("."+$pro.config.leftClass+" li.selected").removeClass("selected");
+            $(this).addClass("selected");
+            $("div[data-role=panel] ul").listview("refresh");
             console.log(_idx);
             if(list_name){
                 $("#panel-fixed-page1 div[data-role=header] h1").text( list_name );

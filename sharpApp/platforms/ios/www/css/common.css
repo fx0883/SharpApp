@@ -1,6 +1,39 @@
-﻿@charset "utf-8";
+@charset "utf-8";
 
-.directory_list li {}
-.ui-listview .ui-li-has-thumb > img:first-child, .ui-listview .ui-li-has-thumb > .ui-btn > img:first-child, .ui-listview .ui-li-has-thumb .ui-li-thumb { border-radius:50% !important; left:5px; top:5px;}
+* {-webkit-appearance:none;}
+.ui-overlay-a, .ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper { background: none;}
+body.ui-overlay-a{ }
+.directory_list {background:rgba(171,185,196,.7); list-style: none; padding: 0; padding-left: 20px; }
+.directory_list li { line-height: 40px;}
+.directory_list li a  { display: block; font-weight: normal;}
+.directory_list li a span { display: inline-block; color: #fff; border-radius:0 80% 0 80%; margin-right: 10px; width: 22px; height: 18px; text-align: center; line-height: 18px; position: relative; top:2px; background:#00a2ff;  }
+.ui-listview .ui-li-has-thumb > img:first-child, .ui-listview .ui-li-has-thumb > .ui-btn > img:first-child, .ui-listview .ui-li-has-thumb .ui-li-thumb { width:30px; height: 30px; border-radius:50% !important; left:15px; top:14px; border:2px solid #fff;}
 .ui-listview > li a { padding-top:0; padding-bottom:0;}
 .ui-listview > li h1, .ui-listview > li h2, .ui-listview > li h3, .ui-listview > li h4, .ui-listview > li h5, .ui-listview > li h6 { margin:1.2em auto;}
+.ui-listview > .ui-li-has-thumb > .ui-btn, .ui-listview > .ui-li-static.ui-li-has-thumb { padding-left: 4.0em;}
+.ui-listview > .ui-li-has-thumb.selected a { color:#0099ff;}
+.ui-listview > .ui-li-has-thumb.selected img.ui-li-thumb { border:2px solid #0099ff;}
+
+/* left part */
+.ui-panel { background: url(../images/slidingmenu_bg_multi_course.png) no-repeat; background-size: 100% 100%;}
+#nav-panel .ui-panel-inner { text-shadow: none;}
+#nav-panel .left_list a.ui-btn{background: none!important; text-shadow: none; border: none; }
+
+#panel-fixed-page1 {  color:#fff; text-shadow: none; }
+.ui-header { border: none;} 
+#panel-fixed-page1 .ui-panel-wrapper { color:#fff;text-shadow: none;}
+#panel-fixed-page1 .ui-panel-wrapper h2 { margin: 0; padding: 0.3em 0; text-align: center; color:#fff; font-size: 18px; background: rgba(0,153,255,0.7); }
+#panel-fixed-page1 .directory_list a { color:#fff; text-decoration: none;}
+
+/* right part */
+/*.ui-icon-bars { background: url(../images/bar_menu.png) no-repeat;}
+.ui-icon-bars:active { background: url(../images/bar_menu_pressed.png) no-repeat;}*/
+#panel-fixed-page1 .ui-content { padding: 0; margin: 1em; }
+/*.ui-bar-a, .ui-page-theme-a .ui-bar-inherit, html .ui-bar-a .ui-bar-inherit, html .ui-body-a .ui-bar-inherit, html body .ui-group-theme-a .ui-bar-inherit { color:#fff; background: #1a2630; text-shadow:none; borde:none;}*/
+.ui-header .ui-title, .ui-footer .ui-title { margin: 0 40px;}
+
+/* page 2 */
+#panel-fixed-page2 { background: #666; color:#fff; text-shadow: none;}
+#panel-fixed-page2 pre { white-space: pre-wrap; font-size: 16px; word-break: break-all;}
+#panel-fixed-page2 div[data-role=header] {position: fixed; width: 100%;}
+#aim_container { padding-top: 41px;}

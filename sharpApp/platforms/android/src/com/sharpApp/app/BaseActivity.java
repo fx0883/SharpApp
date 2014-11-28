@@ -43,7 +43,7 @@ public class BaseActivity extends CordovaActivity{
             };
         });
 
-        //¼ÓÔØÊý¾Ý
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         mInterstitial.loadAd(new AdRequest.Builder().build());
     }
     
@@ -58,6 +58,7 @@ public class BaseActivity extends CordovaActivity{
     @Override
     protected void onResume()
     {
+    	super.onResume();
     	showInterstitial();    	
     }
 	
