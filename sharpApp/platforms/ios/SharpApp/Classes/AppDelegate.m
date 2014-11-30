@@ -32,6 +32,7 @@
 #import "ZipArchive.h"
 #define COREBUNDLENAME @"CoreBundle"
 #define ZIPFILENAME @"data"
+#import "AdmobManager.h"
 @implementation AppDelegate
 
 @synthesize window, viewController;
@@ -208,6 +209,11 @@
 - (void)applicationDidReceiveMemoryWarning:(UIApplication*)application
 {
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    [[AdmobManager sharedInstance] startInterstitialView];
 }
 
 @end
