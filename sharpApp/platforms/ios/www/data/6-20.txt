@@ -1,9 +1,0 @@
-有若干种标记：标识符、关键字、文本、运算符和标点符号。空白和注释不是标记，但它们可充当标记的分隔符。
-token:（标记：）
-    identifier（标识符）
-    keyword（关键字）
-    integer-literal（整数）
-    real-literal（实数）
-    character-literal（字符）
-    string-literal（字符串）
-    operator-or-punctuator（运算符或标点）
