@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="css/common.css">
 </head>
 <body>
-<img style="position:fixed; top:0; left:0;" src="images/bg_home.png" />
+<img style="position:fixed; top:0; left:0; width:100%" src="images/bg_home.png" />
 <div data-role="page" class="jqm-demos" id="panel-fixed-page1" data-title="Panel fixed positioning">
 
     <div data-role="header" data-position="fixed">
@@ -39,7 +39,9 @@
 
     <div data-role="header">
         <h1>Landing page</h1>
-		<a href="#panel-fixed-page1" data-icon="back" data-iconpos="notext">Back</a>
+        <span class="bulb_btn"></span>
+		<a href="#panel-fixed-page1" data-transition="slide" data-direction="reverse" data-icon="back" data-iconpos="notext">Back</a>
+        
     </div><!-- /header -->
 
     <div id="aim_container" role="main" class="ui-content jqm-content">    

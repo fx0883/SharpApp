@@ -4392,3 +4392,260 @@ https://developer.apple.com/icloud/documentation/data-storage/
 2014-11-28 18:42:42.198 SharpApp[69316:836979] [CDVTimer][TotalPluginStartup] 2.717018ms
 2014-11-28 18:42:42.272 SharpApp[69316:836979] Resetting plugins due to page load.
 2014-11-28 18:42:42.599 SharpApp[69316:836979] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/B80A253A-6A52-47D9-BF1D-555965A21233/SharpApp.app/www/index.html
+2014-12-01 10:16:48.202 SharpApp[2461:21855] 279 entries in the zip file
+2014-12-01 10:16:48.446 SharpApp[2461:21855] Apache Cordova native platform version 3.6.3 is starting.
+2014-12-01 10:16:48.447 SharpApp[2461:21855] Multi-tasking -> Device: YES, App: YES
+2014-12-01 10:16:48.469 SharpApp[2461:21855] Unlimited access to network resources
+2014-12-01 10:16:48.471 SharpApp[2461:21855] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-12-01 10:16:48.859 SharpApp[2461:21855] [CDVTimer][file] 2.725005ms
+2014-12-01 10:16:48.859 SharpApp[2461:21855] [CDVTimer][TotalPluginStartup] 2.867997ms
+2014-12-01 10:16:49.000 SharpApp[2461:21855] Resetting plugins due to page load.
+2014-12-01 10:16:49.330 SharpApp[2461:21855] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/759ECFBA-8B23-44CD-95BF-6713A396228E/SharpApp.app/www/index.html
+2014-12-01 10:26:33.223 SharpApp[3126:25791] 279 entries in the zip file
+2014-12-01 10:26:33.432 SharpApp[3126:25791] Apache Cordova native platform version 3.6.3 is starting.
+2014-12-01 10:26:33.432 SharpApp[3126:25791] Multi-tasking -> Device: YES, App: YES
+2014-12-01 10:26:33.439 SharpApp[3126:25791] Unlimited access to network resources
+2014-12-01 10:26:33.441 SharpApp[3126:25791] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-12-01 10:26:33.659 SharpApp[3126:25791] [CDVTimer][file] 1.944005ms
+2014-12-01 10:26:33.659 SharpApp[3126:25791] [CDVTimer][TotalPluginStartup] 2.081990ms
+2014-12-01 10:26:33.734 SharpApp[3126:25791] Resetting plugins due to page load.
+2014-12-01 10:26:34.017 SharpApp[3126:25791] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/2B796293-5993-462B-AF93-30A7BA2E2A95/SharpApp.app/www/index.html
+2014-12-01 10:34:39.127 SharpApp[3753:28337] 279 entries in the zip file
+2014-12-01 10:34:39.335 SharpApp[3753:28337] Apache Cordova native platform version 3.6.3 is starting.
+2014-12-01 10:34:39.336 SharpApp[3753:28337] Multi-tasking -> Device: YES, App: YES
+2014-12-01 10:34:39.343 SharpApp[3753:28337] Unlimited access to network resources
+2014-12-01 10:34:39.345 SharpApp[3753:28337] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-12-01 10:34:39.589 SharpApp[3753:28337] [CDVTimer][file] 2.367020ms
+2014-12-01 10:34:39.590 SharpApp[3753:28337] [CDVTimer][TotalPluginStartup] 2.544999ms
+2014-12-01 10:34:39.649 SharpApp[3753:28337] Resetting plugins due to page load.
+2014-12-01 10:34:42.425 SharpApp[3753:28337] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/128A5767-B7B5-4C09-AA62-FFD32DBBF8FD/SharpApp.app/www/index.html
+2014-12-01 10:36:35.178 SharpApp[5202:31803] 279 entries in the zip file
+2014-12-01 10:36:35.404 SharpApp[5202:31803] Apache Cordova native platform version 3.6.3 is starting.
+2014-12-01 10:36:35.404 SharpApp[5202:31803] Multi-tasking -> Device: YES, App: YES
+2014-12-01 10:36:35.409 SharpApp[5202:31803] Unlimited access to network resources
+2014-12-01 10:36:35.412 SharpApp[5202:31803] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-12-01 10:36:35.681 SharpApp[5202:31803] [CDVTimer][file] 2.250016ms
+2014-12-01 10:36:35.681 SharpApp[5202:31803] [CDVTimer][TotalPluginStartup] 2.452970ms
+2014-12-01 10:36:35.756 SharpApp[5202:31803] Resetting plugins due to page load.
+2014-12-01 10:36:36.079 SharpApp[5202:31803] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/3DF0A3D7-D168-46E2-873E-D7064D06ED0F/SharpApp.app/www/index.html
+2014-12-01 10:36:52.693 SharpApp[5202:32538] Terminating since there is no system app.
+2014-12-01 10:46:37.512 SharpApp[6401:36577] 279 entries in the zip file
+2014-12-01 10:46:37.735 SharpApp[6401:36577] Apache Cordova native platform version 3.6.3 is starting.
+2014-12-01 10:46:37.736 SharpApp[6401:36577] Multi-tasking -> Device: YES, App: YES
+2014-12-01 10:46:37.743 SharpApp[6401:36577] Unlimited access to network resources
+2014-12-01 10:46:37.745 SharpApp[6401:36577] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-12-01 10:46:37.946 SharpApp[6401:36577] [CDVTimer][file] 2.556026ms
+2014-12-01 10:46:37.946 SharpApp[6401:36577] [CDVTimer][TotalPluginStartup] 2.753973ms
+2014-12-01 10:46:38.017 SharpApp[6401:36577] Resetting plugins due to page load.
+2014-12-01 10:46:38.319 SharpApp[6401:36577] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/998288D1-328A-4FDA-BF31-38816F7CABCB/SharpApp.app/www/index.html
+2014-12-01 13:40:53.972 SharpApp[10925:105272] 279 entries in the zip file
+2014-12-01 13:40:54.226 SharpApp[10925:105272] Apache Cordova native platform version 3.6.3 is starting.
+2014-12-01 13:40:54.226 SharpApp[10925:105272] Multi-tasking -> Device: YES, App: YES
+2014-12-01 13:40:54.248 SharpApp[10925:105272] Unlimited access to network resources
+2014-12-01 13:40:54.251 SharpApp[10925:105272] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-12-01 13:40:54.797 SharpApp[10925:105272] [CDVTimer][file] 2.788961ms
+2014-12-01 13:40:54.797 SharpApp[10925:105272] [CDVTimer][TotalPluginStartup] 2.939999ms
+2014-12-01 13:40:54.989 SharpApp[10925:105272] Resetting plugins due to page load.
+2014-12-01 13:40:55.397 SharpApp[10925:105272] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/8B6EE7FD-96C1-4DFE-B501-C2CCA86EBFF7/SharpApp.app/www/index.html
+2014-12-01 13:44:48.858 SharpApp[12853:111589] 279 entries in the zip file
+2014-12-01 13:44:49.082 SharpApp[12853:111589] Apache Cordova native platform version 3.6.3 is starting.
+2014-12-01 13:44:49.082 SharpApp[12853:111589] Multi-tasking -> Device: YES, App: YES
+2014-12-01 13:44:49.088 SharpApp[12853:111589] Unlimited access to network resources
+2014-12-01 13:44:49.090 SharpApp[12853:111589] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-12-01 13:44:49.300 SharpApp[12853:111589] [CDVTimer][file] 2.497971ms
+2014-12-01 13:44:49.300 SharpApp[12853:111589] [CDVTimer][TotalPluginStartup] 2.645969ms
+2014-12-01 13:44:49.379 SharpApp[12853:111589] Resetting plugins due to page load.
+2014-12-01 13:44:49.702 SharpApp[12853:111589] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/39E3AC27-504E-46E3-98E5-A102E820F2AB/SharpApp.app/www/index.html
+2014-12-01 13:48:06.158 SharpApp[13993:116012] 279 entries in the zip file
+2014-12-01 13:48:06.418 SharpApp[13993:116012] Apache Cordova native platform version 3.6.3 is starting.
+2014-12-01 13:48:06.418 SharpApp[13993:116012] Multi-tasking -> Device: YES, App: YES
+2014-12-01 13:48:06.428 SharpApp[13993:116012] Unlimited access to network resources
+2014-12-01 13:48:06.430 SharpApp[13993:116012] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-12-01 13:48:06.824 SharpApp[13993:116012] [CDVTimer][file] 4.270017ms
+2014-12-01 13:48:06.824 SharpApp[13993:116012] [CDVTimer][TotalPluginStartup] 4.601002ms
+2014-12-01 13:48:06.997 SharpApp[13993:116012] Resetting plugins due to page load.
+2014-12-01 13:48:07.439 SharpApp[13993:116012] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/8FFFE371-B841-4260-B758-7ACFD8F57A67/SharpApp.app/www/index.html
+2014-12-01 13:53:58.089 SharpApp[15204:123179] 279 entries in the zip file
+2014-12-01 13:53:58.321 SharpApp[15204:123179] Apache Cordova native platform version 3.6.3 is starting.
+2014-12-01 13:53:58.321 SharpApp[15204:123179] Multi-tasking -> Device: YES, App: YES
+2014-12-01 13:53:58.329 SharpApp[15204:123179] Unlimited access to network resources
+2014-12-01 13:53:58.331 SharpApp[15204:123179] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-12-01 13:53:58.818 SharpApp[15204:123179] [CDVTimer][file] 4.321992ms
+2014-12-01 13:53:58.819 SharpApp[15204:123179] [CDVTimer][TotalPluginStartup] 4.477978ms
+2014-12-01 13:53:58.983 SharpApp[15204:123179] Resetting plugins due to page load.
+2014-12-01 13:53:59.392 SharpApp[15204:123179] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/9E926DB0-E82B-4690-8D37-30B9E68B7F10/SharpApp.app/www/index.html
+2014-12-01 13:55:09.931 SharpApp[16718:126832] 279 entries in the zip file
+2014-12-01 13:55:10.134 SharpApp[16718:126832] Apache Cordova native platform version 3.6.3 is starting.
+2014-12-01 13:55:10.134 SharpApp[16718:126832] Multi-tasking -> Device: YES, App: YES
+2014-12-01 13:55:10.140 SharpApp[16718:126832] Unlimited access to network resources
+2014-12-01 13:55:10.142 SharpApp[16718:126832] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-12-01 13:55:10.387 SharpApp[16718:126832] [CDVTimer][file] 2.470016ms
+2014-12-01 13:55:10.387 SharpApp[16718:126832] [CDVTimer][TotalPluginStartup] 2.626002ms
+2014-12-01 13:55:10.455 SharpApp[16718:126832] Resetting plugins due to page load.
+2014-12-01 13:55:10.797 SharpApp[16718:126832] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/E5286E55-D877-4A73-B33E-4C1CD0341DD6/SharpApp.app/www/index.html
+2014-12-01 13:56:35.441 SharpApp[18169:130478] 279 entries in the zip file
+2014-12-01 13:56:35.673 SharpApp[18169:130478] Apache Cordova native platform version 3.6.3 is starting.
+2014-12-01 13:56:35.673 SharpApp[18169:130478] Multi-tasking -> Device: YES, App: YES
+2014-12-01 13:56:35.680 SharpApp[18169:130478] Unlimited access to network resources
+2014-12-01 13:56:35.683 SharpApp[18169:130478] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-12-01 13:56:35.968 SharpApp[18169:130478] [CDVTimer][file] 2.716005ms
+2014-12-01 13:56:35.968 SharpApp[18169:130478] [CDVTimer][TotalPluginStartup] 2.888978ms
+2014-12-01 13:56:36.050 SharpApp[18169:130478] Resetting plugins due to page load.
+2014-12-01 13:56:36.384 SharpApp[18169:130478] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/6EA58881-F600-457A-86B6-B64248B1DDB1/SharpApp.app/www/index.html
+2014-12-01 13:59:24.708 SharpApp[20946:137160] 279 entries in the zip file
+2014-12-01 13:59:24.948 SharpApp[20946:137160] Apache Cordova native platform version 3.6.3 is starting.
+2014-12-01 13:59:24.948 SharpApp[20946:137160] Multi-tasking -> Device: YES, App: YES
+2014-12-01 13:59:24.954 SharpApp[20946:137160] Unlimited access to network resources
+2014-12-01 13:59:24.956 SharpApp[20946:137160] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-12-01 13:59:25.177 SharpApp[20946:137160] [CDVTimer][file] 2.077997ms
+2014-12-01 13:59:25.177 SharpApp[20946:137160] [CDVTimer][TotalPluginStartup] 2.228975ms
+2014-12-01 13:59:25.253 SharpApp[20946:137160] Resetting plugins due to page load.
+2014-12-01 13:59:25.585 SharpApp[20946:137160] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/358E29DB-E1B7-464F-A2F5-DE1AD7674878/SharpApp.app/www/index.html
+2014-12-01 14:03:53.626 SharpApp[22982:143182] 279 entries in the zip file
+2014-12-01 14:03:53.892 SharpApp[22982:143182] Apache Cordova native platform version 3.6.3 is starting.
+2014-12-01 14:03:53.892 SharpApp[22982:143182] Multi-tasking -> Device: YES, App: YES
+2014-12-01 14:03:53.901 SharpApp[22982:143182] Unlimited access to network resources
+2014-12-01 14:03:53.903 SharpApp[22982:143182] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-12-01 14:03:54.220 SharpApp[22982:143182] [CDVTimer][file] 2.907991ms
+2014-12-01 14:03:54.220 SharpApp[22982:143182] [CDVTimer][TotalPluginStartup] 3.116012ms
+2014-12-01 14:03:54.346 SharpApp[22982:143182] Resetting plugins due to page load.
+2014-12-01 14:03:54.663 SharpApp[22982:143182] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/281F4A5F-5FC0-4C4B-983C-EC1EC3AC8A40/SharpApp.app/www/index.html
+2014-12-01 14:06:33.087 SharpApp[24034:146924] 279 entries in the zip file
+2014-12-01 14:06:33.319 SharpApp[24034:146924] Apache Cordova native platform version 3.6.3 is starting.
+2014-12-01 14:06:33.319 SharpApp[24034:146924] Multi-tasking -> Device: YES, App: YES
+2014-12-01 14:06:33.325 SharpApp[24034:146924] Unlimited access to network resources
+2014-12-01 14:06:33.328 SharpApp[24034:146924] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-12-01 14:06:33.622 SharpApp[24034:146924] [CDVTimer][file] 2.860010ms
+2014-12-01 14:06:33.622 SharpApp[24034:146924] [CDVTimer][TotalPluginStartup] 3.014982ms
+2014-12-01 14:06:33.706 SharpApp[24034:146924] Resetting plugins due to page load.
+2014-12-01 14:06:34.076 SharpApp[24034:146924] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/F880A5BB-B525-42E1-87A9-612D51DC220E/SharpApp.app/www/index.html
+2014-12-01 14:34:21.309 SharpApp[27070:162898] 279 entries in the zip file
+2014-12-01 14:34:21.571 SharpApp[27070:162898] Apache Cordova native platform version 3.6.3 is starting.
+2014-12-01 14:34:21.572 SharpApp[27070:162898] Multi-tasking -> Device: YES, App: YES
+2014-12-01 14:34:21.592 SharpApp[27070:162898] Unlimited access to network resources
+2014-12-01 14:34:21.594 SharpApp[27070:162898] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-12-01 14:34:21.930 SharpApp[27070:162898] [CDVTimer][file] 2.756000ms
+2014-12-01 14:34:21.930 SharpApp[27070:162898] [CDVTimer][TotalPluginStartup] 2.920985ms
+2014-12-01 14:34:22.020 SharpApp[27070:162898] Resetting plugins due to page load.
+2014-12-01 14:34:22.358 SharpApp[27070:162898] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/EEA79BD5-4AB3-45F3-BC1C-9C2FBCE2633E/SharpApp.app/www/index.html
+2014-12-01 14:51:10.329 SharpApp[28437:173836] 279 entries in the zip file
+2014-12-01 14:51:10.556 SharpApp[28437:173836] Apache Cordova native platform version 3.6.3 is starting.
+2014-12-01 14:51:10.556 SharpApp[28437:173836] Multi-tasking -> Device: YES, App: YES
+2014-12-01 14:51:10.568 SharpApp[28437:173836] Unlimited access to network resources
+2014-12-01 14:51:10.570 SharpApp[28437:173836] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-12-01 14:51:11.039 SharpApp[28437:173836] [CDVTimer][file] 2.483964ms
+2014-12-01 14:51:11.039 SharpApp[28437:173836] [CDVTimer][TotalPluginStartup] 2.628982ms
+2014-12-01 14:51:11.186 SharpApp[28437:173836] Resetting plugins due to page load.
+2014-12-01 14:51:11.932 SharpApp[28437:173836] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/8DC9D6AD-2771-49B6-BEA4-F7A434E2D85F/data/Containers/Bundle/Application/91CCF9B3-D366-4BA3-90E7-E2A4262F97B3/SharpApp.app/www/index.html
+2014-12-01 16:57:34.350 SharpApp[6445:49418] 279 entries in the zip file
+2014-12-01 16:57:34.493 SharpApp[6445:49418] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/fx/Library/Developer/CoreSimulator/Devices/E2CC61CE-28BC-4B22-A946-A12F8BB8CDA5/data/Containers/Data/Application/2BF6EDA3-9558-4F61-8354-ADE6C5CE858B/Library/Cookies/Cookies.binarycookies
+2014-12-01 16:57:34.585 SharpApp[6445:49418] Apache Cordova native platform version 3.6.3 is starting.
+2014-12-01 16:57:34.585 SharpApp[6445:49418] Multi-tasking -> Device: YES, App: YES
+2014-12-01 16:57:34.594 SharpApp[6445:49418] Unlimited access to network resources
+2014-12-01 16:57:34.596 SharpApp[6445:49418] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+
+2014-12-01 16:57:34.830 SharpApp[6445:49418] [CDVTimer][file] 4.658997ms
+2014-12-01 16:57:34.831 SharpApp[6445:49418] [CDVTimer][TotalPluginStartup] 4.908979ms
+2014-12-01 16:57:34.915 SharpApp[6445:49418] Resetting plugins due to page load.
+2014-12-01 16:57:35.267 SharpApp[6445:49418] Finished load of: file:///Users/fx/Library/Developer/CoreSimulator/Devices/E2CC61CE-28BC-4B22-A946-A12F8BB8CDA5/data/Containers/Bundle/Application/936B2E6C-4EEE-4D34-8AA3-65244F657690/SharpApp.app/www/index.html

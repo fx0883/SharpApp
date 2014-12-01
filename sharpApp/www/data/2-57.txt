@@ -1,9 +1,0 @@
-Base 对象
-Base 对象代表 HTML 的 base 元素。
-在 HTML 文档中 <base> 每出现一次，Base 对象就会被创建。
-IE: Internet Explorer, F: Firefox, O: Opera, W3C: W3C 标准.
-Base 对象属性
-属性 	描述 	IE 	F 	O 	W3C
-href 	设置或返回针对页面中所有链接的基准 URL。 	5 	1 	9 	Yes
-id 	设置或返回 <base> 元素的 id。 	4 	1 	9 	Yes
-target 	设置或返回针对页面中所有链接的默认目标框架。 	5 	1 	9 	Yes

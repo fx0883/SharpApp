@@ -1,5 +1,6 @@
 
 document.addEventListener("deviceready",function(){
+    
 	var dicName = "data/";
 	var $pro = function(){};
 	$pro.config = {
@@ -119,7 +120,7 @@ document.addEventListener("deviceready",function(){
 		
         console.log("second dir created!");
 		for(var key in _items){
-			$("."+$pro.config.SecListClass).append('<li _id="'+id+'" _data="'+(_items[key].id)+'"><a href="#panel-fixed-page2"><span>'+_items[key].id+'</span>'+_items[key].title+'</a></li>');
+			$("."+$pro.config.SecListClass).append('<li _id="'+id+'" _data="'+(_items[key].id)+'"><a href="#panel-fixed-page2" data-transition="slide"><span>'+_items[key].id+'</span>'+_items[key].title+'</a></li>');
 		}
         $pro.event.secDirClick();
         $("."+$pro.config.SecListClass).listview("refresh");
@@ -238,6 +239,7 @@ document.addEventListener("deviceready",function(){
                 $("#panel-fixed-page2 div[data-role=header] h1").text( item_name );
             }
             $pro.data.getItemContent(_listId,_itemId);
+            
 		});
 	};
 	
@@ -253,7 +255,20 @@ document.addEventListener("deviceready",function(){
 		
 	};
 
-	
+
 	$pro.init();
+    
+    $(function(){
+        $(".bulb_btn").click(function(){
+            if( $(".bulb_btn").hasClass("lighted") ){
+                $(".bulb_btn").removeClass("lighted");
+                $("#panel-fixed-page2").removeClass("dark_model");
+            } else {
+                $(".bulb_btn").addClass("lighted");
+                $("#panel-fixed-page2").addClass("dark_model");
+            }
+        });
+    });
+    
 	
 }, false);

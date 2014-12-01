@@ -33,7 +33,10 @@ body.ui-overlay-a{ }
 .ui-header .ui-title, .ui-footer .ui-title { margin: 0 40px;}
 
 /* page 2 */
-#panel-fixed-page2 { background: #666; color:#fff; text-shadow: none;}
+#panel-fixed-page2 { background: #f5f8db; color:#000; text-shadow: none;}
+#panel-fixed-page2.dark_model {  background: #666; color:#fff;}
 #panel-fixed-page2 pre { white-space: pre-wrap; font-size: 16px; word-break: break-all;}
 #panel-fixed-page2 div[data-role=header] {position: fixed; width: 100%;}
 #aim_container { padding-top: 41px;}
+.bulb_btn { border-radius:5px; position:fixed; right:10px; bottom:30px; display:block; width:44px; height:44px; background:rgba(0,0,0,.5) url(../images/bulb.png) no-repeat; background-size:38px auto; background-position:3px -55px;}
+.bulb_btn.lighted { background-position:3px 6px;}

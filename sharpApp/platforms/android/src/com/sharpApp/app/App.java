@@ -49,16 +49,16 @@ public class App extends Application {
 				e.printStackTrace();
 			}
 		} else {
-			try {
-				// upZipFile(file, getSDPath());
-				upZipFile1(file, getSDPath());
-			} catch (ZipException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//			try {
+//				// upZipFile(file, getSDPath());
+//			//	upZipFile1(file, getSDPath());
+//			} catch (ZipException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 		}
 	}
 
