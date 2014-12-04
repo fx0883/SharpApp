@@ -1,9 +1,13 @@
 package com.sharpApp.app;
 
+import android.R.integer;
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 
 import org.apache.cordova.*;
+
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
@@ -12,6 +16,10 @@ import com.google.android.gms.ads.InterstitialAd;
 public class BaseActivity extends CordovaActivity{
 	private InterstitialAd mInterstitial;
 	private Boolean isFirstInterstitial = true;
+	
+	private int times=0;
+	private int canShowTimes=10;
+	private String startUpTime="startUpTime";
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -26,7 +34,7 @@ public class BaseActivity extends CordovaActivity{
             	if (isFirstInterstitial) {
 					isFirstInterstitial = false;
 					showInterstitial();
-					
+				    saveAdTime();
 				}
             }
 
@@ -49,10 +57,11 @@ public class BaseActivity extends CordovaActivity{
     
     public void showInterstitial()
     {
-        if (mInterstitial.isLoaded()) {
+        if (mInterstitial.isLoaded()&&bIsCanShowAd()) {
             mInterstitial.show();
+            mInterstitial.loadAd(new AdRequest.Builder().build());
         }	
-        mInterstitial.loadAd(new AdRequest.Builder().build());
+        
     }
     
     @Override
@@ -61,5 +70,44 @@ public class BaseActivity extends CordovaActivity{
     	super.onResume();
     	showInterstitial();    	
     }
+    
+    @Override
+    public void onDestroy() {
+        
+        super.onDestroy();
+
+        saveAdTime();
+    }
+    
+    public int getAdTime()
+    {
+    	SharedPreferences adSettings = getSharedPreferences("AdSetting", 0);
+    	times = adSettings.getInt(startUpTime, 0);
+		return times;
+    	
+    }
+   
+    public Boolean bIsCanShowAd()
+    {
+    	Boolean flag = false;
+    	if (times==0) {
+			getAdTime();
+		};
+    	flag = times>canShowTimes;
+    	//Log.d(tag, msg)(times); 
+    	
+    	Log.w(startUpTime,times+"");
+    	return flag;
+    }
+     
+		
+	public void saveAdTime()
+	{
+		SharedPreferences adSettings = getSharedPreferences("AdSetting", 0);
+		SharedPreferences.Editor editor = adSettings.edit();
+		editor.putInt(startUpTime, ++times);
+		editor.commit();
+		
+	}
 	
 }
